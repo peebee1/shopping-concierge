@@ -1,0 +1,234 @@
+"""Pipeline: understand -> retrieve -> rank.
+
+The "agentic" loop is deliberately small and observable:
+
+1. understand   LLM parses the query into structured Constraints
+2. retrieve     deterministic catalog scoring (no LLM cost)
+3. rank         LLM judges the top candidates: order + rationale + verdict
+
+Every step appends to `trace` so callers can show *why* the agent did what
+it did (transparency is the point of the demo).
+"""
+
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+
+from .catalog import CATEGORY_SPEC_KEYS, Product
+from .llm import LLM, LLMError
+from .retrieval import Constraints, extract_constraints, retrieve
+
+
+@dataclass
+class RankedItem:
+    product: Product
+    rank: int
+    rationale: str
+
+
+@dataclass
+class RecommendationResult:
+    query: str
+    constraints: Constraints
+    candidates: list[Product]
+    ranked: list[RankedItem]
+    summary: str
+    trace: list[str]
+    model: str
+
+    def to_dict(self) -> dict:
+        return {
+            "query": self.query,
+            "constraints": {
+                "max_price": self.constraints.max_price,
+                "min_price": self.constraints.min_price,
+                "categories": self.constraints.categories,
+                "must_keywords": self.constraints.must_keywords,
+                "nice_keywords": self.constraints.nice_keywords,
+                "brands": self.constraints.brands,
+                "relaxed": self.constraints.relaxed,
+            },
+            "candidates": [p.__dict__ for p in self.candidates],
+            "ranked": [
+                {"rank": r.rank, **r.product.__dict__, "rationale": r.rationale}
+                for r in self.ranked
+            ],
+            "summary": self.summary,
+            "trace": self.trace,
+            "model": self.model,
+        }
+
+
+def recommend(
+    query: str,
+    products: list[Product],
+    llm: LLM,
+    top_n: int = 5,
+    candidate_pool: int = 8,
+) -> RecommendationResult:
+    trace: list[str] = []
+
+    # 1) understand
+    constraints = extract_constraints(query, llm, _cats(products), _brands(products))
+    trace.append(f"understood query -> {constraints.describe()}")
+
+    # 2) retrieve
+    candidates, constraints = retrieve(products, constraints, top_n=candidate_pool)
+    trace.append(f"retrieved {len(candidates)} candidates from {len(products)} products")
+    if constraints.relaxed:
+        trace.append("relaxed constraints: " + ", ".join(constraints.relaxed))
+
+    # 3) rank
+    ranked, summary = _rank_with_llm(query, constraints, candidates, llm, top_n)
+    trace.append(f"ranked with {llm.name}")
+
+    return RecommendationResult(
+        query=query,
+        constraints=constraints,
+        candidates=candidates,
+        ranked=ranked,
+        summary=summary,
+        trace=trace,
+        model=llm.name,
+    )
+
+
+def _cats(products: list[Product]) -> list[str]:
+    return sorted({p.category for p in products})
+
+
+def _brands(products: list[Product]) -> list[str]:
+    return sorted({p.brand for p in products})
+
+
+def _rank_with_llm(
+    query: str,
+    constraints: Constraints,
+    candidates: list[Product],
+    llm: LLM,
+    top_n: int,
+) -> tuple[list[RankedItem], str]:
+    # Pre-score so the mock (and fallbacks) have signal without extra LLM calls.
+    scored = _rule_pre_score(query, constraints, candidates)
+    cand_json = [
+        {
+            **p.__dict__,
+            "_score": round(score, 2),
+            "_price_fit": bool(constraints.max_price is None or p.price <= constraints.max_price),
+            "_matched_keywords": _matched(query, constraints, p),
+        }
+        for score, p in scored
+    ]
+    system = (
+        "TASK: rank\n"
+        "You are a shopping advisor ranking candidate products for a user request. "
+        "Candidates are given as a JSON array with id, name, brand, category, price, "
+        "specs, rating, review_count. Return ONLY a JSON object with two keys:\n"
+        '"ranked": array of {"id": <candidate id>, "rank": <int 1..N>, '
+        '"rationale": <1-2 sentence reason, referencing the user\'s constraints and '
+        "price/value, not generic praise>},\n"
+        '"summary": <2-3 sentence verdict naming the best pick and a strong alternative, '
+        "with one caveat if relevant>.\n"
+        "Every ranked id MUST come from the candidates array. Use every candidate exactly once."
+    )
+    user = f"Request: {query}\nConstraints: {constraints.describe()}\nCandidates:\n{json.dumps(cand_json, indent=1)}"
+
+    fallback_ranked = [p for _, p in scored]
+    exc: Exception | None = None
+    try:
+        data = llm.complete_json(system, user)
+        if not data:
+            raise LLMError("empty LLM response")
+    except (LLMError, ValueError, TypeError) as exc2:
+        exc = exc2
+        # one retry before giving up to the deterministic fallback
+        try:
+            data = llm.complete_json(system, user)
+        except (LLMError, ValueError, TypeError) as exc3:
+            exc = exc3
+            data = None
+    if data is None:
+        ranked = [
+            RankedItem(product=p, rank=i, rationale=_fallback_rationale(query, constraints, p))
+            for i, p in enumerate(fallback_ranked[:top_n], start=1)
+        ]
+        return ranked, _fallback_summary(ranked) + f" (LLM ranking failed: {exc or 'unknown error'})"
+
+    # Tolerate both {"ranked": [{"id", "rank", "rationale"}...]} and
+    # {"ranked_ids": ["id", ...]} output shapes.
+    raw = data.get("ranked") or data.get("ranked_ids") or data.get("ids") or []
+    summary = str(data.get("summary") or "").strip()
+    by_id = {p.id: p for p in candidates}
+    ordered: list[Product] = []
+    rationales: dict[str, str] = {}
+    for item in raw:
+        if isinstance(item, str):
+            pid, rat = item, ""
+        elif isinstance(item, dict):
+            pid = item.get("id")
+            rat = str(item.get("rationale") or "")
+        else:
+            continue
+        if pid in by_id and by_id[pid] not in ordered:
+            ordered.append(by_id[pid])
+            rationales[pid] = rat
+    # Fill anything the LLM skipped, preserving rule order
+    for p in fallback_ranked:
+        if p not in ordered:
+            ordered.append(p)
+    ranked = [
+        RankedItem(
+            product=p,
+            rank=i,
+            rationale=rationales.get(p.id) or _fallback_rationale(query, constraints, p),
+        )
+        for i, p in enumerate(ordered[:top_n], start=1)
+    ]
+    if not summary:
+        summary = _fallback_summary(ranked)
+    return ranked, summary
+
+
+def _rule_pre_score(query: str, constraints: Constraints, candidates: list[Product]) -> list[tuple[float, Product]]:
+    from .retrieval import _keyword_hits  # private but shared module
+
+    scored: list[tuple[float, Product]] = []
+    for p in candidates:
+        must = _keyword_hits(p, constraints.must_keywords)
+        nice = _keyword_hits(p, constraints.nice_keywords)
+        score = len(must) * 3.0 + len(nice) * 1.5 + p.rating + min(p.review_count / 2000.0, 1.0)
+        scored.append((score, p))
+    scored.sort(key=lambda t: -t[0])
+    return scored
+
+
+def _matched(query: str, constraints: Constraints, p: Product) -> list[str]:
+    from .retrieval import _keyword_hits
+
+    return _keyword_hits(p, list(constraints.must_keywords) + list(constraints.nice_keywords))
+
+
+def _fallback_rationale(query: str, constraints: Constraints, p: Product) -> str:
+    from .retrieval import _keyword_hits
+
+    must = _keyword_hits(p, constraints.must_keywords)
+    nice = _keyword_hits(p, constraints.nice_keywords)
+    bits = []
+    if must:
+        bits.append(f"matches {len(must)} requested feature(s): {', '.join(must)}")
+    if constraints.max_price is not None:
+        bits.append("within budget" if p.price <= constraints.max_price else "slightly above budget")
+    bits.append(f"rated {p.rating} from {p.review_count} reviews")
+    return "; ".join(bits) + "."
+
+
+def _fallback_summary(ranked: list[RankedItem]) -> str:
+    if not ranked:
+        return "No matches found."
+    top = ranked[0]
+    return f"Best overall pick: {top.product.name} (${top.product.price:.2f}) — {top.rationale}"
+
+
+def spec_keys_for(product: Product) -> list[str]:
+    return CATEGORY_SPEC_KEYS.get(product.category, [])

@@ -1,0 +1,4033 @@
+{
+  "_meta": {
+    "synthetic": true,
+    "note": "SYNTHETIC sample data - invented brands/products for demo purposes. Replace with a real catalog.",
+    "generated_by": "shopcon.catalog.generate_sample_catalog",
+    "count": 243
+  },
+  "products": [
+    {
+      "id": "mechanical_keyboard-001",
+      "name": "Zenith Prime Mechanical Keyboard",
+      "brand": "Zenith",
+      "category": "mechanical_keyboard",
+      "price": 173.88,
+      "specs": {
+        "switch": "Razer-style Linear",
+        "layout": "Full-size",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "RGB"
+      },
+      "rating": 4.5,
+      "review_count": 7318,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-002",
+      "name": "Klavier Prime Gaming Keyboard",
+      "brand": "Klavier",
+      "category": "mechanical_keyboard",
+      "price": 85.72,
+      "specs": {
+        "switch": "Gateron Yellow",
+        "layout": "65%",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "RGB"
+      },
+      "rating": 4.4,
+      "review_count": 4607,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-003",
+      "name": "Craftly Titan Gaming Keyboard",
+      "brand": "Craftly",
+      "category": "mechanical_keyboard",
+      "price": 148.12,
+      "specs": {
+        "switch": "Razer-style Linear",
+        "layout": "40%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "white"
+      },
+      "rating": 4.7,
+      "review_count": 63,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-004",
+      "name": "Halcyon Nova Gaming Keyboard",
+      "brand": "Halcyon",
+      "category": "mechanical_keyboard",
+      "price": 212.51,
+      "specs": {
+        "switch": "Gateron Yellow",
+        "layout": "Full-size",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "RGB"
+      },
+      "rating": 4.0,
+      "review_count": 769,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-005",
+      "name": "PixelForge Prime Pro Keyboard",
+      "brand": "PixelForge",
+      "category": "mechanical_keyboard",
+      "price": 125.4,
+      "specs": {
+        "switch": "Cherry MX Blue",
+        "layout": "40%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 3.8,
+      "review_count": 7565,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-006",
+      "name": "PixelForge Prime Gaming Keyboard",
+      "brand": "PixelForge",
+      "category": "mechanical_keyboard",
+      "price": 57.17,
+      "specs": {
+        "switch": "Cherry MX Blue",
+        "layout": "40%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 4.5,
+      "review_count": 6342,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-007",
+      "name": "Nimbus Prime Mechanical Keyboard",
+      "brand": "Nimbus",
+      "category": "mechanical_keyboard",
+      "price": 190.97,
+      "specs": {
+        "switch": "Cherry MX Red",
+        "layout": "75%",
+        "hot_swappable": "no",
+        "wireless": "no",
+        "backlight": "none"
+      },
+      "rating": 3.8,
+      "review_count": 2920,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-008",
+      "name": "Craftly Pulse Pro Keyboard",
+      "brand": "Craftly",
+      "category": "mechanical_keyboard",
+      "price": 125.9,
+      "specs": {
+        "switch": "Razer-style Linear",
+        "layout": "65%",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "RGB"
+      },
+      "rating": 4.0,
+      "review_count": 7590,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-009",
+      "name": "Zenith Titan Gaming Keyboard",
+      "brand": "Zenith",
+      "category": "mechanical_keyboard",
+      "price": 185.88,
+      "specs": {
+        "switch": "Cherry MX Brown",
+        "layout": "Full-size",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "RGB"
+      },
+      "rating": 4.1,
+      "review_count": 552,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-010",
+      "name": "Craftly Forge Gaming Keyboard",
+      "brand": "Craftly",
+      "category": "mechanical_keyboard",
+      "price": 125.3,
+      "specs": {
+        "switch": "Cherry MX Blue",
+        "layout": "TKL",
+        "hot_swappable": "no",
+        "wireless": "no",
+        "backlight": "none"
+      },
+      "rating": 3.9,
+      "review_count": 2030,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-011",
+      "name": "Drift Zephyr Gaming Keyboard",
+      "brand": "Drift",
+      "category": "mechanical_keyboard",
+      "price": 83.38,
+      "specs": {
+        "switch": "Cherry MX Blue",
+        "layout": "40%",
+        "hot_swappable": "no",
+        "wireless": "no",
+        "backlight": "white"
+      },
+      "rating": 4.9,
+      "review_count": 4184,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-012",
+      "name": "SoundHive Prime Mechanical Keyboard",
+      "brand": "SoundHive",
+      "category": "mechanical_keyboard",
+      "price": 56.12,
+      "specs": {
+        "switch": "Cherry MX Red",
+        "layout": "TKL",
+        "hot_swappable": "yes",
+        "wireless": "no",
+        "backlight": "none"
+      },
+      "rating": 4.1,
+      "review_count": 3844,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-013",
+      "name": "Klavier Lite Gaming Keyboard",
+      "brand": "Klavier",
+      "category": "mechanical_keyboard",
+      "price": 96.36,
+      "specs": {
+        "switch": "Cherry MX Red",
+        "layout": "65%",
+        "hot_swappable": "no",
+        "wireless": "no",
+        "backlight": "RGB"
+      },
+      "rating": 3.8,
+      "review_count": 36,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-014",
+      "name": "Drift Titan Pro Keyboard",
+      "brand": "Drift",
+      "category": "mechanical_keyboard",
+      "price": 133.84,
+      "specs": {
+        "switch": "Gateron Brown",
+        "layout": "TKL",
+        "hot_swappable": "yes",
+        "wireless": "no",
+        "backlight": "none"
+      },
+      "rating": 3.9,
+      "review_count": 3073,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-015",
+      "name": "Halcyon Nova Gaming Keyboard",
+      "brand": "Halcyon",
+      "category": "mechanical_keyboard",
+      "price": 64.58,
+      "specs": {
+        "switch": "Gateron Brown",
+        "layout": "65%",
+        "hot_swappable": "no",
+        "wireless": "no",
+        "backlight": "RGB"
+      },
+      "rating": 4.1,
+      "review_count": 6823,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-016",
+      "name": "Halcyon Lite Mechanical Keyboard",
+      "brand": "Halcyon",
+      "category": "mechanical_keyboard",
+      "price": 130.05,
+      "specs": {
+        "switch": "Cherry MX Red",
+        "layout": "TKL",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 3.7,
+      "review_count": 6240,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-017",
+      "name": "Klavier Nova Mechanical Keyboard",
+      "brand": "Klavier",
+      "category": "mechanical_keyboard",
+      "price": 197.68,
+      "specs": {
+        "switch": "Razer-style Linear",
+        "layout": "75%",
+        "hot_swappable": "yes",
+        "wireless": "no",
+        "backlight": "none"
+      },
+      "rating": 4.2,
+      "review_count": 1745,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-018",
+      "name": "Relay Zephyr Gaming Keyboard",
+      "brand": "Relay",
+      "category": "mechanical_keyboard",
+      "price": 158.73,
+      "specs": {
+        "switch": "Razer-style Linear",
+        "layout": "TKL",
+        "hot_swappable": "no",
+        "wireless": "no",
+        "backlight": "none"
+      },
+      "rating": 4.2,
+      "review_count": 4249,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-019",
+      "name": "SoundHive Prime Mechanical Keyboard",
+      "brand": "SoundHive",
+      "category": "mechanical_keyboard",
+      "price": 141.94,
+      "specs": {
+        "switch": "Cherry MX Brown",
+        "layout": "65%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 4.4,
+      "review_count": 68,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-020",
+      "name": "VoltEdge Titan Gaming Keyboard",
+      "brand": "VoltEdge",
+      "category": "mechanical_keyboard",
+      "price": 57.4,
+      "specs": {
+        "switch": "Cherry MX Red",
+        "layout": "TKL",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "white"
+      },
+      "rating": 3.9,
+      "review_count": 5490,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-021",
+      "name": "SoundHive Core Gaming Keyboard",
+      "brand": "SoundHive",
+      "category": "mechanical_keyboard",
+      "price": 186.31,
+      "specs": {
+        "switch": "Cherry MX Brown",
+        "layout": "40%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "white"
+      },
+      "rating": 3.8,
+      "review_count": 804,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-022",
+      "name": "Zenith Elite Pro Keyboard",
+      "brand": "Zenith",
+      "category": "mechanical_keyboard",
+      "price": 159.35,
+      "specs": {
+        "switch": "Gateron Yellow",
+        "layout": "75%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 4.4,
+      "review_count": 506,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-023",
+      "name": "PixelForge Titan Pro Keyboard",
+      "brand": "PixelForge",
+      "category": "mechanical_keyboard",
+      "price": 123.51,
+      "specs": {
+        "switch": "Cherry MX Red",
+        "layout": "TKL",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 4.1,
+      "review_count": 2291,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-024",
+      "name": "SoundHive Core Mechanical Keyboard",
+      "brand": "SoundHive",
+      "category": "mechanical_keyboard",
+      "price": 219.87,
+      "specs": {
+        "switch": "Gateron Yellow",
+        "layout": "40%",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 4.7,
+      "review_count": 7948,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-025",
+      "name": "VoltEdge Core Mechanical Keyboard",
+      "brand": "VoltEdge",
+      "category": "mechanical_keyboard",
+      "price": 202.93,
+      "specs": {
+        "switch": "Gateron Yellow",
+        "layout": "75%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "white"
+      },
+      "rating": 3.8,
+      "review_count": 27,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-026",
+      "name": "PixelForge Lite Pro Keyboard",
+      "brand": "PixelForge",
+      "category": "mechanical_keyboard",
+      "price": 96.92,
+      "specs": {
+        "switch": "Cherry MX Blue",
+        "layout": "75%",
+        "hot_swappable": "no",
+        "wireless": "yes",
+        "backlight": "RGB"
+      },
+      "rating": 4.9,
+      "review_count": 4754,
+      "url": ""
+    },
+    {
+      "id": "mechanical_keyboard-027",
+      "name": "Drift Zephyr Mechanical Keyboard",
+      "brand": "Drift",
+      "category": "mechanical_keyboard",
+      "price": 128.44,
+      "specs": {
+        "switch": "Razer-style Linear",
+        "layout": "Full-size",
+        "hot_swappable": "yes",
+        "wireless": "yes",
+        "backlight": "none"
+      },
+      "rating": 4.8,
+      "review_count": 4360,
+      "url": ""
+    },
+    {
+      "id": "laptop-001",
+      "name": "Aurio Arc Ultrabook",
+      "brand": "Aurio",
+      "category": "laptop",
+      "price": 734.16,
+      "specs": {
+        "cpu": "Intel Core i7",
+        "ram": "8 GB",
+        "storage": "256 GB SSD",
+        "screen": "14\"",
+        "weight": "2.1 kg"
+      },
+      "rating": 4.8,
+      "review_count": 2026,
+      "url": ""
+    },
+    {
+      "id": "laptop-002",
+      "name": "Ember Forge Ultrabook",
+      "brand": "Ember",
+      "category": "laptop",
+      "price": 1588.3,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "8 GB",
+        "storage": "2 TB SSD",
+        "screen": "17.3\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.8,
+      "review_count": 1683,
+      "url": ""
+    },
+    {
+      "id": "laptop-003",
+      "name": "Zenith Titan Creator Laptop",
+      "brand": "Zenith",
+      "category": "laptop",
+      "price": 1449.32,
+      "specs": {
+        "cpu": "Intel Core i7",
+        "ram": "32 GB",
+        "storage": "2 TB SSD",
+        "screen": "14\"",
+        "weight": "1.8 kg"
+      },
+      "rating": 4.8,
+      "review_count": 7675,
+      "url": ""
+    },
+    {
+      "id": "laptop-004",
+      "name": "VoltEdge Arc Workstation Laptop",
+      "brand": "VoltEdge",
+      "category": "laptop",
+      "price": 1552.48,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "8 GB",
+        "storage": "256 GB SSD",
+        "screen": "17.3\"",
+        "weight": "1.4 kg"
+      },
+      "rating": 3.8,
+      "review_count": 2869,
+      "url": ""
+    },
+    {
+      "id": "laptop-005",
+      "name": "Relay Prime Notebook",
+      "brand": "Relay",
+      "category": "laptop",
+      "price": 1971.5,
+      "specs": {
+        "cpu": "AMD Ryzen 5",
+        "ram": "32 GB",
+        "storage": "512 GB SSD",
+        "screen": "16\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.4,
+      "review_count": 6621,
+      "url": ""
+    },
+    {
+      "id": "laptop-006",
+      "name": "Zenith Zephyr Ultrabook",
+      "brand": "Zenith",
+      "category": "laptop",
+      "price": 724.71,
+      "specs": {
+        "cpu": "AMD Ryzen 9",
+        "ram": "32 GB",
+        "storage": "256 GB SSD",
+        "screen": "14\"",
+        "weight": "1.8 kg"
+      },
+      "rating": 3.7,
+      "review_count": 4542,
+      "url": ""
+    },
+    {
+      "id": "laptop-007",
+      "name": "Aurio Lite Creator Laptop",
+      "brand": "Aurio",
+      "category": "laptop",
+      "price": 1551.47,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "16 GB",
+        "storage": "1 TB SSD",
+        "screen": "14\"",
+        "weight": "1.8 kg"
+      },
+      "rating": 3.9,
+      "review_count": 7449,
+      "url": ""
+    },
+    {
+      "id": "laptop-008",
+      "name": "Vantage Arc Ultrabook",
+      "brand": "Vantage",
+      "category": "laptop",
+      "price": 1187.14,
+      "specs": {
+        "cpu": "AMD Ryzen 9",
+        "ram": "64 GB",
+        "storage": "1 TB SSD",
+        "screen": "13.3\"",
+        "weight": "1.2 kg"
+      },
+      "rating": 3.8,
+      "review_count": 2155,
+      "url": ""
+    },
+    {
+      "id": "laptop-009",
+      "name": "Aurio Titan Workstation Laptop",
+      "brand": "Aurio",
+      "category": "laptop",
+      "price": 2483.51,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "64 GB",
+        "storage": "256 GB SSD",
+        "screen": "13.3\"",
+        "weight": "1.2 kg"
+      },
+      "rating": 4.5,
+      "review_count": 1231,
+      "url": ""
+    },
+    {
+      "id": "laptop-010",
+      "name": "Klavier Arc Creator Laptop",
+      "brand": "Klavier",
+      "category": "laptop",
+      "price": 1133.51,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "16 GB",
+        "storage": "2 TB SSD",
+        "screen": "14\"",
+        "weight": "1.2 kg"
+      },
+      "rating": 4.8,
+      "review_count": 6531,
+      "url": ""
+    },
+    {
+      "id": "laptop-011",
+      "name": "Vantage Arc Creator Laptop",
+      "brand": "Vantage",
+      "category": "laptop",
+      "price": 2354.37,
+      "specs": {
+        "cpu": "Intel Core i7",
+        "ram": "16 GB",
+        "storage": "256 GB SSD",
+        "screen": "15.6\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.1,
+      "review_count": 5094,
+      "url": ""
+    },
+    {
+      "id": "laptop-012",
+      "name": "Drift Nova Notebook",
+      "brand": "Drift",
+      "category": "laptop",
+      "price": 2041.52,
+      "specs": {
+        "cpu": "Intel Core i7",
+        "ram": "16 GB",
+        "storage": "2 TB SSD",
+        "screen": "13.3\"",
+        "weight": "1.4 kg"
+      },
+      "rating": 4.0,
+      "review_count": 7635,
+      "url": ""
+    },
+    {
+      "id": "laptop-013",
+      "name": "PixelForge Pulse Notebook",
+      "brand": "PixelForge",
+      "category": "laptop",
+      "price": 2300.22,
+      "specs": {
+        "cpu": "AMD Ryzen 5",
+        "ram": "16 GB",
+        "storage": "256 GB SSD",
+        "screen": "16\"",
+        "weight": "1.2 kg"
+      },
+      "rating": 3.9,
+      "review_count": 6699,
+      "url": ""
+    },
+    {
+      "id": "laptop-014",
+      "name": "Relay Sprint Creator Laptop",
+      "brand": "Relay",
+      "category": "laptop",
+      "price": 1324.75,
+      "specs": {
+        "cpu": "AMD Ryzen 5",
+        "ram": "16 GB",
+        "storage": "512 GB SSD",
+        "screen": "13.3\"",
+        "weight": "1.4 kg"
+      },
+      "rating": 4.0,
+      "review_count": 578,
+      "url": ""
+    },
+    {
+      "id": "laptop-015",
+      "name": "Halcyon Lite Creator Laptop",
+      "brand": "Halcyon",
+      "category": "laptop",
+      "price": 2339.32,
+      "specs": {
+        "cpu": "AMD Ryzen 9",
+        "ram": "64 GB",
+        "storage": "1 TB SSD",
+        "screen": "13.3\"",
+        "weight": "1.2 kg"
+      },
+      "rating": 3.9,
+      "review_count": 4766,
+      "url": ""
+    },
+    {
+      "id": "laptop-016",
+      "name": "Nimbus Arc Ultrabook",
+      "brand": "Nimbus",
+      "category": "laptop",
+      "price": 1765.16,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "64 GB",
+        "storage": "1 TB SSD",
+        "screen": "15.6\"",
+        "weight": "2.1 kg"
+      },
+      "rating": 4.3,
+      "review_count": 3165,
+      "url": ""
+    },
+    {
+      "id": "laptop-017",
+      "name": "Relay Forge Notebook",
+      "brand": "Relay",
+      "category": "laptop",
+      "price": 2442.22,
+      "specs": {
+        "cpu": "AMD Ryzen 5",
+        "ram": "8 GB",
+        "storage": "2 TB SSD",
+        "screen": "13.3\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.3,
+      "review_count": 5903,
+      "url": ""
+    },
+    {
+      "id": "laptop-018",
+      "name": "Drift Titan Notebook",
+      "brand": "Drift",
+      "category": "laptop",
+      "price": 1145.5,
+      "specs": {
+        "cpu": "AMD Ryzen 5",
+        "ram": "64 GB",
+        "storage": "256 GB SSD",
+        "screen": "15.6\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.7,
+      "review_count": 5906,
+      "url": ""
+    },
+    {
+      "id": "laptop-019",
+      "name": "Relay Lite Creator Laptop",
+      "brand": "Relay",
+      "category": "laptop",
+      "price": 1655.35,
+      "specs": {
+        "cpu": "AMD Ryzen 9",
+        "ram": "64 GB",
+        "storage": "1 TB SSD",
+        "screen": "16\"",
+        "weight": "1.8 kg"
+      },
+      "rating": 3.8,
+      "review_count": 5457,
+      "url": ""
+    },
+    {
+      "id": "laptop-020",
+      "name": "PixelForge Pulse Notebook",
+      "brand": "PixelForge",
+      "category": "laptop",
+      "price": 1124.21,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "32 GB",
+        "storage": "2 TB SSD",
+        "screen": "17.3\"",
+        "weight": "1.2 kg"
+      },
+      "rating": 3.9,
+      "review_count": 6446,
+      "url": ""
+    },
+    {
+      "id": "laptop-021",
+      "name": "Ember Forge Creator Laptop",
+      "brand": "Ember",
+      "category": "laptop",
+      "price": 1483.15,
+      "specs": {
+        "cpu": "AMD Ryzen 7",
+        "ram": "64 GB",
+        "storage": "2 TB SSD",
+        "screen": "14\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.8,
+      "review_count": 6531,
+      "url": ""
+    },
+    {
+      "id": "laptop-022",
+      "name": "Drift Nova Ultrabook",
+      "brand": "Drift",
+      "category": "laptop",
+      "price": 956.24,
+      "specs": {
+        "cpu": "AMD Ryzen 5",
+        "ram": "32 GB",
+        "storage": "256 GB SSD",
+        "screen": "14\"",
+        "weight": "1.8 kg"
+      },
+      "rating": 3.9,
+      "review_count": 210,
+      "url": ""
+    },
+    {
+      "id": "laptop-023",
+      "name": "Northline Core Workstation Laptop",
+      "brand": "Northline",
+      "category": "laptop",
+      "price": 892.2,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "8 GB",
+        "storage": "2 TB SSD",
+        "screen": "16\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.5,
+      "review_count": 4059,
+      "url": ""
+    },
+    {
+      "id": "laptop-024",
+      "name": "PixelForge Core Notebook",
+      "brand": "PixelForge",
+      "category": "laptop",
+      "price": 852.88,
+      "specs": {
+        "cpu": "AMD Ryzen 9",
+        "ram": "8 GB",
+        "storage": "256 GB SSD",
+        "screen": "16\"",
+        "weight": "1.4 kg"
+      },
+      "rating": 4.8,
+      "review_count": 4253,
+      "url": ""
+    },
+    {
+      "id": "laptop-025",
+      "name": "SoundHive Arc Notebook",
+      "brand": "SoundHive",
+      "category": "laptop",
+      "price": 2574.33,
+      "specs": {
+        "cpu": "Intel Core i5",
+        "ram": "64 GB",
+        "storage": "512 GB SSD",
+        "screen": "16\"",
+        "weight": "2.5 kg"
+      },
+      "rating": 4.4,
+      "review_count": 7792,
+      "url": ""
+    },
+    {
+      "id": "laptop-026",
+      "name": "Halcyon Sprint Workstation Laptop",
+      "brand": "Halcyon",
+      "category": "laptop",
+      "price": 1029.49,
+      "specs": {
+        "cpu": "Intel Core i9",
+        "ram": "64 GB",
+        "storage": "512 GB SSD",
+        "screen": "16\"",
+        "weight": "2.1 kg"
+      },
+      "rating": 3.9,
+      "review_count": 5233,
+      "url": ""
+    },
+    {
+      "id": "laptop-027",
+      "name": "Nimbus Zephyr Workstation Laptop",
+      "brand": "Nimbus",
+      "category": "laptop",
+      "price": 1992.72,
+      "specs": {
+        "cpu": "AMD Ryzen 9",
+        "ram": "16 GB",
+        "storage": "1 TB SSD",
+        "screen": "16\"",
+        "weight": "1.2 kg"
+      },
+      "rating": 3.9,
+      "review_count": 2761,
+      "url": ""
+    },
+    {
+      "id": "headphones-001",
+      "name": "Orbit Zephyr Wireless Headphones",
+      "brand": "Orbit",
+      "category": "headphones",
+      "price": 305.5,
+      "specs": {
+        "type": "in-ear",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "60 h",
+        "driver": "50 mm"
+      },
+      "rating": 3.7,
+      "review_count": 3349,
+      "url": ""
+    },
+    {
+      "id": "headphones-002",
+      "name": "Orbit Zephyr In-Ear Monitors",
+      "brand": "Orbit",
+      "category": "headphones",
+      "price": 382.89,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "60 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.4,
+      "review_count": 5707,
+      "url": ""
+    },
+    {
+      "id": "headphones-003",
+      "name": "Northline Forge In-Ear Monitors",
+      "brand": "Northline",
+      "category": "headphones",
+      "price": 362.84,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "40 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.8,
+      "review_count": 3442,
+      "url": ""
+    },
+    {
+      "id": "headphones-004",
+      "name": "Klavier Titan Over-Ear Headphones",
+      "brand": "Klavier",
+      "category": "headphones",
+      "price": 41.32,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "60 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.0,
+      "review_count": 5573,
+      "url": ""
+    },
+    {
+      "id": "headphones-005",
+      "name": "Halcyon Elite Over-Ear Headphones",
+      "brand": "Halcyon",
+      "category": "headphones",
+      "price": 62.74,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "60 h",
+        "driver": "40 mm"
+      },
+      "rating": 4.2,
+      "review_count": 7111,
+      "url": ""
+    },
+    {
+      "id": "headphones-006",
+      "name": "SoundHive Nova Wireless Headphones",
+      "brand": "SoundHive",
+      "category": "headphones",
+      "price": 157.47,
+      "specs": {
+        "type": "on-ear",
+        "wireless": "no",
+        "anc": "no",
+        "battery": "30 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.6,
+      "review_count": 3115,
+      "url": ""
+    },
+    {
+      "id": "headphones-007",
+      "name": "Nimbus Elite ANC Headphones",
+      "brand": "Nimbus",
+      "category": "headphones",
+      "price": 117.45,
+      "specs": {
+        "type": "over-ear",
+        "wireless": "no",
+        "anc": "yes",
+        "battery": "20 h",
+        "driver": "10 mm"
+      },
+      "rating": 3.7,
+      "review_count": 7852,
+      "url": ""
+    },
+    {
+      "id": "headphones-008",
+      "name": "Zenith Arc Wireless Headphones",
+      "brand": "Zenith",
+      "category": "headphones",
+      "price": 79.23,
+      "specs": {
+        "type": "in-ear",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "30 h",
+        "driver": "50 mm"
+      },
+      "rating": 4.5,
+      "review_count": 4630,
+      "url": ""
+    },
+    {
+      "id": "headphones-009",
+      "name": "Craftly Sprint ANC Headphones",
+      "brand": "Craftly",
+      "category": "headphones",
+      "price": 72.16,
+      "specs": {
+        "type": "on-ear",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "30 h",
+        "driver": "10 mm"
+      },
+      "rating": 3.6,
+      "review_count": 2565,
+      "url": ""
+    },
+    {
+      "id": "headphones-010",
+      "name": "Ember Pulse In-Ear Monitors",
+      "brand": "Ember",
+      "category": "headphones",
+      "price": 301.91,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "30 h",
+        "driver": "40 mm"
+      },
+      "rating": 4.0,
+      "review_count": 5615,
+      "url": ""
+    },
+    {
+      "id": "headphones-011",
+      "name": "Ember Prime Wireless Headphones",
+      "brand": "Ember",
+      "category": "headphones",
+      "price": 34.93,
+      "specs": {
+        "type": "on-ear",
+        "wireless": "no",
+        "anc": "no",
+        "battery": "20 h",
+        "driver": "10 mm"
+      },
+      "rating": 4.1,
+      "review_count": 4025,
+      "url": ""
+    },
+    {
+      "id": "headphones-012",
+      "name": "VoltEdge Elite ANC Headphones",
+      "brand": "VoltEdge",
+      "category": "headphones",
+      "price": 270.21,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "30 h",
+        "driver": "10 mm"
+      },
+      "rating": 4.8,
+      "review_count": 6355,
+      "url": ""
+    },
+    {
+      "id": "headphones-013",
+      "name": "SoundHive Sprint In-Ear Monitors",
+      "brand": "SoundHive",
+      "category": "headphones",
+      "price": 373.84,
+      "specs": {
+        "type": "on-ear",
+        "wireless": "no",
+        "anc": "yes",
+        "battery": "20 h",
+        "driver": "10 mm"
+      },
+      "rating": 3.9,
+      "review_count": 3816,
+      "url": ""
+    },
+    {
+      "id": "headphones-014",
+      "name": "Ember Forge In-Ear Monitors",
+      "brand": "Ember",
+      "category": "headphones",
+      "price": 220.14,
+      "specs": {
+        "type": "on-ear",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "40 h",
+        "driver": "50 mm"
+      },
+      "rating": 4.1,
+      "review_count": 2126,
+      "url": ""
+    },
+    {
+      "id": "headphones-015",
+      "name": "Orbit Lite ANC Headphones",
+      "brand": "Orbit",
+      "category": "headphones",
+      "price": 220.55,
+      "specs": {
+        "type": "over-ear",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "30 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.6,
+      "review_count": 5667,
+      "url": ""
+    },
+    {
+      "id": "headphones-016",
+      "name": "SoundHive Pulse In-Ear Monitors",
+      "brand": "SoundHive",
+      "category": "headphones",
+      "price": 187.72,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "40 h",
+        "driver": "50 mm"
+      },
+      "rating": 3.9,
+      "review_count": 5449,
+      "url": ""
+    },
+    {
+      "id": "headphones-017",
+      "name": "Ember Max In-Ear Monitors",
+      "brand": "Ember",
+      "category": "headphones",
+      "price": 135.66,
+      "specs": {
+        "type": "on-ear",
+        "wireless": "no",
+        "anc": "no",
+        "battery": "40 h",
+        "driver": "13 mm"
+      },
+      "rating": 3.9,
+      "review_count": 998,
+      "url": ""
+    },
+    {
+      "id": "headphones-018",
+      "name": "Drift Core ANC Headphones",
+      "brand": "Drift",
+      "category": "headphones",
+      "price": 137.83,
+      "specs": {
+        "type": "over-ear",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "30 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.4,
+      "review_count": 6237,
+      "url": ""
+    },
+    {
+      "id": "headphones-019",
+      "name": "Klavier Forge ANC Headphones",
+      "brand": "Klavier",
+      "category": "headphones",
+      "price": 99.98,
+      "specs": {
+        "type": "over-ear",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "30 h",
+        "driver": "10 mm"
+      },
+      "rating": 3.6,
+      "review_count": 4385,
+      "url": ""
+    },
+    {
+      "id": "headphones-020",
+      "name": "Aurio Lite Wireless Headphones",
+      "brand": "Aurio",
+      "category": "headphones",
+      "price": 370.36,
+      "specs": {
+        "type": "over-ear",
+        "wireless": "no",
+        "anc": "yes",
+        "battery": "60 h",
+        "driver": "40 mm"
+      },
+      "rating": 4.3,
+      "review_count": 3855,
+      "url": ""
+    },
+    {
+      "id": "headphones-021",
+      "name": "SoundHive Sprint ANC Headphones",
+      "brand": "SoundHive",
+      "category": "headphones",
+      "price": 350.63,
+      "specs": {
+        "type": "in-ear",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "60 h",
+        "driver": "40 mm"
+      },
+      "rating": 4.1,
+      "review_count": 616,
+      "url": ""
+    },
+    {
+      "id": "headphones-022",
+      "name": "Ember Pulse Wireless Headphones",
+      "brand": "Ember",
+      "category": "headphones",
+      "price": 76.2,
+      "specs": {
+        "type": "in-ear",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "20 h",
+        "driver": "50 mm"
+      },
+      "rating": 4.6,
+      "review_count": 4976,
+      "url": ""
+    },
+    {
+      "id": "headphones-023",
+      "name": "Ember Forge Over-Ear Headphones",
+      "brand": "Ember",
+      "category": "headphones",
+      "price": 149.1,
+      "specs": {
+        "type": "earbud",
+        "wireless": "no",
+        "anc": "no",
+        "battery": "40 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.4,
+      "review_count": 5004,
+      "url": ""
+    },
+    {
+      "id": "headphones-024",
+      "name": "Drift Prime Over-Ear Headphones",
+      "brand": "Drift",
+      "category": "headphones",
+      "price": 97.79,
+      "specs": {
+        "type": "in-ear",
+        "wireless": "no",
+        "anc": "yes",
+        "battery": "30 h",
+        "driver": "50 mm"
+      },
+      "rating": 3.7,
+      "review_count": 31,
+      "url": ""
+    },
+    {
+      "id": "headphones-025",
+      "name": "PixelForge Sprint In-Ear Monitors",
+      "brand": "PixelForge",
+      "category": "headphones",
+      "price": 304.17,
+      "specs": {
+        "type": "on-ear",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "40 h",
+        "driver": "10 mm"
+      },
+      "rating": 4.2,
+      "review_count": 5641,
+      "url": ""
+    },
+    {
+      "id": "headphones-026",
+      "name": "Craftly Lite Over-Ear Headphones",
+      "brand": "Craftly",
+      "category": "headphones",
+      "price": 352.39,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "yes",
+        "battery": "30 h",
+        "driver": "10 mm"
+      },
+      "rating": 3.7,
+      "review_count": 1369,
+      "url": ""
+    },
+    {
+      "id": "headphones-027",
+      "name": "Halcyon Lite ANC Headphones",
+      "brand": "Halcyon",
+      "category": "headphones",
+      "price": 397.64,
+      "specs": {
+        "type": "earbud",
+        "wireless": "yes",
+        "anc": "no",
+        "battery": "40 h",
+        "driver": "13 mm"
+      },
+      "rating": 4.3,
+      "review_count": 4055,
+      "url": ""
+    },
+    {
+      "id": "monitor-001",
+      "name": "SoundHive Prime Monitor",
+      "brand": "SoundHive",
+      "category": "monitor",
+      "price": 168.54,
+      "specs": {
+        "size": "34\"",
+        "resolution": "3840x2160",
+        "refresh": "240 Hz",
+        "panel": "TN",
+        "hdr": "none"
+      },
+      "rating": 4.9,
+      "review_count": 6858,
+      "url": ""
+    },
+    {
+      "id": "monitor-002",
+      "name": "Vantage Forge Monitor",
+      "brand": "Vantage",
+      "category": "monitor",
+      "price": 877.82,
+      "specs": {
+        "size": "32\"",
+        "resolution": "1920x1080",
+        "refresh": "75 Hz",
+        "panel": "OLED",
+        "hdr": "HDR1000"
+      },
+      "rating": 3.8,
+      "review_count": 4805,
+      "url": ""
+    },
+    {
+      "id": "monitor-003",
+      "name": "PixelForge Pulse Ultrawide Monitor",
+      "brand": "PixelForge",
+      "category": "monitor",
+      "price": 366.11,
+      "specs": {
+        "size": "24\"",
+        "resolution": "3440x1440",
+        "refresh": "144 Hz",
+        "panel": "OLED",
+        "hdr": "HDR600"
+      },
+      "rating": 3.7,
+      "review_count": 1327,
+      "url": ""
+    },
+    {
+      "id": "monitor-004",
+      "name": "Orbit Elite Ultrawide Monitor",
+      "brand": "Orbit",
+      "category": "monitor",
+      "price": 165.73,
+      "specs": {
+        "size": "32\"",
+        "resolution": "3440x1440",
+        "refresh": "240 Hz",
+        "panel": "IPS",
+        "hdr": "HDR1000"
+      },
+      "rating": 3.9,
+      "review_count": 959,
+      "url": ""
+    },
+    {
+      "id": "monitor-005",
+      "name": "Halcyon Elite Monitor",
+      "brand": "Halcyon",
+      "category": "monitor",
+      "price": 625.47,
+      "specs": {
+        "size": "34\"",
+        "resolution": "3440x1440",
+        "refresh": "60 Hz",
+        "panel": "VA",
+        "hdr": "HDR600"
+      },
+      "rating": 4.2,
+      "review_count": 3631,
+      "url": ""
+    },
+    {
+      "id": "monitor-006",
+      "name": "Halcyon Arc Gaming Monitor",
+      "brand": "Halcyon",
+      "category": "monitor",
+      "price": 194.43,
+      "specs": {
+        "size": "32\"",
+        "resolution": "2560x1440",
+        "refresh": "144 Hz",
+        "panel": "OLED",
+        "hdr": "HDR1000"
+      },
+      "rating": 4.9,
+      "review_count": 4997,
+      "url": ""
+    },
+    {
+      "id": "monitor-007",
+      "name": "Halcyon Core Gaming Monitor",
+      "brand": "Halcyon",
+      "category": "monitor",
+      "price": 283.24,
+      "specs": {
+        "size": "32\"",
+        "resolution": "1920x1080",
+        "refresh": "240 Hz",
+        "panel": "OLED",
+        "hdr": "none"
+      },
+      "rating": 4.7,
+      "review_count": 939,
+      "url": ""
+    },
+    {
+      "id": "monitor-008",
+      "name": "SoundHive Prime Gaming Monitor",
+      "brand": "SoundHive",
+      "category": "monitor",
+      "price": 807.86,
+      "specs": {
+        "size": "34\"",
+        "resolution": "3840x2160",
+        "refresh": "240 Hz",
+        "panel": "TN",
+        "hdr": "HDR1000"
+      },
+      "rating": 4.9,
+      "review_count": 2006,
+      "url": ""
+    },
+    {
+      "id": "monitor-009",
+      "name": "SoundHive Zephyr Gaming Monitor",
+      "brand": "SoundHive",
+      "category": "monitor",
+      "price": 327.57,
+      "specs": {
+        "size": "34\"",
+        "resolution": "2560x1440",
+        "refresh": "240 Hz",
+        "panel": "VA",
+        "hdr": "none"
+      },
+      "rating": 4.6,
+      "review_count": 3409,
+      "url": ""
+    },
+    {
+      "id": "monitor-010",
+      "name": "Orbit Zephyr 4K Monitor",
+      "brand": "Orbit",
+      "category": "monitor",
+      "price": 474.03,
+      "specs": {
+        "size": "24\"",
+        "resolution": "3840x2160",
+        "refresh": "144 Hz",
+        "panel": "OLED",
+        "hdr": "HDR400"
+      },
+      "rating": 4.2,
+      "review_count": 2733,
+      "url": ""
+    },
+    {
+      "id": "monitor-011",
+      "name": "Klavier Zephyr Ultrawide Monitor",
+      "brand": "Klavier",
+      "category": "monitor",
+      "price": 290.86,
+      "specs": {
+        "size": "34\"",
+        "resolution": "3840x2160",
+        "refresh": "75 Hz",
+        "panel": "VA",
+        "hdr": "HDR1000"
+      },
+      "rating": 4.6,
+      "review_count": 367,
+      "url": ""
+    },
+    {
+      "id": "monitor-012",
+      "name": "Orbit Titan Ultrawide Monitor",
+      "brand": "Orbit",
+      "category": "monitor",
+      "price": 198.57,
+      "specs": {
+        "size": "34\"",
+        "resolution": "3440x1440",
+        "refresh": "75 Hz",
+        "panel": "OLED",
+        "hdr": "none"
+      },
+      "rating": 4.9,
+      "review_count": 2729,
+      "url": ""
+    },
+    {
+      "id": "monitor-013",
+      "name": "Vantage Prime Ultrawide Monitor",
+      "brand": "Vantage",
+      "category": "monitor",
+      "price": 839.0,
+      "specs": {
+        "size": "24\"",
+        "resolution": "3440x1440",
+        "refresh": "60 Hz",
+        "panel": "VA",
+        "hdr": "HDR1000"
+      },
+      "rating": 4.9,
+      "review_count": 622,
+      "url": ""
+    },
+    {
+      "id": "monitor-014",
+      "name": "SoundHive Lite 4K Monitor",
+      "brand": "SoundHive",
+      "category": "monitor",
+      "price": 629.05,
+      "specs": {
+        "size": "34\"",
+        "resolution": "1920x1080",
+        "refresh": "144 Hz",
+        "panel": "OLED",
+        "hdr": "HDR600"
+      },
+      "rating": 4.8,
+      "review_count": 4007,
+      "url": ""
+    },
+    {
+      "id": "monitor-015",
+      "name": "Vantage Zephyr Monitor",
+      "brand": "Vantage",
+      "category": "monitor",
+      "price": 463.22,
+      "specs": {
+        "size": "24\"",
+        "resolution": "2560x1440",
+        "refresh": "144 Hz",
+        "panel": "VA",
+        "hdr": "none"
+      },
+      "rating": 3.7,
+      "review_count": 5201,
+      "url": ""
+    },
+    {
+      "id": "monitor-016",
+      "name": "Drift Prime Ultrawide Monitor",
+      "brand": "Drift",
+      "category": "monitor",
+      "price": 774.68,
+      "specs": {
+        "size": "27\"",
+        "resolution": "3840x2160",
+        "refresh": "60 Hz",
+        "panel": "IPS",
+        "hdr": "HDR600"
+      },
+      "rating": 4.0,
+      "review_count": 3080,
+      "url": ""
+    },
+    {
+      "id": "monitor-017",
+      "name": "PixelForge Nova Gaming Monitor",
+      "brand": "PixelForge",
+      "category": "monitor",
+      "price": 614.16,
+      "specs": {
+        "size": "34\"",
+        "resolution": "2560x1440",
+        "refresh": "75 Hz",
+        "panel": "VA",
+        "hdr": "none"
+      },
+      "rating": 4.1,
+      "review_count": 5606,
+      "url": ""
+    },
+    {
+      "id": "monitor-018",
+      "name": "Craftly Sprint Gaming Monitor",
+      "brand": "Craftly",
+      "category": "monitor",
+      "price": 663.48,
+      "specs": {
+        "size": "27\"",
+        "resolution": "3440x1440",
+        "refresh": "144 Hz",
+        "panel": "OLED",
+        "hdr": "HDR600"
+      },
+      "rating": 4.8,
+      "review_count": 3821,
+      "url": ""
+    },
+    {
+      "id": "monitor-019",
+      "name": "Relay Lite Gaming Monitor",
+      "brand": "Relay",
+      "category": "monitor",
+      "price": 683.67,
+      "specs": {
+        "size": "24\"",
+        "resolution": "3440x1440",
+        "refresh": "144 Hz",
+        "panel": "TN",
+        "hdr": "HDR1000"
+      },
+      "rating": 4.2,
+      "review_count": 2484,
+      "url": ""
+    },
+    {
+      "id": "monitor-020",
+      "name": "Craftly Elite Ultrawide Monitor",
+      "brand": "Craftly",
+      "category": "monitor",
+      "price": 943.72,
+      "specs": {
+        "size": "24\"",
+        "resolution": "2560x1440",
+        "refresh": "165 Hz",
+        "panel": "TN",
+        "hdr": "HDR600"
+      },
+      "rating": 4.0,
+      "review_count": 6809,
+      "url": ""
+    },
+    {
+      "id": "monitor-021",
+      "name": "Zenith Elite 4K Monitor",
+      "brand": "Zenith",
+      "category": "monitor",
+      "price": 757.14,
+      "specs": {
+        "size": "24\"",
+        "resolution": "1920x1080",
+        "refresh": "240 Hz",
+        "panel": "OLED",
+        "hdr": "HDR600"
+      },
+      "rating": 3.9,
+      "review_count": 6579,
+      "url": ""
+    },
+    {
+      "id": "monitor-022",
+      "name": "Orbit Core Gaming Monitor",
+      "brand": "Orbit",
+      "category": "monitor",
+      "price": 768.21,
+      "specs": {
+        "size": "32\"",
+        "resolution": "2560x1440",
+        "refresh": "60 Hz",
+        "panel": "IPS",
+        "hdr": "HDR600"
+      },
+      "rating": 3.6,
+      "review_count": 2998,
+      "url": ""
+    },
+    {
+      "id": "monitor-023",
+      "name": "Drift Nova Monitor",
+      "brand": "Drift",
+      "category": "monitor",
+      "price": 203.66,
+      "specs": {
+        "size": "32\"",
+        "resolution": "3840x2160",
+        "refresh": "165 Hz",
+        "panel": "VA",
+        "hdr": "HDR400"
+      },
+      "rating": 4.3,
+      "review_count": 7968,
+      "url": ""
+    },
+    {
+      "id": "monitor-024",
+      "name": "Orbit Zephyr 4K Monitor",
+      "brand": "Orbit",
+      "category": "monitor",
+      "price": 781.64,
+      "specs": {
+        "size": "27\"",
+        "resolution": "3840x2160",
+        "refresh": "165 Hz",
+        "panel": "TN",
+        "hdr": "HDR600"
+      },
+      "rating": 4.2,
+      "review_count": 626,
+      "url": ""
+    },
+    {
+      "id": "monitor-025",
+      "name": "Aurio Core Ultrawide Monitor",
+      "brand": "Aurio",
+      "category": "monitor",
+      "price": 551.45,
+      "specs": {
+        "size": "32\"",
+        "resolution": "1920x1080",
+        "refresh": "165 Hz",
+        "panel": "IPS",
+        "hdr": "HDR600"
+      },
+      "rating": 4.2,
+      "review_count": 5521,
+      "url": ""
+    },
+    {
+      "id": "monitor-026",
+      "name": "Drift Pulse 4K Monitor",
+      "brand": "Drift",
+      "category": "monitor",
+      "price": 111.52,
+      "specs": {
+        "size": "34\"",
+        "resolution": "3840x2160",
+        "refresh": "60 Hz",
+        "panel": "VA",
+        "hdr": "HDR1000"
+      },
+      "rating": 4.7,
+      "review_count": 4609,
+      "url": ""
+    },
+    {
+      "id": "monitor-027",
+      "name": "Orbit Forge Gaming Monitor",
+      "brand": "Orbit",
+      "category": "monitor",
+      "price": 210.21,
+      "specs": {
+        "size": "24\"",
+        "resolution": "3440x1440",
+        "refresh": "144 Hz",
+        "panel": "OLED",
+        "hdr": "none"
+      },
+      "rating": 4.8,
+      "review_count": 2503,
+      "url": ""
+    },
+    {
+      "id": "mouse-001",
+      "name": "SoundHive Prime Gaming Mouse",
+      "brand": "SoundHive",
+      "category": "mouse",
+      "price": 68.8,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "yes",
+        "buttons": "12",
+        "weight": "100 g"
+      },
+      "rating": 4.8,
+      "review_count": 5715,
+      "url": ""
+    },
+    {
+      "id": "mouse-002",
+      "name": "Klavier Elite Ergonomic Mouse",
+      "brand": "Klavier",
+      "category": "mouse",
+      "price": 104.27,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "no",
+        "buttons": "6",
+        "weight": "100 g"
+      },
+      "rating": 4.8,
+      "review_count": 2301,
+      "url": ""
+    },
+    {
+      "id": "mouse-003",
+      "name": "Northline Titan Wireless Mouse",
+      "brand": "Northline",
+      "category": "mouse",
+      "price": 139.04,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "no",
+        "buttons": "12",
+        "weight": "70 g"
+      },
+      "rating": 3.7,
+      "review_count": 5627,
+      "url": ""
+    },
+    {
+      "id": "mouse-004",
+      "name": "Orbit Zephyr Ergonomic Mouse",
+      "brand": "Orbit",
+      "category": "mouse",
+      "price": 42.52,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "yes",
+        "buttons": "12",
+        "weight": "85 g"
+      },
+      "rating": 3.8,
+      "review_count": 6957,
+      "url": ""
+    },
+    {
+      "id": "mouse-005",
+      "name": "Vantage Sprint Gaming Mouse",
+      "brand": "Vantage",
+      "category": "mouse",
+      "price": 50.32,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "yes",
+        "buttons": "6",
+        "weight": "85 g"
+      },
+      "rating": 3.8,
+      "review_count": 4635,
+      "url": ""
+    },
+    {
+      "id": "mouse-006",
+      "name": "Craftly Prime Ergonomic Mouse",
+      "brand": "Craftly",
+      "category": "mouse",
+      "price": 127.28,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "yes",
+        "buttons": "8",
+        "weight": "85 g"
+      },
+      "rating": 4.6,
+      "review_count": 4892,
+      "url": ""
+    },
+    {
+      "id": "mouse-007",
+      "name": "Northline Lite Gaming Mouse",
+      "brand": "Northline",
+      "category": "mouse",
+      "price": 110.85,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "no",
+        "buttons": "8",
+        "weight": "55 g"
+      },
+      "rating": 3.6,
+      "review_count": 131,
+      "url": ""
+    },
+    {
+      "id": "mouse-008",
+      "name": "Orbit Core Ergonomic Mouse",
+      "brand": "Orbit",
+      "category": "mouse",
+      "price": 22.6,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "yes",
+        "buttons": "8",
+        "weight": "85 g"
+      },
+      "rating": 4.6,
+      "review_count": 4319,
+      "url": ""
+    },
+    {
+      "id": "mouse-009",
+      "name": "VoltEdge Titan Gaming Mouse",
+      "brand": "VoltEdge",
+      "category": "mouse",
+      "price": 80.54,
+      "specs": {
+        "sensor_dpi": "32000",
+        "wireless": "no",
+        "buttons": "10",
+        "weight": "55 g"
+      },
+      "rating": 3.9,
+      "review_count": 5048,
+      "url": ""
+    },
+    {
+      "id": "mouse-010",
+      "name": "Northline Titan Ergonomic Mouse",
+      "brand": "Northline",
+      "category": "mouse",
+      "price": 159.8,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "no",
+        "buttons": "6",
+        "weight": "55 g"
+      },
+      "rating": 4.7,
+      "review_count": 3502,
+      "url": ""
+    },
+    {
+      "id": "mouse-011",
+      "name": "Zenith Prime Wireless Mouse",
+      "brand": "Zenith",
+      "category": "mouse",
+      "price": 103.2,
+      "specs": {
+        "sensor_dpi": "32000",
+        "wireless": "yes",
+        "buttons": "6",
+        "weight": "85 g"
+      },
+      "rating": 3.7,
+      "review_count": 2262,
+      "url": ""
+    },
+    {
+      "id": "mouse-012",
+      "name": "Ember Pulse Ergonomic Mouse",
+      "brand": "Ember",
+      "category": "mouse",
+      "price": 88.3,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "no",
+        "buttons": "10",
+        "weight": "100 g"
+      },
+      "rating": 4.2,
+      "review_count": 6507,
+      "url": ""
+    },
+    {
+      "id": "mouse-013",
+      "name": "Drift Prime Ergonomic Mouse",
+      "brand": "Drift",
+      "category": "mouse",
+      "price": 75.0,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "no",
+        "buttons": "12",
+        "weight": "70 g"
+      },
+      "rating": 4.7,
+      "review_count": 3276,
+      "url": ""
+    },
+    {
+      "id": "mouse-014",
+      "name": "PixelForge Titan Gaming Mouse",
+      "brand": "PixelForge",
+      "category": "mouse",
+      "price": 69.27,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "no",
+        "buttons": "10",
+        "weight": "85 g"
+      },
+      "rating": 3.8,
+      "review_count": 7571,
+      "url": ""
+    },
+    {
+      "id": "mouse-015",
+      "name": "SoundHive Prime Gaming Mouse",
+      "brand": "SoundHive",
+      "category": "mouse",
+      "price": 122.97,
+      "specs": {
+        "sensor_dpi": "8000",
+        "wireless": "yes",
+        "buttons": "12",
+        "weight": "55 g"
+      },
+      "rating": 4.1,
+      "review_count": 1075,
+      "url": ""
+    },
+    {
+      "id": "mouse-016",
+      "name": "Klavier Arc Ergonomic Mouse",
+      "brand": "Klavier",
+      "category": "mouse",
+      "price": 141.67,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "yes",
+        "buttons": "12",
+        "weight": "85 g"
+      },
+      "rating": 4.8,
+      "review_count": 3474,
+      "url": ""
+    },
+    {
+      "id": "mouse-017",
+      "name": "Vantage Titan Gaming Mouse",
+      "brand": "Vantage",
+      "category": "mouse",
+      "price": 98.8,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "no",
+        "buttons": "10",
+        "weight": "55 g"
+      },
+      "rating": 3.9,
+      "review_count": 5389,
+      "url": ""
+    },
+    {
+      "id": "mouse-018",
+      "name": "SoundHive Core Gaming Mouse",
+      "brand": "SoundHive",
+      "category": "mouse",
+      "price": 98.24,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "no",
+        "buttons": "6",
+        "weight": "85 g"
+      },
+      "rating": 4.6,
+      "review_count": 6933,
+      "url": ""
+    },
+    {
+      "id": "mouse-019",
+      "name": "Klavier Forge Ergonomic Mouse",
+      "brand": "Klavier",
+      "category": "mouse",
+      "price": 54.62,
+      "specs": {
+        "sensor_dpi": "8000",
+        "wireless": "no",
+        "buttons": "6",
+        "weight": "70 g"
+      },
+      "rating": 4.6,
+      "review_count": 7559,
+      "url": ""
+    },
+    {
+      "id": "mouse-020",
+      "name": "Orbit Max Gaming Mouse",
+      "brand": "Orbit",
+      "category": "mouse",
+      "price": 35.57,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "yes",
+        "buttons": "12",
+        "weight": "55 g"
+      },
+      "rating": 4.4,
+      "review_count": 261,
+      "url": ""
+    },
+    {
+      "id": "mouse-021",
+      "name": "VoltEdge Titan Ergonomic Mouse",
+      "brand": "VoltEdge",
+      "category": "mouse",
+      "price": 64.43,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "no",
+        "buttons": "12",
+        "weight": "100 g"
+      },
+      "rating": 4.1,
+      "review_count": 5921,
+      "url": ""
+    },
+    {
+      "id": "mouse-022",
+      "name": "Orbit Forge Ergonomic Mouse",
+      "brand": "Orbit",
+      "category": "mouse",
+      "price": 124.39,
+      "specs": {
+        "sensor_dpi": "8000",
+        "wireless": "yes",
+        "buttons": "8",
+        "weight": "70 g"
+      },
+      "rating": 3.7,
+      "review_count": 678,
+      "url": ""
+    },
+    {
+      "id": "mouse-023",
+      "name": "Nimbus Sprint Ergonomic Mouse",
+      "brand": "Nimbus",
+      "category": "mouse",
+      "price": 54.61,
+      "specs": {
+        "sensor_dpi": "32000",
+        "wireless": "no",
+        "buttons": "12",
+        "weight": "100 g"
+      },
+      "rating": 4.6,
+      "review_count": 942,
+      "url": ""
+    },
+    {
+      "id": "mouse-024",
+      "name": "Orbit Elite Gaming Mouse",
+      "brand": "Orbit",
+      "category": "mouse",
+      "price": 46.98,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "no",
+        "buttons": "10",
+        "weight": "55 g"
+      },
+      "rating": 4.9,
+      "review_count": 458,
+      "url": ""
+    },
+    {
+      "id": "mouse-025",
+      "name": "Northline Core Wireless Mouse",
+      "brand": "Northline",
+      "category": "mouse",
+      "price": 62.58,
+      "specs": {
+        "sensor_dpi": "16000",
+        "wireless": "yes",
+        "buttons": "10",
+        "weight": "85 g"
+      },
+      "rating": 3.6,
+      "review_count": 6129,
+      "url": ""
+    },
+    {
+      "id": "mouse-026",
+      "name": "PixelForge Nova Gaming Mouse",
+      "brand": "PixelForge",
+      "category": "mouse",
+      "price": 72.58,
+      "specs": {
+        "sensor_dpi": "32000",
+        "wireless": "yes",
+        "buttons": "10",
+        "weight": "55 g"
+      },
+      "rating": 4.6,
+      "review_count": 3583,
+      "url": ""
+    },
+    {
+      "id": "mouse-027",
+      "name": "Northline Sprint Gaming Mouse",
+      "brand": "Northline",
+      "category": "mouse",
+      "price": 56.98,
+      "specs": {
+        "sensor_dpi": "26000",
+        "wireless": "no",
+        "buttons": "12",
+        "weight": "100 g"
+      },
+      "rating": 4.1,
+      "review_count": 7925,
+      "url": ""
+    },
+    {
+      "id": "webcam-001",
+      "name": "Orbit Nova Conference Camera",
+      "brand": "Orbit",
+      "category": "webcam",
+      "price": 181.23,
+      "specs": {
+        "resolution": "1440p",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "90 deg"
+      },
+      "rating": 3.9,
+      "review_count": 4834,
+      "url": ""
+    },
+    {
+      "id": "webcam-002",
+      "name": "PixelForge Zephyr Webcam",
+      "brand": "PixelForge",
+      "category": "webcam",
+      "price": 86.62,
+      "specs": {
+        "resolution": "1440p",
+        "fps": "60",
+        "mic": "no",
+        "fov": "70 deg"
+      },
+      "rating": 3.8,
+      "review_count": 4191,
+      "url": ""
+    },
+    {
+      "id": "webcam-003",
+      "name": "Zenith Prime Conference Camera",
+      "brand": "Zenith",
+      "category": "webcam",
+      "price": 159.57,
+      "specs": {
+        "resolution": "4K",
+        "fps": "30",
+        "mic": "no",
+        "fov": "90 deg"
+      },
+      "rating": 4.7,
+      "review_count": 6686,
+      "url": ""
+    },
+    {
+      "id": "webcam-004",
+      "name": "Aurio Core Webcam",
+      "brand": "Aurio",
+      "category": "webcam",
+      "price": 136.44,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "70 deg"
+      },
+      "rating": 4.6,
+      "review_count": 5379,
+      "url": ""
+    },
+    {
+      "id": "webcam-005",
+      "name": "VoltEdge Nova Conference Camera",
+      "brand": "VoltEdge",
+      "category": "webcam",
+      "price": 195.97,
+      "specs": {
+        "resolution": "1440p",
+        "fps": "60",
+        "mic": "no",
+        "fov": "110 deg"
+      },
+      "rating": 4.3,
+      "review_count": 5214,
+      "url": ""
+    },
+    {
+      "id": "webcam-006",
+      "name": "Ember Max Conference Camera",
+      "brand": "Ember",
+      "category": "webcam",
+      "price": 111.75,
+      "specs": {
+        "resolution": "1440p",
+        "fps": "30",
+        "mic": "no",
+        "fov": "70 deg"
+      },
+      "rating": 4.4,
+      "review_count": 6533,
+      "url": ""
+    },
+    {
+      "id": "webcam-007",
+      "name": "Nimbus Forge Webcam",
+      "brand": "Nimbus",
+      "category": "webcam",
+      "price": 108.6,
+      "specs": {
+        "resolution": "1440p",
+        "fps": "30",
+        "mic": "no",
+        "fov": "90 deg"
+      },
+      "rating": 3.7,
+      "review_count": 6823,
+      "url": ""
+    },
+    {
+      "id": "webcam-008",
+      "name": "Nimbus Prime Conference Camera",
+      "brand": "Nimbus",
+      "category": "webcam",
+      "price": 127.55,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "no",
+        "fov": "110 deg"
+      },
+      "rating": 4.6,
+      "review_count": 7349,
+      "url": ""
+    },
+    {
+      "id": "webcam-009",
+      "name": "Northline Sprint Conference Camera",
+      "brand": "Northline",
+      "category": "webcam",
+      "price": 112.99,
+      "specs": {
+        "resolution": "4K",
+        "fps": "30",
+        "mic": "no",
+        "fov": "110 deg"
+      },
+      "rating": 3.8,
+      "review_count": 516,
+      "url": ""
+    },
+    {
+      "id": "webcam-010",
+      "name": "SoundHive Prime Streaming Camera",
+      "brand": "SoundHive",
+      "category": "webcam",
+      "price": 70.83,
+      "specs": {
+        "resolution": "4K",
+        "fps": "30",
+        "mic": "yes",
+        "fov": "70 deg"
+      },
+      "rating": 4.2,
+      "review_count": 3609,
+      "url": ""
+    },
+    {
+      "id": "webcam-011",
+      "name": "Klavier Zephyr Conference Camera",
+      "brand": "Klavier",
+      "category": "webcam",
+      "price": 96.67,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "no",
+        "fov": "90 deg"
+      },
+      "rating": 4.6,
+      "review_count": 5571,
+      "url": ""
+    },
+    {
+      "id": "webcam-012",
+      "name": "Ember Arc Conference Camera",
+      "brand": "Ember",
+      "category": "webcam",
+      "price": 42.48,
+      "specs": {
+        "resolution": "4K",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "90 deg"
+      },
+      "rating": 4.5,
+      "review_count": 2337,
+      "url": ""
+    },
+    {
+      "id": "webcam-013",
+      "name": "Nimbus Titan Conference Camera",
+      "brand": "Nimbus",
+      "category": "webcam",
+      "price": 132.81,
+      "specs": {
+        "resolution": "4K",
+        "fps": "30",
+        "mic": "no",
+        "fov": "70 deg"
+      },
+      "rating": 3.8,
+      "review_count": 2875,
+      "url": ""
+    },
+    {
+      "id": "webcam-014",
+      "name": "Nimbus Pulse Conference Camera",
+      "brand": "Nimbus",
+      "category": "webcam",
+      "price": 156.13,
+      "specs": {
+        "resolution": "4K",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "110 deg"
+      },
+      "rating": 3.7,
+      "review_count": 4588,
+      "url": ""
+    },
+    {
+      "id": "webcam-015",
+      "name": "PixelForge Pulse Streaming Camera",
+      "brand": "PixelForge",
+      "category": "webcam",
+      "price": 91.94,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "30",
+        "mic": "no",
+        "fov": "110 deg"
+      },
+      "rating": 4.1,
+      "review_count": 1486,
+      "url": ""
+    },
+    {
+      "id": "webcam-016",
+      "name": "Craftly Max Streaming Camera",
+      "brand": "Craftly",
+      "category": "webcam",
+      "price": 39.28,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "30",
+        "mic": "yes",
+        "fov": "70 deg"
+      },
+      "rating": 4.7,
+      "review_count": 838,
+      "url": ""
+    },
+    {
+      "id": "webcam-017",
+      "name": "Klavier Zephyr Conference Camera",
+      "brand": "Klavier",
+      "category": "webcam",
+      "price": 49.24,
+      "specs": {
+        "resolution": "4K",
+        "fps": "30",
+        "mic": "no",
+        "fov": "110 deg"
+      },
+      "rating": 4.1,
+      "review_count": 1339,
+      "url": ""
+    },
+    {
+      "id": "webcam-018",
+      "name": "Aurio Titan Conference Camera",
+      "brand": "Aurio",
+      "category": "webcam",
+      "price": 92.4,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "90 deg"
+      },
+      "rating": 4.5,
+      "review_count": 7952,
+      "url": ""
+    },
+    {
+      "id": "webcam-019",
+      "name": "SoundHive Forge Streaming Camera",
+      "brand": "SoundHive",
+      "category": "webcam",
+      "price": 69.25,
+      "specs": {
+        "resolution": "4K",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "110 deg"
+      },
+      "rating": 4.9,
+      "review_count": 6435,
+      "url": ""
+    },
+    {
+      "id": "webcam-020",
+      "name": "SoundHive Core Streaming Camera",
+      "brand": "SoundHive",
+      "category": "webcam",
+      "price": 168.95,
+      "specs": {
+        "resolution": "4K",
+        "fps": "60",
+        "mic": "no",
+        "fov": "90 deg"
+      },
+      "rating": 4.3,
+      "review_count": 3439,
+      "url": ""
+    },
+    {
+      "id": "webcam-021",
+      "name": "Aurio Core Conference Camera",
+      "brand": "Aurio",
+      "category": "webcam",
+      "price": 113.91,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "110 deg"
+      },
+      "rating": 4.1,
+      "review_count": 7663,
+      "url": ""
+    },
+    {
+      "id": "webcam-022",
+      "name": "VoltEdge Titan Conference Camera",
+      "brand": "VoltEdge",
+      "category": "webcam",
+      "price": 75.47,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "70 deg"
+      },
+      "rating": 4.8,
+      "review_count": 1217,
+      "url": ""
+    },
+    {
+      "id": "webcam-023",
+      "name": "Vantage Elite Webcam",
+      "brand": "Vantage",
+      "category": "webcam",
+      "price": 101.76,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "no",
+        "fov": "70 deg"
+      },
+      "rating": 4.1,
+      "review_count": 3073,
+      "url": ""
+    },
+    {
+      "id": "webcam-024",
+      "name": "Craftly Elite Webcam",
+      "brand": "Craftly",
+      "category": "webcam",
+      "price": 197.2,
+      "specs": {
+        "resolution": "1440p",
+        "fps": "30",
+        "mic": "yes",
+        "fov": "90 deg"
+      },
+      "rating": 4.7,
+      "review_count": 5334,
+      "url": ""
+    },
+    {
+      "id": "webcam-025",
+      "name": "Orbit Nova Webcam",
+      "brand": "Orbit",
+      "category": "webcam",
+      "price": 178.76,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "no",
+        "fov": "110 deg"
+      },
+      "rating": 4.6,
+      "review_count": 3852,
+      "url": ""
+    },
+    {
+      "id": "webcam-026",
+      "name": "SoundHive Forge Webcam",
+      "brand": "SoundHive",
+      "category": "webcam",
+      "price": 179.47,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "30",
+        "mic": "no",
+        "fov": "70 deg"
+      },
+      "rating": 4.3,
+      "review_count": 5967,
+      "url": ""
+    },
+    {
+      "id": "webcam-027",
+      "name": "Ember Zephyr Streaming Camera",
+      "brand": "Ember",
+      "category": "webcam",
+      "price": 47.54,
+      "specs": {
+        "resolution": "1080p",
+        "fps": "60",
+        "mic": "yes",
+        "fov": "90 deg"
+      },
+      "rating": 3.9,
+      "review_count": 5244,
+      "url": ""
+    },
+    {
+      "id": "speaker-001",
+      "name": "Halcyon Forge Smart Speaker",
+      "brand": "Halcyon",
+      "category": "speaker",
+      "price": 234.86,
+      "specs": {
+        "type": "portable",
+        "watts": "10 W",
+        "bluetooth": "5.1",
+        "battery": "8 h"
+      },
+      "rating": 4.3,
+      "review_count": 5896,
+      "url": ""
+    },
+    {
+      "id": "speaker-002",
+      "name": "Aurio Lite Smart Speaker",
+      "brand": "Aurio",
+      "category": "speaker",
+      "price": 214.03,
+      "specs": {
+        "type": "portable",
+        "watts": "80 W",
+        "bluetooth": "5.1",
+        "battery": "12 h"
+      },
+      "rating": 3.8,
+      "review_count": 5484,
+      "url": ""
+    },
+    {
+      "id": "speaker-003",
+      "name": "VoltEdge Zephyr Smart Speaker",
+      "brand": "VoltEdge",
+      "category": "speaker",
+      "price": 152.75,
+      "specs": {
+        "type": "portable",
+        "watts": "80 W",
+        "bluetooth": "5.3",
+        "battery": "8 h"
+      },
+      "rating": 4.2,
+      "review_count": 5217,
+      "url": ""
+    },
+    {
+      "id": "speaker-004",
+      "name": "PixelForge Max Smart Speaker",
+      "brand": "PixelForge",
+      "category": "speaker",
+      "price": 101.98,
+      "specs": {
+        "type": "portable",
+        "watts": "30 W",
+        "bluetooth": "5.0",
+        "battery": "20 h"
+      },
+      "rating": 4.5,
+      "review_count": 859,
+      "url": ""
+    },
+    {
+      "id": "speaker-005",
+      "name": "Halcyon Forge Soundbar",
+      "brand": "Halcyon",
+      "category": "speaker",
+      "price": 205.64,
+      "specs": {
+        "type": "soundbar",
+        "watts": "20 W",
+        "bluetooth": "5.0",
+        "battery": "20 h"
+      },
+      "rating": 4.7,
+      "review_count": 1444,
+      "url": ""
+    },
+    {
+      "id": "speaker-006",
+      "name": "Vantage Pulse Smart Speaker",
+      "brand": "Vantage",
+      "category": "speaker",
+      "price": 263.46,
+      "specs": {
+        "type": "party",
+        "watts": "20 W",
+        "bluetooth": "5.0",
+        "battery": "8 h"
+      },
+      "rating": 4.8,
+      "review_count": 312,
+      "url": ""
+    },
+    {
+      "id": "speaker-007",
+      "name": "Nimbus Core Bluetooth Speaker",
+      "brand": "Nimbus",
+      "category": "speaker",
+      "price": 195.23,
+      "specs": {
+        "type": "desktop",
+        "watts": "10 W",
+        "bluetooth": "5.1",
+        "battery": "20 h"
+      },
+      "rating": 4.9,
+      "review_count": 4458,
+      "url": ""
+    },
+    {
+      "id": "speaker-008",
+      "name": "SoundHive Lite Bluetooth Speaker",
+      "brand": "SoundHive",
+      "category": "speaker",
+      "price": 314.37,
+      "specs": {
+        "type": "desktop",
+        "watts": "30 W",
+        "bluetooth": "5.1",
+        "battery": "8 h"
+      },
+      "rating": 4.0,
+      "review_count": 1029,
+      "url": ""
+    },
+    {
+      "id": "speaker-009",
+      "name": "Halcyon Max Smart Speaker",
+      "brand": "Halcyon",
+      "category": "speaker",
+      "price": 351.07,
+      "specs": {
+        "type": "party",
+        "watts": "50 W",
+        "bluetooth": "5.1",
+        "battery": "20 h"
+      },
+      "rating": 4.2,
+      "review_count": 4085,
+      "url": ""
+    },
+    {
+      "id": "speaker-010",
+      "name": "Orbit Zephyr Smart Speaker",
+      "brand": "Orbit",
+      "category": "speaker",
+      "price": 224.83,
+      "specs": {
+        "type": "portable",
+        "watts": "50 W",
+        "bluetooth": "5.0",
+        "battery": "none"
+      },
+      "rating": 4.7,
+      "review_count": 4478,
+      "url": ""
+    },
+    {
+      "id": "speaker-011",
+      "name": "Nimbus Max Bluetooth Speaker",
+      "brand": "Nimbus",
+      "category": "speaker",
+      "price": 124.21,
+      "specs": {
+        "type": "portable",
+        "watts": "30 W",
+        "bluetooth": "5.3",
+        "battery": "20 h"
+      },
+      "rating": 4.4,
+      "review_count": 3500,
+      "url": ""
+    },
+    {
+      "id": "speaker-012",
+      "name": "Aurio Titan Smart Speaker",
+      "brand": "Aurio",
+      "category": "speaker",
+      "price": 229.05,
+      "specs": {
+        "type": "soundbar",
+        "watts": "50 W",
+        "bluetooth": "5.0",
+        "battery": "20 h"
+      },
+      "rating": 4.2,
+      "review_count": 5248,
+      "url": ""
+    },
+    {
+      "id": "speaker-013",
+      "name": "Halcyon Arc Bluetooth Speaker",
+      "brand": "Halcyon",
+      "category": "speaker",
+      "price": 343.95,
+      "specs": {
+        "type": "party",
+        "watts": "30 W",
+        "bluetooth": "5.3",
+        "battery": "12 h"
+      },
+      "rating": 3.8,
+      "review_count": 4987,
+      "url": ""
+    },
+    {
+      "id": "speaker-014",
+      "name": "Zenith Sprint Bluetooth Speaker",
+      "brand": "Zenith",
+      "category": "speaker",
+      "price": 143.13,
+      "specs": {
+        "type": "desktop",
+        "watts": "10 W",
+        "bluetooth": "5.0",
+        "battery": "20 h"
+      },
+      "rating": 4.8,
+      "review_count": 275,
+      "url": ""
+    },
+    {
+      "id": "speaker-015",
+      "name": "Ember Nova Soundbar",
+      "brand": "Ember",
+      "category": "speaker",
+      "price": 279.45,
+      "specs": {
+        "type": "party",
+        "watts": "30 W",
+        "bluetooth": "5.1",
+        "battery": "none"
+      },
+      "rating": 4.3,
+      "review_count": 4347,
+      "url": ""
+    },
+    {
+      "id": "speaker-016",
+      "name": "Orbit Elite Smart Speaker",
+      "brand": "Orbit",
+      "category": "speaker",
+      "price": 270.13,
+      "specs": {
+        "type": "soundbar",
+        "watts": "20 W",
+        "bluetooth": "5.0",
+        "battery": "8 h"
+      },
+      "rating": 4.2,
+      "review_count": 3180,
+      "url": ""
+    },
+    {
+      "id": "speaker-017",
+      "name": "Relay Zephyr Bluetooth Speaker",
+      "brand": "Relay",
+      "category": "speaker",
+      "price": 92.95,
+      "specs": {
+        "type": "soundbar",
+        "watts": "30 W",
+        "bluetooth": "5.3",
+        "battery": "none"
+      },
+      "rating": 4.4,
+      "review_count": 5695,
+      "url": ""
+    },
+    {
+      "id": "speaker-018",
+      "name": "Relay Sprint Bluetooth Speaker",
+      "brand": "Relay",
+      "category": "speaker",
+      "price": 78.7,
+      "specs": {
+        "type": "portable",
+        "watts": "20 W",
+        "bluetooth": "5.0",
+        "battery": "none"
+      },
+      "rating": 4.5,
+      "review_count": 729,
+      "url": ""
+    },
+    {
+      "id": "speaker-019",
+      "name": "Halcyon Pulse Smart Speaker",
+      "brand": "Halcyon",
+      "category": "speaker",
+      "price": 323.05,
+      "specs": {
+        "type": "soundbar",
+        "watts": "10 W",
+        "bluetooth": "5.3",
+        "battery": "20 h"
+      },
+      "rating": 4.7,
+      "review_count": 5841,
+      "url": ""
+    },
+    {
+      "id": "speaker-020",
+      "name": "Drift Titan Soundbar",
+      "brand": "Drift",
+      "category": "speaker",
+      "price": 61.26,
+      "specs": {
+        "type": "desktop",
+        "watts": "30 W",
+        "bluetooth": "5.3",
+        "battery": "12 h"
+      },
+      "rating": 3.9,
+      "review_count": 1147,
+      "url": ""
+    },
+    {
+      "id": "speaker-021",
+      "name": "Craftly Sprint Bluetooth Speaker",
+      "brand": "Craftly",
+      "category": "speaker",
+      "price": 178.92,
+      "specs": {
+        "type": "soundbar",
+        "watts": "80 W",
+        "bluetooth": "5.3",
+        "battery": "20 h"
+      },
+      "rating": 4.9,
+      "review_count": 1073,
+      "url": ""
+    },
+    {
+      "id": "speaker-022",
+      "name": "Ember Prime Bluetooth Speaker",
+      "brand": "Ember",
+      "category": "speaker",
+      "price": 198.74,
+      "specs": {
+        "type": "soundbar",
+        "watts": "50 W",
+        "bluetooth": "5.3",
+        "battery": "none"
+      },
+      "rating": 4.6,
+      "review_count": 6754,
+      "url": ""
+    },
+    {
+      "id": "speaker-023",
+      "name": "Ember Prime Bluetooth Speaker",
+      "brand": "Ember",
+      "category": "speaker",
+      "price": 251.24,
+      "specs": {
+        "type": "soundbar",
+        "watts": "10 W",
+        "bluetooth": "5.1",
+        "battery": "none"
+      },
+      "rating": 4.0,
+      "review_count": 7202,
+      "url": ""
+    },
+    {
+      "id": "speaker-024",
+      "name": "Vantage Zephyr Soundbar",
+      "brand": "Vantage",
+      "category": "speaker",
+      "price": 302.67,
+      "specs": {
+        "type": "desktop",
+        "watts": "20 W",
+        "bluetooth": "5.1",
+        "battery": "8 h"
+      },
+      "rating": 4.3,
+      "review_count": 2501,
+      "url": ""
+    },
+    {
+      "id": "speaker-025",
+      "name": "Aurio Nova Smart Speaker",
+      "brand": "Aurio",
+      "category": "speaker",
+      "price": 307.62,
+      "specs": {
+        "type": "desktop",
+        "watts": "30 W",
+        "bluetooth": "5.3",
+        "battery": "20 h"
+      },
+      "rating": 3.9,
+      "review_count": 5212,
+      "url": ""
+    },
+    {
+      "id": "speaker-026",
+      "name": "Klavier Lite Bluetooth Speaker",
+      "brand": "Klavier",
+      "category": "speaker",
+      "price": 190.87,
+      "specs": {
+        "type": "soundbar",
+        "watts": "80 W",
+        "bluetooth": "5.3",
+        "battery": "8 h"
+      },
+      "rating": 3.8,
+      "review_count": 7723,
+      "url": ""
+    },
+    {
+      "id": "speaker-027",
+      "name": "Ember Nova Bluetooth Speaker",
+      "brand": "Ember",
+      "category": "speaker",
+      "price": 47.62,
+      "specs": {
+        "type": "soundbar",
+        "watts": "80 W",
+        "bluetooth": "5.0",
+        "battery": "8 h"
+      },
+      "rating": 4.8,
+      "review_count": 6326,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-001",
+      "name": "Ember Lite Sports Watch",
+      "brand": "Ember",
+      "category": "smartwatch",
+      "price": 301.88,
+      "specs": {
+        "display": "AMOLED",
+        "gps": "no",
+        "battery": "1 day",
+        "water_resist": "10 ATM",
+        "health": "heart rate + SpO2 + ECG"
+      },
+      "rating": 4.4,
+      "review_count": 2484,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-002",
+      "name": "SoundHive Core Sports Watch",
+      "brand": "SoundHive",
+      "category": "smartwatch",
+      "price": 68.76,
+      "specs": {
+        "display": "LCD",
+        "gps": "no",
+        "battery": "14 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2 + ECG"
+      },
+      "rating": 4.2,
+      "review_count": 3976,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-003",
+      "name": "SoundHive Core Fitness Watch",
+      "brand": "SoundHive",
+      "category": "smartwatch",
+      "price": 392.42,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "yes",
+        "battery": "7 days",
+        "water_resist": "IP68",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.7,
+      "review_count": 8000,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-004",
+      "name": "PixelForge Nova Fitness Watch",
+      "brand": "PixelForge",
+      "category": "smartwatch",
+      "price": 98.81,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "yes",
+        "battery": "7 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.2,
+      "review_count": 1164,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-005",
+      "name": "VoltEdge Arc Fitness Watch",
+      "brand": "VoltEdge",
+      "category": "smartwatch",
+      "price": 488.2,
+      "specs": {
+        "display": "LCD",
+        "gps": "no",
+        "battery": "3 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.5,
+      "review_count": 1565,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-006",
+      "name": "Halcyon Nova Fitness Watch",
+      "brand": "Halcyon",
+      "category": "smartwatch",
+      "price": 51.12,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "14 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.8,
+      "review_count": 4150,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-007",
+      "name": "SoundHive Core Smartwatch",
+      "brand": "SoundHive",
+      "category": "smartwatch",
+      "price": 277.55,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "1 day",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.7,
+      "review_count": 5369,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-008",
+      "name": "Zenith Sprint Fitness Watch",
+      "brand": "Zenith",
+      "category": "smartwatch",
+      "price": 463.58,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "yes",
+        "battery": "1 day",
+        "water_resist": "10 ATM",
+        "health": "heart rate"
+      },
+      "rating": 4.5,
+      "review_count": 6267,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-009",
+      "name": "PixelForge Max Smartwatch",
+      "brand": "PixelForge",
+      "category": "smartwatch",
+      "price": 178.53,
+      "specs": {
+        "display": "LCD",
+        "gps": "yes",
+        "battery": "3 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate + SpO2 + ECG"
+      },
+      "rating": 4.1,
+      "review_count": 3699,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-010",
+      "name": "Halcyon Zephyr Fitness Watch",
+      "brand": "Halcyon",
+      "category": "smartwatch",
+      "price": 219.14,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "yes",
+        "battery": "3 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.9,
+      "review_count": 4579,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-011",
+      "name": "Orbit Nova Smartwatch",
+      "brand": "Orbit",
+      "category": "smartwatch",
+      "price": 105.78,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "1 day",
+        "water_resist": "5 ATM",
+        "health": "heart rate"
+      },
+      "rating": 4.0,
+      "review_count": 3890,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-012",
+      "name": "Klavier Sprint Smartwatch",
+      "brand": "Klavier",
+      "category": "smartwatch",
+      "price": 118.0,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "yes",
+        "battery": "7 days",
+        "water_resist": "IP68",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.9,
+      "review_count": 6066,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-013",
+      "name": "Vantage Lite Sports Watch",
+      "brand": "Vantage",
+      "category": "smartwatch",
+      "price": 216.81,
+      "specs": {
+        "display": "LCD",
+        "gps": "no",
+        "battery": "7 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate"
+      },
+      "rating": 4.5,
+      "review_count": 3422,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-014",
+      "name": "Ember Lite Sports Watch",
+      "brand": "Ember",
+      "category": "smartwatch",
+      "price": 415.79,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "yes",
+        "battery": "14 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate + SpO2 + ECG"
+      },
+      "rating": 4.6,
+      "review_count": 4741,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-015",
+      "name": "Craftly Titan Smartwatch",
+      "brand": "Craftly",
+      "category": "smartwatch",
+      "price": 386.17,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "3 days",
+        "water_resist": "IP68",
+        "health": "heart rate + SpO2 + ECG"
+      },
+      "rating": 4.6,
+      "review_count": 3124,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-016",
+      "name": "Aurio Pulse Smartwatch",
+      "brand": "Aurio",
+      "category": "smartwatch",
+      "price": 190.57,
+      "specs": {
+        "display": "AMOLED",
+        "gps": "yes",
+        "battery": "3 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 3.8,
+      "review_count": 5666,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-017",
+      "name": "Craftly Elite Sports Watch",
+      "brand": "Craftly",
+      "category": "smartwatch",
+      "price": 288.97,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "1 day",
+        "water_resist": "IP68",
+        "health": "heart rate"
+      },
+      "rating": 4.3,
+      "review_count": 5434,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-018",
+      "name": "SoundHive Zephyr Fitness Watch",
+      "brand": "SoundHive",
+      "category": "smartwatch",
+      "price": 302.21,
+      "specs": {
+        "display": "LCD",
+        "gps": "yes",
+        "battery": "14 days",
+        "water_resist": "IP68",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.5,
+      "review_count": 7117,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-019",
+      "name": "Drift Pulse Sports Watch",
+      "brand": "Drift",
+      "category": "smartwatch",
+      "price": 173.92,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "14 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate"
+      },
+      "rating": 4.0,
+      "review_count": 7722,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-020",
+      "name": "Nimbus Lite Sports Watch",
+      "brand": "Nimbus",
+      "category": "smartwatch",
+      "price": 309.03,
+      "specs": {
+        "display": "AMOLED",
+        "gps": "no",
+        "battery": "7 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 4.8,
+      "review_count": 5921,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-021",
+      "name": "Nimbus Lite Smartwatch",
+      "brand": "Nimbus",
+      "category": "smartwatch",
+      "price": 179.42,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "14 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate"
+      },
+      "rating": 4.0,
+      "review_count": 5860,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-022",
+      "name": "VoltEdge Max Fitness Watch",
+      "brand": "VoltEdge",
+      "category": "smartwatch",
+      "price": 437.42,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "14 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate"
+      },
+      "rating": 4.0,
+      "review_count": 4614,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-023",
+      "name": "Drift Lite Smartwatch",
+      "brand": "Drift",
+      "category": "smartwatch",
+      "price": 474.49,
+      "specs": {
+        "display": "AMOLED",
+        "gps": "yes",
+        "battery": "3 days",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2 + ECG"
+      },
+      "rating": 3.9,
+      "review_count": 1917,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-024",
+      "name": "Northline Prime Fitness Watch",
+      "brand": "Northline",
+      "category": "smartwatch",
+      "price": 42.49,
+      "specs": {
+        "display": "LCD",
+        "gps": "no",
+        "battery": "1 day",
+        "water_resist": "IP68",
+        "health": "heart rate"
+      },
+      "rating": 4.3,
+      "review_count": 7621,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-025",
+      "name": "Aurio Elite Sports Watch",
+      "brand": "Aurio",
+      "category": "smartwatch",
+      "price": 177.0,
+      "specs": {
+        "display": "LCD",
+        "gps": "no",
+        "battery": "3 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 3.7,
+      "review_count": 6307,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-026",
+      "name": "VoltEdge Pulse Sports Watch",
+      "brand": "VoltEdge",
+      "category": "smartwatch",
+      "price": 488.28,
+      "specs": {
+        "display": "AMOLED",
+        "gps": "yes",
+        "battery": "3 days",
+        "water_resist": "10 ATM",
+        "health": "heart rate"
+      },
+      "rating": 3.6,
+      "review_count": 6860,
+      "url": ""
+    },
+    {
+      "id": "smartwatch-027",
+      "name": "PixelForge Sprint Smartwatch",
+      "brand": "PixelForge",
+      "category": "smartwatch",
+      "price": 312.62,
+      "specs": {
+        "display": "E-Ink",
+        "gps": "no",
+        "battery": "1 day",
+        "water_resist": "5 ATM",
+        "health": "heart rate + SpO2"
+      },
+      "rating": 3.7,
+      "review_count": 2754,
+      "url": ""
+    },
+    {
+      "id": "microphone-001",
+      "name": "Nimbus Sprint Dynamic Microphone",
+      "brand": "Nimbus",
+      "category": "microphone",
+      "price": 276.06,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "omnidirectional",
+        "interface": "XLR",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.2,
+      "review_count": 1589,
+      "url": ""
+    },
+    {
+      "id": "microphone-002",
+      "name": "Halcyon Prime USB Microphone",
+      "brand": "Halcyon",
+      "category": "microphone",
+      "price": 236.99,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "omnidirectional",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 3.6,
+      "review_count": 2771,
+      "url": ""
+    },
+    {
+      "id": "microphone-003",
+      "name": "Halcyon Lite Dynamic Microphone",
+      "brand": "Halcyon",
+      "category": "microphone",
+      "price": 268.96,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "cardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.3,
+      "review_count": 720,
+      "url": ""
+    },
+    {
+      "id": "microphone-004",
+      "name": "PixelForge Pulse Condenser Microphone",
+      "brand": "PixelForge",
+      "category": "microphone",
+      "price": 301.07,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "cardioid",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 3.6,
+      "review_count": 3152,
+      "url": ""
+    },
+    {
+      "id": "microphone-005",
+      "name": "Craftly Sprint USB Microphone",
+      "brand": "Craftly",
+      "category": "microphone",
+      "price": 217.84,
+      "specs": {
+        "type": "dynamic",
+        "polar_pattern": "supercardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.5,
+      "review_count": 518,
+      "url": ""
+    },
+    {
+      "id": "microphone-006",
+      "name": "Zenith Prime USB Microphone",
+      "brand": "Zenith",
+      "category": "microphone",
+      "price": 228.64,
+      "specs": {
+        "type": "dynamic",
+        "polar_pattern": "cardioid",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.4,
+      "review_count": 7715,
+      "url": ""
+    },
+    {
+      "id": "microphone-007",
+      "name": "Nimbus Max Dynamic Microphone",
+      "brand": "Nimbus",
+      "category": "microphone",
+      "price": 70.19,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "cardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.6,
+      "review_count": 4972,
+      "url": ""
+    },
+    {
+      "id": "microphone-008",
+      "name": "Orbit Elite Dynamic Microphone",
+      "brand": "Orbit",
+      "category": "microphone",
+      "price": 225.7,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "supercardioid",
+        "interface": "USB",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.4,
+      "review_count": 6460,
+      "url": ""
+    },
+    {
+      "id": "microphone-009",
+      "name": "VoltEdge Zephyr USB Microphone",
+      "brand": "VoltEdge",
+      "category": "microphone",
+      "price": 295.59,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "omnidirectional",
+        "interface": "XLR",
+        "bit_depth": "16-bit"
+      },
+      "rating": 3.7,
+      "review_count": 6799,
+      "url": ""
+    },
+    {
+      "id": "microphone-010",
+      "name": "Klavier Zephyr Condenser Microphone",
+      "brand": "Klavier",
+      "category": "microphone",
+      "price": 121.79,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "omnidirectional",
+        "interface": "USB",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.3,
+      "review_count": 962,
+      "url": ""
+    },
+    {
+      "id": "microphone-011",
+      "name": "Zenith Core Dynamic Microphone",
+      "brand": "Zenith",
+      "category": "microphone",
+      "price": 263.56,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "supercardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.2,
+      "review_count": 4214,
+      "url": ""
+    },
+    {
+      "id": "microphone-012",
+      "name": "PixelForge Sprint Dynamic Microphone",
+      "brand": "PixelForge",
+      "category": "microphone",
+      "price": 238.37,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "omnidirectional",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.1,
+      "review_count": 6698,
+      "url": ""
+    },
+    {
+      "id": "microphone-013",
+      "name": "Northline Titan Condenser Microphone",
+      "brand": "Northline",
+      "category": "microphone",
+      "price": 126.64,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "cardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 3.7,
+      "review_count": 503,
+      "url": ""
+    },
+    {
+      "id": "microphone-014",
+      "name": "Relay Prime USB Microphone",
+      "brand": "Relay",
+      "category": "microphone",
+      "price": 251.85,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "supercardioid",
+        "interface": "XLR",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.6,
+      "review_count": 5984,
+      "url": ""
+    },
+    {
+      "id": "microphone-015",
+      "name": "Zenith Elite USB Microphone",
+      "brand": "Zenith",
+      "category": "microphone",
+      "price": 48.67,
+      "specs": {
+        "type": "dynamic",
+        "polar_pattern": "supercardioid",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.9,
+      "review_count": 7174,
+      "url": ""
+    },
+    {
+      "id": "microphone-016",
+      "name": "Klavier Nova Dynamic Microphone",
+      "brand": "Klavier",
+      "category": "microphone",
+      "price": 181.01,
+      "specs": {
+        "type": "dynamic",
+        "polar_pattern": "cardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.5,
+      "review_count": 1834,
+      "url": ""
+    },
+    {
+      "id": "microphone-017",
+      "name": "Vantage Arc Condenser Microphone",
+      "brand": "Vantage",
+      "category": "microphone",
+      "price": 267.89,
+      "specs": {
+        "type": "dynamic",
+        "polar_pattern": "supercardioid",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 3.9,
+      "review_count": 2845,
+      "url": ""
+    },
+    {
+      "id": "microphone-018",
+      "name": "Aurio Lite Condenser Microphone",
+      "brand": "Aurio",
+      "category": "microphone",
+      "price": 206.4,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "cardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.8,
+      "review_count": 7293,
+      "url": ""
+    },
+    {
+      "id": "microphone-019",
+      "name": "Northline Core Condenser Microphone",
+      "brand": "Northline",
+      "category": "microphone",
+      "price": 201.35,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "cardioid",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.5,
+      "review_count": 408,
+      "url": ""
+    },
+    {
+      "id": "microphone-020",
+      "name": "Craftly Titan Condenser Microphone",
+      "brand": "Craftly",
+      "category": "microphone",
+      "price": 247.54,
+      "specs": {
+        "type": "dynamic",
+        "polar_pattern": "supercardioid",
+        "interface": "USB",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.6,
+      "review_count": 1157,
+      "url": ""
+    },
+    {
+      "id": "microphone-021",
+      "name": "Klavier Lite Condenser Microphone",
+      "brand": "Klavier",
+      "category": "microphone",
+      "price": 94.89,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "omnidirectional",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.7,
+      "review_count": 5418,
+      "url": ""
+    },
+    {
+      "id": "microphone-022",
+      "name": "Klavier Core USB Microphone",
+      "brand": "Klavier",
+      "category": "microphone",
+      "price": 209.67,
+      "specs": {
+        "type": "dynamic",
+        "polar_pattern": "supercardioid",
+        "interface": "USB",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.2,
+      "review_count": 4070,
+      "url": ""
+    },
+    {
+      "id": "microphone-023",
+      "name": "Northline Max Dynamic Microphone",
+      "brand": "Northline",
+      "category": "microphone",
+      "price": 145.44,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "supercardioid",
+        "interface": "XLR",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.0,
+      "review_count": 1516,
+      "url": ""
+    },
+    {
+      "id": "microphone-024",
+      "name": "Halcyon Zephyr USB Microphone",
+      "brand": "Halcyon",
+      "category": "microphone",
+      "price": 262.7,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "cardioid",
+        "interface": "XLR",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.8,
+      "review_count": 4617,
+      "url": ""
+    },
+    {
+      "id": "microphone-025",
+      "name": "PixelForge Elite Dynamic Microphone",
+      "brand": "PixelForge",
+      "category": "microphone",
+      "price": 100.22,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "cardioid",
+        "interface": "XLR",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.0,
+      "review_count": 657,
+      "url": ""
+    },
+    {
+      "id": "microphone-026",
+      "name": "Relay Sprint USB Microphone",
+      "brand": "Relay",
+      "category": "microphone",
+      "price": 104.2,
+      "specs": {
+        "type": "condenser",
+        "polar_pattern": "omnidirectional",
+        "interface": "USB",
+        "bit_depth": "16-bit"
+      },
+      "rating": 4.5,
+      "review_count": 4949,
+      "url": ""
+    },
+    {
+      "id": "microphone-027",
+      "name": "Northline Prime Condenser Microphone",
+      "brand": "Northline",
+      "category": "microphone",
+      "price": 86.62,
+      "specs": {
+        "type": "shotgun",
+        "polar_pattern": "omnidirectional",
+        "interface": "USB",
+        "bit_depth": "24-bit"
+      },
+      "rating": 4.8,
+      "review_count": 2493,
+      "url": ""
+    }
+  ]
+}
