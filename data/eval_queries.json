@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "note": "Hand-written held-out queries with expected constraints. Gold set per query = every product in the catalog that genuinely satisfies the expected constraints (computed deterministically at eval time). expect_none queries must yield an honest no-match instead of padded picks."
+  },
+  "queries": [
+    {"query": "hot-swap mechanical keyboard under $100", "max_price": 100, "categories": ["mechanical_keyboard"], "must_keywords": ["hot-swap", "mechanical"]},
+    {"query": "wireless noise-cancelling headphones under $150", "max_price": 150, "categories": ["headphones"], "must_keywords": ["wireless", "noise-cancelling"]},
+    {"query": "gaming laptop with 32 GB RAM between 1000 and 1500", "min_price": 1000, "max_price": 1500, "categories": ["laptop"], "must_keywords": ["32 gb ram"]},
+    {"query": "4k monitor with 144hz refresh rate", "categories": ["monitor"], "must_keywords": ["4k", "144hz"]},
+    {"query": "portable bluetooth speaker under $50", "max_price": 50, "categories": ["speaker"], "must_keywords": ["bluetooth", "portable"]},
+    {"query": "smartwatch with gps and 7 day battery", "categories": ["smartwatch"], "must_keywords": ["gps", "7 day"]},
+    {"query": "ergonomic wireless mouse", "categories": ["mouse"], "must_keywords": ["ergonomic", "wireless"]},
+    {"query": "usb condenser microphone under $100", "max_price": 100, "categories": ["microphone"], "must_keywords": ["usb", "condenser"]},
+    {"query": "webcam with built-in microphone under $80", "max_price": 80, "categories": ["webcam"], "must_keywords": ["mic"]},
+    {"query": "laptop with 16 GB RAM under $1200", "max_price": 1200, "categories": ["laptop"], "must_keywords": ["16 gb"]},
+    {"query": "mechanical keyboard with rgb backlight under $90", "max_price": 90, "categories": ["mechanical_keyboard"], "must_keywords": ["mechanical", "rgb"]},
+    {"query": "smartwatch with touchscreen under $200", "max_price": 200, "categories": ["smartwatch"], "must_keywords": ["touchscreen"], "expect_none": true},
+    {"query": "smart fridge under $100", "max_price": 100, "expect_none": true}
+  ]
+}

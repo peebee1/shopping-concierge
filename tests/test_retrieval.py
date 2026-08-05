@@ -67,11 +67,53 @@ def test_keyword_does_not_match_negated_spec():
     assert _keyword_hits(p, ["hot-swap"]) == []
 
 
+def test_spec_key_alias_positive_values():
+    """'noise-cancelling' should match anc=yes even without the string present."""
+    from shopcon.catalog import Product
+
+    yes = Product(id="x3", name="Headphones", brand="B", category="headphones", price=50,
+                  specs={"anc": "yes", "wireless": "yes"})
+    no = Product(id="x4", name="Headphones", brand="B", category="headphones", price=50,
+                 specs={"anc": "no", "wireless": "yes"})
+    assert "noise-cancelling" in _keyword_hits(yes, ["noise-cancelling"])
+    assert "noise-cancelling" not in _keyword_hits(no, ["noise-cancelling"])
+    assert "wireless" in _keyword_hits(no, ["wireless"])  # unrelated positive spec still hits
+
+
+def test_spec_value_alias_4k_and_portable():
+    """'4k' matches resolution=3840x2160; 'portable' excludes desktop/soundbar types."""
+    from shopcon.catalog import Product
+
+    four_k = Product(id="x5", name="Monitor", brand="B", category="monitor", price=300,
+                     specs={"resolution": "3840x2160"})
+    hd = Product(id="x6", name="Monitor", brand="B", category="monitor", price=300,
+                 specs={"resolution": "1920x1080"})
+    assert "4k" in _keyword_hits(four_k, ["4k"])
+    assert "4k" not in _keyword_hits(hd, ["4k"])
+
+    portable = Product(id="x7", name="Speaker", brand="B", category="speaker", price=40,
+                       specs={"type": "portable"})
+    soundbar = Product(id="x8", name="Speaker", brand="B", category="speaker", price=80,
+                       specs={"type": "soundbar"})
+    assert "portable" in _keyword_hits(portable, ["portable"])
+    assert "portable" not in _keyword_hits(soundbar, ["portable"])
+
+
 def test_category_normalization_maps_offlist_names():
     """'gaming laptop' (off-list) -> category 'laptop' + keyword 'gaming'."""
     cats, extra = _normalize_categories(["gaming laptop"], ["laptop", "mouse"])
     assert cats == ["laptop"]
     assert "gaming" in extra
+
+
+def test_clean_keywords_strips_fillers():
+    """'built-in microphone' -> 'microphone'; dedupes and lowercases."""
+    from shopcon.retrieval import _clean_keywords
+
+    assert _clean_keywords(["built-in microphone", "Built-In Microphone"]) == ["microphone"]
+    assert _clean_keywords(["with noise cancelling"]) == ["noise cancelling"]
+    assert _clean_keywords(["32 GB RAM"]) == ["32 gb ram"]
+    assert _clean_keywords(["best", "good"]) == []
 
 
 def test_rule_based_budget_parsing():

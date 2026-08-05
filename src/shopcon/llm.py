@@ -48,9 +48,17 @@ def _extract_json(text: str) -> dict[str, Any]:
 
 
 class LLM:
-    """Protocol: a JSON-in/JSON-out model wrapper."""
+    """Protocol: a JSON-in/JSON-out model wrapper.
+
+    Subclasses expose `name` (human label), `model` (for cost lookup),
+    `calls` (cumulative complete_json calls) and `usage` (cumulative token
+    counts) so the eval harness can report cost/latency.
+    """
 
     name: str = "base"
+    model: str = "base"
+    calls: int = 0
+    usage: dict[str, int] = {"prompt_tokens": 0, "completion_tokens": 0}
 
     def complete_json(self, system: str, user: str, temperature: float = 0.2) -> dict[str, Any]:
         raise NotImplementedError
@@ -84,6 +92,7 @@ class OpenAICompatLLM(LLM):
         self.max_tokens = int(os.environ.get("SHOPCON_MAX_TOKENS", "6000"))
 
     def complete_json(self, system: str, user: str, temperature: float = 0.2) -> dict[str, Any]:
+        self.calls += 1
         resp = self._client.chat.completions.create(
             model=self.model,
             messages=[
@@ -93,6 +102,9 @@ class OpenAICompatLLM(LLM):
             temperature=temperature,
             max_tokens=self.max_tokens,
         )
+        if resp.usage:
+            self.usage["prompt_tokens"] += resp.usage.prompt_tokens or 0
+            self.usage["completion_tokens"] += resp.usage.completion_tokens or 0
         return _extract_json(resp.choices[0].message.content or "")
 
 
@@ -102,8 +114,10 @@ class MockLLM(LLM):
     no API key is configured."""
 
     name = "mock"
+    model = "mock"
 
     def complete_json(self, system: str, user: str, temperature: float = 0.2) -> dict[str, Any]:
+        self.calls += 1
         if "TASK: constraints" in system:
             return _mock_constraints(user)
         if "TASK: rank" in system:

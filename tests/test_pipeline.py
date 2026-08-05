@@ -66,3 +66,12 @@ def test_pipeline_tolerates_ranked_ids_shape(catalog):
     result = recommend("wireless keyboard", catalog, RankedIdsLLM(), top_n=3)
     assert len(result.ranked) == 3
     assert "ranked via ranked_ids shape" in result.summary
+
+
+def test_pipeline_honesty_rule_returns_empty_for_impossible_queries(catalog):
+    """When nothing matches the requested features, the agent must not pad
+    the shortlist with irrelevant products (mock-parsable no-match query)."""
+    result = recommend("smartwatch with touchscreen under $200", catalog, MockLLM(), top_n=5)
+    assert result.ranked == []
+    assert "no products" in result.summary.lower()
+    assert any("honest empty shortlist" in step for step in result.trace)

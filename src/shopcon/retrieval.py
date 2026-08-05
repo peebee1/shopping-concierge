@@ -19,6 +19,8 @@ _FEATURE_KEYWORDS = [
     "noise-cancelling", "noise cancel", "4k", "144hz", "240hz", "oled", "portable",
     "bluetooth", "usb-c", "usb c", "ergonomic", "gaming", "lightweight", "silent",
     "touchscreen", "tactile", "linear", "macbook", "hdr", "ultrawide", "waterproof",
+    # spec-level terms the rule-based fallback (mock) can also catch
+    "ryzen 7", "ryzen 5", "i7", "i9", "1tb", "32 gb", "ssd",
 ]
 
 
@@ -31,6 +33,33 @@ class ConstraintExtractor(Protocol):
     """
 
     def complete_json(self, system: str, user: str, temperature: float = 0.2) -> dict: ...
+
+
+# Keyword -> spec keys where a *positive* value satisfies the keyword even
+# when the string doesn't appear in the text ("noise-cancelling" == anc=yes).
+_SPEC_KEY_ALIASES: dict[str, list[str]] = {
+    "anc": ["anc"],
+    "noise-cancelling": ["anc"],
+    "noise cancel": ["anc"],
+    "bluetooth": ["bluetooth"],
+    "wireless": ["wireless"],
+    "hot-swap": ["hot_swappable"],
+    "hotswap": ["hot_swappable"],
+    "rgb": ["backlight"],
+    "backlit": ["backlight"],
+    "gps": ["gps"],
+    "mic": ["mic"],
+    "microphone": ["mic"],
+    "usb": ["interface"],
+    "usb-c": ["interface"],
+}
+
+# Keyword -> {spec key: accepted exact values} ("4k" == resolution 3840x2160).
+_SPEC_VALUE_ALIASES: dict[str, dict[str, set[str]]] = {
+    "4k": {"resolution": {"3840x2160"}},
+    "hdr": {"hdr": {"HDR400", "HDR600", "HDR1000"}},
+    "portable": {"type": {"portable", "party"}},
+}
 
 _BUDGET_PATTERNS = [
     (r"(?:under|below|less than|max|maximum|budget(?:\s+of)?|within)\s*(?:usd|us\$|\$)?\s*(\d+(?:\.\d+)?)", "max"),
@@ -86,11 +115,17 @@ def parse_constraints_rule_based(query: str) -> Constraints:
             c.min_price = float(m.group(1))
             break
 
-    # Categories (longest synonym first so "keyboard" isn't eaten by shorter forms)
-    synonyms = sorted(CATEGORY_SYNONYMS.items(), key=lambda kv: -max(len(s) for s in kv[1]))
-    for cat, words in synonyms:
-        if any(w in q for w in words):
-            c.categories.append(cat)
+    # Categories: word-boundary match ("mic" must not match inside "ergonomic"),
+    # and pick the category whose synonym appears EARLIEST in the query —
+    # "webcam with built-in microphone" means webcam, not microphone.
+    best: tuple[int, str] | None = None
+    for cat, words in CATEGORY_SYNONYMS.items():
+        for w in words:
+            m = re.search(rf"\b{re.escape(w)}\b", q)
+            if m and (best is None or m.start() < best[0]):
+                best = (m.start(), cat)
+    if best:
+        c.categories.append(best[1])
 
     # Feature keywords: "hot-swap" -> "hot-swap"/"hotswap"
     for kw in _FEATURE_KEYWORDS:
@@ -126,20 +161,33 @@ def extract_constraints(query: str, llm: ConstraintExtractor, known_categories: 
         # ("gaming laptop" -> category "laptop" + must-keyword "gaming").
         cats, extra = _normalize_categories(data.get("categories") or [], known_categories)
         c.categories = cats
-        c.must_keywords = _dedupe(
-            k.lower()
-            for k in (data.get("must_keywords") or []) + extra
-            if isinstance(k, str) and k.lower() and k.lower() not in _stop_keywords()
-        )
-        c.nice_keywords = _dedupe(
-            k.lower()
-            for k in (data.get("nice_keywords") or [])
-            if isinstance(k, str) and k.lower() and k.lower() not in _stop_keywords()
-        )
+        c.must_keywords = _clean_keywords((data.get("must_keywords") or []) + extra)
+        c.nice_keywords = _clean_keywords(data.get("nice_keywords") or [])
         return c
     except Exception:
         # Rule-based fallback (also what MockLLM uses)
         return parse_constraints_rule_based(query)
+
+
+def _clean_keywords(items) -> list[str]:
+    """Normalize extracted keywords: lowercase, dedupe, drop filler words
+    ("built-in microphone" -> "microphone"; "with noise cancelling" -> "noise cancelling")."""
+    filler = {
+        "built", "in", "with", "feature", "featuring", "support", "supports",
+        "integrated", "including", "include", "having", "has",
+    }
+    out: list[str] = []
+    for k in items:
+        if not isinstance(k, str):
+            continue
+        k = k.lower().strip()
+        if not k or k in _stop_keywords():
+            continue
+        words = [w for w in re.split(r"[^a-z0-9]+", k) if w and w not in filler]
+        k2 = " ".join(words) if words else k
+        if k2 and k2 not in out:
+            out.append(k2)
+    return out
 
 
 def _normalize_categories(raw: list, known_categories: list[str]) -> tuple[list[str], list[str]]:
@@ -213,6 +261,20 @@ def _keyword_hits(product: Product, keywords: list[str]) -> list[str]:
         # normalized "32gbram" isn't in "ram32gb..." but tokens 32/gb/ram all are.
         tokens = [t for t in re.split(r"[^a-z0-9]+", k.lower()) if len(t) >= 2]
         if len(tokens) >= 2 and all(t in text for t in tokens):
+            hits.append(k)
+            continue
+        # spec aliases: positive spec values count ("noise-cancelling" == anc=yes)
+        neg_values = {"no", "none", "-", ""}
+        if any(
+            (v := product.specs.get(key)) is not None and v.strip().lower() not in neg_values
+            for key in _SPEC_KEY_ALIASES.get(k, [])
+        ):
+            hits.append(k)
+            continue
+        if any(
+            product.specs.get(key, "").strip().lower() in {x.lower() for x in values}
+            for key, values in _SPEC_VALUE_ALIASES.get(k, {}).items()
+        ):
             hits.append(k)
     return hits
 

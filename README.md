@@ -127,13 +127,42 @@ class BestBuySource:
 
 The pipeline, CLI, and server never change — they only ever see `list[Product]`.
 
+## Evaluation
+
+The repo ships with a benchmark: **13 held-out queries** with hand-written expected constraints (`data/eval_queries.json`). `shopcon-eval` runs the full pipeline per query and scores it on three axes:
+
+- **Behavior** (deterministic, LLM-agnostic): budget violations, category purity, keyword recall, and *gold recall@5* — the fraction of products that genuinely satisfy the expected constraints that landed in the top-5.
+- **Quality** (optional judge LLM): a 1–5 rating with notes on ranking quality and honesty.
+- **Cost/latency**: LLM calls, tokens, approximate USD, and seconds per query.
+
+```bash
+shopcon-eval                    # mock LLM — CI-safe, keyless
+shopcon-eval --judge            # + LLM-judged quality scores (needs an API key)
+shopcon-eval --catalog fakestore --top 5 --json-out eval/report.json
+# chunked runs: --skip N --max-queries M (long endpoints), then scripts/merge_eval.py
+```
+
+Latest run (`deepseek-v4-flash`, synthetic catalog, top-5, 13 queries):
+
+| Metric | Mock LLM | Real LLM (+ judge) |
+|--------|----------|---------------------|
+| Constraint pass rate | 12/13 (92%) | **13/13 (100%)** |
+| Avg gold recall@5 | 81% | **93%** |
+| Avg judge score | — | **4.62/5** |
+| Cost | $0.00 | **~$0.016** (27 calls, 68k tokens, ~9 min) |
+
+Per-query breakdown: `eval/report.json`.
+
+The harness has already paid for itself — it caught, in order: keyword matching treating `hot_swappable=no` as a hit, category confusion ("built-in microphone" starting a microphone hunt), the mock's inability to parse spec-level requests (ryzen 7 / 1 TB), an LLM extracting "built-in microphone" as a keyword (filler-word cleanup fixes it), a crash-on-network-error bug, and the padding problem — the agent recommended random products when nothing matched. That last one is now a feature: **when nothing matches, the shortlist is empty and the summary says so** — the judge scores the honest empty answer 5/5.
+
 ## Roadmap
 
 - [x] Understand → Retrieve → Rank pipeline with trace
 - [x] Deterministic mock LLM (keyless runs, testable)
 - [x] CLI + FastAPI playground
 - [x] Live catalog adapter (FakeStoreAPI keyless, JSON file/URL, custom sources pluggable)
-- [ ] Evaluation harness: held-out queries scored by a judge LLM
+- [x] Evaluation harness: 13 held-out queries, behavior metrics + judge LLM + cost report
+- [ ] Price-correlated synthetic catalog (premium specs cluster at higher prices — currently random)
 - [ ] Human-in-the-loop: confirm before "purchasing" (see sibling project ideas)
 - [ ] Price-alert agent loop on top of the ranker
 
@@ -145,10 +174,13 @@ src/shopcon/
   sources.py     Pluggable catalog sources: synthetic, JSON file/URL, FakeStoreAPI
   llm.py         OpenAI-compatible client + deterministic MockLLM
   retrieval.py   constraint parsing + deterministic catalog scoring (LLM-agnostic)
-  pipeline.py    understand -> retrieve -> rank (+ trace)
+  pipeline.py    understand -> retrieve -> rank (+ trace, honesty rule)
+  eval.py        evaluation harness: held-out queries, metrics, judge, report
   cli.py         terminal UI
   server.py      FastAPI app
 tests/           pytest suite (mock LLM, no network)
+scripts/         merge_eval.py (chunked eval runs)
+eval/            generated evaluation reports
 ```
 
 ## License

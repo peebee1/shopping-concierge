@@ -83,6 +83,19 @@ def recommend(
     ranked, summary = _rank_with_llm(query, constraints, candidates, llm, top_n)
     trace.append(f"ranked with {llm.name}")
 
+    # Honesty rule: if must-keywords were relaxed (NOTHING matched them) and
+    # none of the ranked picks satisfy any of them, return an empty shortlist
+    # instead of padding with irrelevant products.
+    if "keywords" in constraints.relaxed and constraints.must_keywords:
+        from .retrieval import _keyword_hits
+
+        satisfying = [r for r in ranked if _keyword_hits(r.product, constraints.must_keywords)]
+        if not satisfying:
+            ranked = []
+            trace.append("no product matches the requested features — returned an honest empty shortlist")
+            if not any(m in summary.lower() for m in ("none of", "no products", "no valid", "does not", "no match", "nothing")):
+                summary = f"No products in the catalog match your request ('{query}'). Nothing recommended — no padding."
+
     return RecommendationResult(
         query=query,
         constraints=constraints,
@@ -140,12 +153,12 @@ def _rank_with_llm(
         data = llm.complete_json(system, user)
         if not data:
             raise LLMError("empty LLM response")
-    except (LLMError, ValueError, TypeError) as exc2:
+    except Exception as exc2:  # noqa: BLE001 - network flakiness must degrade, not crash
         exc = exc2
         # one retry before giving up to the deterministic fallback
         try:
             data = llm.complete_json(system, user)
-        except (LLMError, ValueError, TypeError) as exc3:
+        except Exception as exc3:  # noqa: BLE001
             exc = exc3
             data = None
     if data is None:

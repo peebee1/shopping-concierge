@@ -1,0 +1,161 @@
+{
+  "model": "openai-compatible/deepseek-v4-flash",
+  "catalog": "default (data/catalog.json)",
+  "products_count": 243,
+  "top_n": 5,
+  "aggregate": {
+    "constraint_pass_rate": 1.0,
+    "avg_gold_recall_at_k": null,
+    "avg_judge_score": 4.67,
+    "total_calls": 7,
+    "total_tokens": 28073,
+    "cost_usd": 0.0069,
+    "total_seconds": 254.16
+  },
+  "results": [
+    {
+      "query": "mechanical keyboard with rgb backlight under $90",
+      "expected": {
+        "max_price": 90,
+        "min_price": null,
+        "categories": [
+          "mechanical_keyboard"
+        ],
+        "must_keywords": [
+          "mechanical",
+          "rgb"
+        ],
+        "expect_none": false
+      },
+      "extracted": {
+        "max_price": 90.0,
+        "min_price": null,
+        "categories": [
+          "mechanical_keyboard"
+        ],
+        "must_keywords": [
+          "rgb",
+          "backlight"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      },
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 0.5,
+      "gold_count": 0,
+      "gold_recall_at_k": null,
+      "ranked_ids": [
+        "mechanical_keyboard-002",
+        "mechanical_keyboard-015",
+        "mechanical_keyboard-011",
+        "mechanical_keyboard-020"
+      ],
+      "summary": "The Klavier Prime Gaming Keyboard is the best pick: it delivers true RGB, stays under $90, and has strong ratings plus extra features. The Halcyon Nova is a solid budget alternative at $64.58 if you want to save money. The Drift Zephyr and VoltEdge Titan should be avoided for this request because their backlights are white, not RGB.",
+      "trace": [
+        "understood query -> max $90; category: mechanical_keyboard; must: rgb, backlight",
+        "retrieved 4 candidates from 243 products",
+        "ranked with openai-compatible/deepseek-v4-flash"
+      ],
+      "judge_score": 5,
+      "judge_notes": "The response perfectly matches the request, clearly ranks valid RGB options with rationale, and honestly flags the non-RGB alternatives as unsuitable.",
+      "calls": 2,
+      "tokens": 5704,
+      "cost_usd": 0.0014,
+      "seconds": 58.37
+    },
+    {
+      "query": "smartwatch with touchscreen under $200",
+      "expected": {
+        "max_price": 200,
+        "min_price": null,
+        "categories": [
+          "smartwatch"
+        ],
+        "must_keywords": [
+          "touchscreen"
+        ],
+        "expect_none": true
+      },
+      "extracted": {
+        "max_price": 200.0,
+        "min_price": null,
+        "categories": [
+          "smartwatch"
+        ],
+        "must_keywords": [
+          "touchscreen"
+        ],
+        "nice_keywords": [],
+        "relaxed": [
+          "keywords"
+        ]
+      },
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 0,
+      "gold_recall_at_k": null,
+      "ranked_ids": [],
+      "summary": "No products in the catalog match your request ('smartwatch with touchscreen under $200'). Nothing recommended \u2014 no padding.",
+      "trace": [
+        "understood query -> max $200; category: smartwatch; must: touchscreen",
+        "retrieved 8 candidates from 243 products",
+        "relaxed constraints: keywords",
+        "ranked with openai-compatible/deepseek-v4-flash",
+        "no product matches the requested features \u2014 returned an honest empty shortlist"
+      ],
+      "judge_score": 5,
+      "judge_notes": "The agent honestly states no products match and avoids padding, fully satisfying the request's honesty criterion.",
+      "calls": 3,
+      "tokens": 15333,
+      "cost_usd": 0.0038,
+      "seconds": 134.38
+    },
+    {
+      "query": "smart fridge under $100",
+      "expected": {
+        "max_price": 100,
+        "min_price": null,
+        "categories": [],
+        "must_keywords": [],
+        "expect_none": true
+      },
+      "extracted": {
+        "max_price": 100.0,
+        "min_price": null,
+        "categories": [],
+        "must_keywords": [
+          "smart"
+        ],
+        "nice_keywords": [],
+        "relaxed": [
+          "keywords"
+        ]
+      },
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 0,
+      "gold_recall_at_k": null,
+      "ranked_ids": [],
+      "summary": "No products in the catalog match your request ('smart fridge under $100'). Nothing recommended \u2014 no padding.",
+      "trace": [
+        "understood query -> max $100; must: smart",
+        "retrieved 8 candidates from 243 products",
+        "relaxed constraints: keywords",
+        "ranked with openai-compatible/deepseek-v4-flash",
+        "no product matches the requested features \u2014 returned an honest empty shortlist"
+      ],
+      "judge_score": 4,
+      "judge_notes": "Agent honestly states no matching products and refrains from padding, though it could have suggested alternatives or explained the impossibility.",
+      "calls": 2,
+      "tokens": 7036,
+      "cost_usd": 0.0017,
+      "seconds": 61.41
+    }
+  ]
+}
