@@ -72,7 +72,7 @@ export SHOPCON_BASE_URL=             # optional, e.g. https://api.openai.com/v1
 export SHOPCON_MODEL=gpt-4o-mini     # cheap flash-tier model recommended
 ```
 
-Or copy `.env.example` → `.env`. The CLI also supports `--mock`, `--json`, `--top N`, `--quiet`, `--verify N` (live re-check depth, 0 disables), and `--catalog <source>`.
+Or copy `.env.example` → `.env`. The CLI also supports `--mock`, `--json`, `--top N`, `--quiet`, `--verify N` (live re-check depth, 0 disables), `--region CODE` (IN, DE, GB, JP...), and `--catalog <source>`.
 
 Want live data instead of the bundled synthetic catalog?
 
@@ -148,6 +148,27 @@ Verification (live re-check of top picks):
 
 If a re-check fails (network, API down), the pick is marked *unverifiable* with the reason — verification degrades, it never crashes the answer. This is the difference between *"the agent says"* and *"the agent verified."*
 
+## Regions & currencies
+
+Commerce is regional, so region is a first-class input — three-layer resolution (explicit wins):
+
+1. **Explicit**: `--region IN` (CLI), `?region=IN` (API), `SHOPCON_REGION` (env), or the dropdown in the web UI (persisted)
+2. **Locale**: LANG/LC_ALL env vars (CLI default — deterministic, no network)
+3. **IP**: keyless ipwho.is, best-effort, cached 1h (server only)
+
+What region changes:
+
+- **Budget conversion** — "wireless mouse under ₹4000" with region IN is correctly parsed as a $48 filter (catalog prices are in the source's currency). The LLM gets region context in the extraction prompt; the rule-based fallback understands ₹/€/£/¥/$ and currency words.
+- **Dual-currency display** — prices shown in both: `$22.60 (~INR 1,883)`, and the ranking rationale is written in the user's currency.
+- **Currency-ambiguous budgets** — "under 100" for a German user means €100, not $100.
+- **Sources declare their currency** — `fakestore`/`synthetic` are USD; a JSON catalog can set `_meta.currency: "EUR"`.
+
+FX uses approximate static rates (deterministic, offline); set `SHOPCON_LIVE_FX=1` to refresh from the keyless frankfurter.app API at startup. `SHOPCON_MAX_AGE_DAYS` controls the staleness threshold.
+
+```bash
+shopcon "wireless mouse under ₹4000" --region IN
+```
+
 ## Evaluation
 
 The repo ships with a benchmark: **13 held-out queries** with hand-written expected constraints (`data/eval_queries.json`). `shopcon-eval` runs the full pipeline per query and scores it on three axes:
@@ -184,6 +205,7 @@ The harness has already paid for itself — it caught, in order: keyword matchin
 - [x] Live catalog adapter (FakeStoreAPI keyless, JSON file/URL, custom sources pluggable)
 - [x] Evaluation harness: 13 held-out queries, behavior metrics + judge LLM + cost report
 - [x] Evidence & provenance: data_as_of, freshness labels, per-pick confidence, live price verification
+- [x] Regions & currencies: 3-layer resolution, budget conversion (₹/€/£/¥), dual-currency display
 - [ ] Price-correlated synthetic catalog (premium specs cluster at higher prices — currently random)
 - [ ] Human-in-the-loop: confirm before "purchasing" (see sibling project ideas)
 - [ ] Price-alert agent loop on top of the ranker
@@ -198,6 +220,7 @@ src/shopcon/
   retrieval.py   constraint parsing + deterministic catalog scoring (LLM-agnostic)
   pipeline.py    understand -> retrieve -> rank -> verify (+ trace, honesty rule)
   verification.py freshness, per-pick verification results, confidence heuristic
+  region.py      regions, currencies, FX (static rates + optional live refresh)
   eval.py        evaluation harness: held-out queries, metrics, judge, report
   cli.py         terminal UI
   server.py      FastAPI app

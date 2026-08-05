@@ -3,19 +3,23 @@
 Catalog source is configurable via the SHOPCON_CATALOG env var
 (synthetic | fakestore | path/to.json | https://...). Defaults to the
 bundled data/catalog.json (auto-generated on first run).
+
+Region resolution per request (explicit wins, then Accept-Language, then
+best-effort IP detection, then default): ?region=IN.
 """
 
 from __future__ import annotations
 
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
 from .catalog import resolve_source
 from .llm import MockLLM, OpenAICompatLLM
 from .pipeline import recommend
+from .region import Region, detect_from_ip, from_code
 from .sources import CatalogError, SyntheticSource
 
 app = FastAPI(title="Shopping Concierge", version="0.1.0")
@@ -36,11 +40,35 @@ class RecommendRequest(BaseModel):
     query: str
     top: int = 5
     verify: int = 3
+    region: str | None = None
+
+
+def _resolve_region(req: RecommendRequest, request: Request) -> Region:
+    """Explicit ?region= > Accept-Language > IP detection > default."""
+    if req.region:
+        return from_code(req.region)
+    env = os.environ.get("SHOPCON_REGION")
+    if env:
+        return from_code(env)
+    accept = request.headers.get("accept-language", "")
+    if accept:
+        first = accept.split(",")[0].strip()
+        if "-" in first:
+            cc = first.split("-", 1)[1].upper()
+            if cc in {"US", "IN", "DE", "GB", "FR", "JP", "AU", "CA", "SG"}:
+                return from_code(cc)
+    ip = detect_from_ip()
+    if ip is not None:
+        return ip
+    return from_code(None)
 
 
 @app.post("/recommend")
-def recommend_endpoint(req: RecommendRequest) -> dict:
-    result = recommend(req.query, _products, _llm, top_n=req.top, source=_source, verify_n=req.verify)
+def recommend_endpoint(req: RecommendRequest, request: Request) -> dict:
+    region = _resolve_region(req, request)
+    result = recommend(
+        req.query, _products, _llm, top_n=req.top, source=_source, verify_n=req.verify, region=region
+    )
     return result.to_dict()
 
 
@@ -59,15 +87,23 @@ _PAGE = """<!doctype html>
 <h2>🛍️ Shopping Concierge</h2>
 <p>Ask in plain English. The agent extracts constraints, retrieves candidates, and ranks them with reasons.</p>
 <form id="f"><input id="q" placeholder='e.g. "wireless noise-cancelling headphones under $150"' autofocus>
+<select id="rg">
+<option value="US">🇺🇸 US (USD)</option><option value="IN">🇮🇳 India (INR)</option>
+<option value="DE">🇩🇪 Germany (EUR)</option><option value="GB">🇬🇧 UK (GBP)</option>
+<option value="JP">🇯🇵 Japan (JPY)</option><option value="AU">🇦🇺 Australia (AUD)</option>
+<option value="CA">🇨🇦 Canada (CAD)</option><option value="SG">🇸🇬 Singapore (SGD)</option>
+</select>
 <button type="submit">Recommend</button></form>
 <div id="out"></div>
 <script>
-const f=document.getElementById('f'),q=document.getElementById('q'),out=document.getElementById('out');
-f.onsubmit=async e=>{e.preventDefault();
- out.innerHTML='<p>thinking…</p>';
- const r=await fetch('/recommend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q.value})});
- const d=await r.json();
- let rows=(d.ranked||[]).map(x=>`<tr><td>${x.rank}</td><td><b>${x.name}</b><br><small>${x.brand} · ${x.category}</small></td><td>$${x.price}</td><td>${x.rating}</td><td>${x.confidence_label||''}</td><td>${x.rationale}</td></tr>`).join('');
+ const f=document.getElementById('f'),q=document.getElementById('q'),rg=document.getElementById('rg'),out=document.getElementById('out');
+ const saved=localStorage.getItem('shopcon.region'); if(saved) rg.value=saved;
+ f.onsubmit=async e=>{e.preventDefault();
+  localStorage.setItem('shopcon.region',rg.value);
+  out.innerHTML='<p>thinking…</p>';
+  const r=await fetch('/recommend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q.value,region:rg.value})});
+  const d=await r.json();
+  let rows=(d.ranked||[]).map(x=>`<tr><td>${x.rank}</td><td><b>${x.name}</b><br><small>${x.brand} · ${x.category}</small></td><td>$${x.price}${x.price_local!=null?` (~${x.currency_local} ${Math.round(x.price_local).toLocaleString()})`:''}</td><td>${x.rating}</td><td>${x.confidence_label||''}</td><td>${x.rationale}</td></tr>`).join('');
  let vf='';
  const icons={verified:'✓',changed:'⚠',unavailable:'✗',unverifiable:'–'};
  if(d.verifications&&Object.keys(d.verifications).length){

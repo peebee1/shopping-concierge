@@ -31,6 +31,7 @@ class CatalogError(RuntimeError):
 class CatalogSource(Protocol):
     name: str
     as_of: datetime | None  # when the loaded data was fetched/generated
+    currency: str = "USD"  # currency the catalog's prices are denominated in
 
     def load(self) -> list[Product]: ...
 
@@ -160,6 +161,7 @@ class SyntheticSource:
     """
 
     name = "synthetic"
+    currency = "USD"
 
     def __init__(self, seed: int = 42, per_category: int = 27, save_to: Path | str | None = None):
         self.seed = seed
@@ -221,6 +223,7 @@ class JsonSource:
         self.location = str(location)
         self.name = "json-url" if self.location.startswith(("http://", "https://")) else "json"
         self.as_of: datetime | None = None
+        self.currency: str = "USD"  # overridable via the catalog's _meta.currency
 
     def _read(self) -> dict:
         """Fetch/read the catalog JSON (used by load and verify)."""
@@ -257,6 +260,9 @@ class JsonSource:
 
     def load(self) -> list[Product]:
         data = self._read()
+        meta_currency = (data.get("_meta") or {}).get("currency")
+        if isinstance(meta_currency, str) and meta_currency.strip():
+            self.currency = meta_currency.strip().upper()
         try:
             return [Product(**p) for p in data["products"]]
         except (KeyError, TypeError) as exc:
@@ -304,6 +310,7 @@ class FakeStoreSource:
     """
 
     name = "fakestore"
+    currency = "USD"
     url = "https://fakestoreapi.com/products"
 
     def __init__(self) -> None:

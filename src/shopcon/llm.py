@@ -119,19 +119,26 @@ class MockLLM(LLM):
     def complete_json(self, system: str, user: str, temperature: float = 0.2) -> dict[str, Any]:
         self.calls += 1
         if "TASK: constraints" in system:
-            return _mock_constraints(user)
+            return _mock_constraints(system, user)
         if "TASK: rank" in system:
             return _mock_rank(user)
         raise LLMError("mock LLM does not understand this task")
 
 
-def _mock_constraints(query: str) -> dict[str, Any]:
-    """Shared rule-based constraint extraction (also the no-LLM fallback)."""
+def _mock_constraints(system: str, user: str) -> dict[str, Any]:
+    """Shared rule-based constraint extraction (also the no-LLM fallback),
+    honoring the REGION / SOURCE_CURRENCY markers the pipeline injects."""
     import shopcon.retrieval as r
 
-    # Scanned by retrieval.parse_constraints_rule_based via a stub call below.
-    # We reuse the same implementation to keep mock and fallback identical.
-    return r.parse_constraints_rule_based(query).__dict__  # type: ignore[attr-defined]
+    m = re.search(r"REGION:\s*(\w+)", system)
+    code = m.group(1) if m else "US"
+    m = re.search(r"SOURCE_CURRENCY:\s*(\w+)", system)
+    source_currency = m.group(1) if m else "USD"
+    from .region import from_code
+
+    return r.parse_constraints_rule_based(
+        user, region=from_code(code), source_currency=source_currency
+    ).__dict__
 
 
 def _mock_rank(user: str) -> dict[str, Any]:

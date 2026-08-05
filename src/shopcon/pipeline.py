@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 
 from .catalog import CATEGORY_SPEC_KEYS, Product
 from .llm import LLM, LLMError
+from .region import Region, default as default_region, fx_to_region
 from .retrieval import Constraints, _keyword_hits, _normalize, extract_constraints, retrieve
 from .verification import freshness_line, verification_notes
 
@@ -42,8 +43,13 @@ class RecommendationResult:
     data_as_of: str | None = None
     freshness: str | None = None
     verifications: dict[str, dict] = field(default_factory=dict)
+    region_code: str | None = None
+    region_currency: str | None = None
+    source_currency: str = "USD"
+    fx_to_region: float | None = None  # 1 source-currency unit in region currency
 
     def to_dict(self) -> dict:
+        fx = self.fx_to_region
         return {
             "query": self.query,
             "constraints": {
@@ -63,6 +69,8 @@ class RecommendationResult:
                     "rationale": r.rationale,
                     "confidence": r.confidence,
                     "confidence_label": r.confidence_label,
+                    "price_local": round(r.product.price * fx, 2) if fx else None,
+                    "currency_local": self.region_currency if fx else None,
                 }
                 for r in self.ranked
             ],
@@ -72,6 +80,10 @@ class RecommendationResult:
             "data_as_of": self.data_as_of,
             "freshness": self.freshness,
             "verifications": self.verifications,
+            "region": self.region_code,
+            "region_currency": self.region_currency,
+            "source_currency": self.source_currency,
+            "fx_to_region": fx,
         }
 
 
@@ -83,12 +95,18 @@ def recommend(
     candidate_pool: int = 8,
     source=None,
     verify_n: int = 3,
+    region: Region | None = None,
 ) -> RecommendationResult:
+    region = region or default_region()
+    source_currency = getattr(source, "currency", "USD") if source is not None else "USD"
     trace: list[str] = []
 
     # 1) understand
-    constraints = extract_constraints(query, llm, _cats(products), _brands(products))
+    constraints = extract_constraints(
+        query, llm, _cats(products), _brands(products), region=region, source_currency=source_currency
+    )
     trace.append(f"understood query -> {constraints.describe()}")
+    trace.append(f"region: {region.code} ({region.currency}); catalog prices in {source_currency}")
 
     # 2) retrieve
     candidates, constraints = retrieve(products, constraints, top_n=candidate_pool)
@@ -97,7 +115,7 @@ def recommend(
         trace.append("relaxed constraints: " + ", ".join(constraints.relaxed))
 
     # 3) rank
-    ranked, summary = _rank_with_llm(query, constraints, candidates, llm, top_n)
+    ranked, summary = _rank_with_llm(query, constraints, candidates, llm, top_n, region, source_currency)
     trace.append(f"ranked with {llm.name}")
 
     # Honesty rule: if must-keywords were relaxed (NOTHING matched them) and
@@ -154,6 +172,10 @@ def recommend(
         data_as_of=data_as_of,
         freshness=freshness,
         verifications=verifications,
+        region_code=region.code,
+        region_currency=region.currency,
+        source_currency=source_currency,
+        fx_to_region=fx_to_region(source_currency, region),
     )
 
 
@@ -187,6 +209,8 @@ def _rank_with_llm(
     candidates: list[Product],
     llm: LLM,
     top_n: int,
+    region: Region,
+    source_currency: str,
 ) -> tuple[list[RankedItem], str]:
     # Pre-score so the mock (and fallbacks) have signal without extra LLM calls.
     scored = _rule_pre_score(query, constraints, candidates)
@@ -211,7 +235,13 @@ def _rank_with_llm(
         "with one caveat if relevant>.\n"
         "Every ranked id MUST come from the candidates array. Use every candidate exactly once."
     )
-    user = f"Request: {query}\nConstraints: {constraints.describe()}\nCandidates:\n{json.dumps(cand_json, indent=1)}"
+    user = (
+        f"Request: {query}\n"
+        f"Prices are in {source_currency}; user region: {region.code} ({region.currency}). "
+        "You may mention converted prices in the user's currency.\n"
+        f"Constraints: {constraints.describe()}\n"
+        f"Candidates:\n{json.dumps(cand_json, indent=1)}"
+    )
 
     fallback_ranked = [p for _, p in scored]
     exc: Exception | None = None

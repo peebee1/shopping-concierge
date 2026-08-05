@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from typing import Protocol
 
 from .catalog import CATEGORY_SYNONYMS, Product
+from .region import Region, convert, from_code, default as default_region
 
 # Feature-ish terms often present in shopping queries, matched against name+specs.
 _FEATURE_KEYWORDS = [
@@ -61,11 +62,38 @@ _SPEC_VALUE_ALIASES: dict[str, dict[str, set[str]]] = {
     "portable": {"type": {"portable", "party"}},
 }
 
+_AMOUNT = r"([\d,]+(?:\.\d+)?)"
+_SYMBOL_CUR = r"(₹|€|£|¥|\$|usd|inr|eur|gbp|jpy)"
+_WORD_CUR = r"(rupees?|euros?|pounds?|yen|dollars?|usd|inr|eur|gbp|jpy)"
 _BUDGET_PATTERNS = [
-    (r"(?:under|below|less than|max|maximum|budget(?:\s+of)?|within)\s*(?:usd|us\$|\$)?\s*(\d+(?:\.\d+)?)", "max"),
-    (r"(?:over|above|more than|min|minimum|at least)\s*(?:usd|us\$|\$)?\s*(\d+(?:\.\d+)?)", "min"),
-    (r"between\s*(?:usd|us\$|\$)?\s*(\d+(?:\.\d+)?)\s*(?:usd|us\$|\$)?\s*(?:and|to|-)\s*(?:usd|us\$|\$)?\s*(\d+(?:\.\d+)?)", "range"),
+    (
+        rf"(?:under|below|less than|max(?:imum)?|budget(?:\s+of)?|within)"
+        rf"\s*(?:{_SYMBOL_CUR}\s*)?{_AMOUNT}(?:\s*{_WORD_CUR})?",
+        "max",
+    ),
+    (
+        rf"(?:over|above|more than|min(?:imum)?|at least)"
+        rf"\s*(?:{_SYMBOL_CUR}\s*)?{_AMOUNT}(?:\s*{_WORD_CUR})?",
+        "min",
+    ),
+    (
+        rf"between\s*(?:{_SYMBOL_CUR}\s*)?{_AMOUNT}\s*(?:and|to|-)\s*"
+        rf"(?:{_SYMBOL_CUR}\s*)?{_AMOUNT}(?:\s*{_WORD_CUR})?",
+        "range",
+    ),
 ]
+
+_CURRENCY_LOOKUP = {
+    "₹": "INR", "€": "EUR", "£": "GBP", "¥": "JPY", "$": "USD",
+    "usd": "USD", "inr": "INR", "eur": "EUR", "gbp": "GBP", "jpy": "JPY",
+    "rupee": "INR", "rupees": "INR", "euro": "EUR", "euros": "EUR",
+    "pound": "GBP", "pounds": "GBP", "yen": "JPY", "dollar": "USD", "dollars": "USD",
+}
+
+
+def _currency_of(symbol: str | None, word: str | None) -> str | None:
+    cur = symbol or word
+    return _CURRENCY_LOOKUP.get(cur.lower()) if cur else None
 
 
 @dataclass
@@ -96,24 +124,38 @@ class Constraints:
         return "; ".join(parts) if parts else "no explicit constraints"
 
 
-def parse_constraints_rule_based(query: str) -> Constraints:
+def parse_constraints_rule_based(query: str, region: Region | None = None, source_currency: str = "USD") -> Constraints:
     """Keyword/regex constraint extraction — used by MockLLM and as the
-    fallback when a real LLM call fails."""
+    fallback when a real LLM call fails.
+
+    Budgets may carry any supported currency (₹, €, £, ¥, $, words); amounts
+    are converted to the catalog's source currency. Amounts with no stated
+    currency are assumed to be in the region's currency when it differs from
+    the source (a German user's "under 100" means €100), else the source
+    currency.
+    """
     q = query.lower()
     c = Constraints(query=query)
+    region = region or default_region()
 
     # Budgets
     for pattern, kind in _BUDGET_PATTERNS:
         m = re.search(pattern, q)
-        if m and kind == "range":
-            c.min_price, c.max_price = float(m.group(1)), float(m.group(2))
+        if not m:
+            continue
+        if kind == "range":
+            cur = _currency_of(m.group(1), None) or _currency_of(m.group(3), m.group(5))
+            lo = _to_source_currency(float(m.group(2).replace(",", "")), cur, region, source_currency)
+            hi = _to_source_currency(float(m.group(4).replace(",", "")), cur, region, source_currency)
+            c.min_price, c.max_price = lo, hi
             break
-        if m and kind == "max":
-            c.max_price = float(m.group(1))
-            break
-        if m and kind == "min":
-            c.min_price = float(m.group(1))
-            break
+        cur = _currency_of(m.group(1), m.group(3))
+        value = _to_source_currency(float(m.group(2).replace(",", "")), cur, region, source_currency)
+        if kind == "max":
+            c.max_price = value
+        else:
+            c.min_price = value
+        break
 
     # Categories: word-boundary match ("mic" must not match inside "ergonomic"),
     # and pick the category whose synonym appears EARLIEST in the query —
@@ -135,16 +177,40 @@ def parse_constraints_rule_based(query: str) -> Constraints:
     return c
 
 
-def extract_constraints(query: str, llm: ConstraintExtractor, known_categories: list[str], known_brands: list[str]) -> Constraints:
+def _to_source_currency(amount: float, currency: str | None, region: Region, source_currency: str) -> float:
+    """Convert a budget amount into the catalog's source currency."""
+    if currency is None:
+        # No stated currency: assume the region's currency when it differs
+        # from the source, else the source currency.
+        currency = region.currency if region.currency != source_currency else source_currency
+    if currency == source_currency:
+        return amount
+    return convert(amount, currency, source_currency)
+
+
+def extract_constraints(
+    query: str,
+    llm: ConstraintExtractor,
+    known_categories: list[str],
+    known_brands: list[str],
+    region: Region | None = None,
+    source_currency: str = "USD",
+) -> Constraints:
     """LLM-first constraint extraction with a rule-based fallback."""
+    region = region or default_region()
     try:
         cats = ", ".join(known_categories) or "any"
         brands = ", ".join(known_brands) or "any"
         system = (
+            f"REGION: {region.code}\nSOURCE_CURRENCY: {source_currency}\n"
             "TASK: constraints\n"
+            f"Catalog prices are in {source_currency}. The user is in {region.country} "
+            f"({region.currency}). Budget amounts in the request are in the user's "
+            f"currency — return max_price/min_price converted to {source_currency}.\n"
             "Extract shopping constraints from the user request into strict JSON. "
             "Return ONLY a JSON object with keys: "
-            '"max_price" (number or null, USD), "min_price" (number or null, USD), '
+            '"max_price" (number or null, in ' + source_currency + '), '
+            '"min_price" (number or null, in ' + source_currency + '), '
             '"categories" (array of strings, from this list if any: ' + cats + '), '
             '"must_keywords" (array of lowercase feature/spec terms the user explicitly requires, '
             'e.g. "hot-swap", "wireless", "rgb", "anc", "4k", "144hz"), '
@@ -166,7 +232,7 @@ def extract_constraints(query: str, llm: ConstraintExtractor, known_categories: 
         return c
     except Exception:
         # Rule-based fallback (also what MockLLM uses)
-        return parse_constraints_rule_based(query)
+        return parse_constraints_rule_based(query, region=region, source_currency=source_currency)
 
 
 def _clean_keywords(items) -> list[str]:

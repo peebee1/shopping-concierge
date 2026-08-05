@@ -15,6 +15,7 @@
     {"query": "laptop with 16 GB RAM under $1200", "max_price": 1200, "categories": ["laptop"], "must_keywords": ["16 gb"]},
     {"query": "mechanical keyboard with rgb backlight under $90", "max_price": 90, "categories": ["mechanical_keyboard"], "must_keywords": ["mechanical", "rgb"]},
     {"query": "smartwatch with touchscreen under $200", "max_price": 200, "categories": ["smartwatch"], "must_keywords": ["touchscreen"], "expect_none": true},
-    {"query": "smart fridge under $100", "max_price": 100, "expect_none": true}
+    {"query": "smart fridge under $100", "max_price": 100, "expect_none": true},
+    {"query": "wireless mouse under ₹4000", "max_price": 48.0, "categories": ["mouse"], "must_keywords": ["wireless"], "region": "IN"}
   ]
 }

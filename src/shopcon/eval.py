@@ -32,6 +32,7 @@ from pathlib import Path
 from .catalog import Product, load_catalog
 from .llm import LLM, LLMError, MockLLM, OpenAICompatLLM
 from .pipeline import RecommendationResult, recommend
+from .region import from_code
 from .retrieval import _keyword_hits, _normalize
 
 DEFAULT_QUERIES = Path(__file__).resolve().parent.parent.parent / "data" / "eval_queries.json"
@@ -68,6 +69,7 @@ class EvalQuery:
     categories: list[str] = field(default_factory=list)
     must_keywords: list[str] = field(default_factory=list)
     expect_none: bool = False
+    region: str | None = None
 
     @classmethod
     def from_dict(cls, d: dict) -> "EvalQuery":
@@ -78,6 +80,7 @@ class EvalQuery:
             categories=list(d.get("categories") or []),
             must_keywords=[str(k).lower() for k in (d.get("must_keywords") or [])],
             expect_none=bool(d.get("expect_none")),
+            region=d.get("region"),
         )
 
     def expected(self) -> dict:
@@ -87,6 +90,7 @@ class EvalQuery:
             "categories": self.categories,
             "must_keywords": self.must_keywords,
             "expect_none": self.expect_none,
+            "region": self.region,
         }
 
 
@@ -144,7 +148,7 @@ class QueryResult:
 def run_query(q: EvalQuery, products: list[Product], llm: LLM, top_n: int = 5) -> tuple[QueryResult, RecommendationResult]:
     before = (llm.calls, dict(llm.usage))
     t0 = time.monotonic()
-    result = recommend(q.query, products, llm, top_n=top_n)
+    result = recommend(q.query, products, llm, top_n=top_n, region=from_code(q.region))
     seconds = time.monotonic() - t0
     calls = llm.calls - before[0]
     used = {k: llm.usage[k] - before[1][k] for k in before[1]}
