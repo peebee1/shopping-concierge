@@ -69,7 +69,15 @@ export SHOPCON_BASE_URL=             # optional, e.g. https://api.openai.com/v1
 export SHOPCON_MODEL=gpt-4o-mini     # cheap flash-tier model recommended
 ```
 
-Or copy `.env.example` → `.env`. The CLI also supports `--mock`, `--json`, `--top N`, `--quiet`.
+Or copy `.env.example` → `.env`. The CLI also supports `--mock`, `--json`, `--top N`, `--quiet`, and `--catalog <source>`.
+
+Want live data instead of the bundled synthetic catalog?
+
+```bash
+uv run shopcon "external hard drive under $100" --catalog fakestore
+```
+
+FakeStoreAPI is a real, keyless REST commerce API — see "Catalog sources" below.
 
 ### Web playground
 
@@ -78,18 +86,53 @@ uv run uvicorn shopcon.server:app --port 8000
 # open http://localhost:8000
 ```
 
-## Data
+## Catalog sources (LLM-agnostic)
 
-The bundled `data/catalog.json` is **synthetic** — 243 invented products across 9 categories (keyboards, laptops, headphones, monitors, mice, webcams, speakers, smartwatches, microphones), generated with a fixed seed so the repo is deterministic and free of scraping/ToS concerns.
+The catalog layer is **fully LLM-agnostic** — it never imports or talks to the LLM layer (a test enforces this: importing `catalog`/`sources`/`retrieval` never pulls in `shopcon.llm`). Product data comes from pluggable *sources*; pick one with `--catalog` (CLI) or `SHOPCON_CATALOG` (server):
 
-Point the tool at real data by replacing `data/catalog.json` (shape documented in `shopcon/catalog.py`), or extend `Catalog` with a live adapter — see Roadmap.
+| Source | Spec | Notes |
+|--------|------|-------|
+| Synthetic (default) | `synthetic` or omit | 243 invented products, 9 categories, seeded + deterministic, offline |
+| JSON file | `path/to/catalog.json` | same schema `save_catalog` writes — drop in real data |
+| JSON URL | `https://...` | any endpoint returning the catalog schema |
+| FakeStoreAPI (live) | `fakestore` | real REST commerce API, no key — 20 live products |
+
+```bash
+$ shopcon "external hard drive under 100" --catalog fakestore
+Catalog: fakestore (20 products)
+Picks (1):
+| 1 | **WD 2TB Elements Portable External Hard Drive - USB 3.0** | $64.00 | ... |
+**Summary:** The best pick is the WD 2TB Elements ... fits all your stated requirements: external, hard drive, electronics, and under $100 ...
+```
+
+When nothing genuinely matches, the agent **says so instead of padding the list** — retrieval records what it relaxed in the trace (`relaxed constraints: keywords`), and the LLM verdict names the gap (e.g. "no Bluetooth speaker under $100 exists in this catalog").
+
+### Custom source
+
+Any class with `name` + `load() -> list[Product]` works; register it in `catalog.resolve_source`. Example (Best Buy API):
+
+```python
+# sources.py
+class BestBuySource:
+    name = "bestbuy"
+
+    def load(self) -> list[Product]:
+        resp = httpx.get("https://api.bestbuy.com/v1/products", params={...})
+        return [
+            Product(id=p["sku"], name=p["name"], brand="", category="electronics",
+                    price=float(p["salePrice"]), specs={"description": p.get("shortDescription", "")})
+            for p in resp.json()["products"]
+        ]
+```
+
+The pipeline, CLI, and server never change — they only ever see `list[Product]`.
 
 ## Roadmap
 
 - [x] Understand → Retrieve → Rank pipeline with trace
 - [x] Deterministic mock LLM (keyless runs, testable)
 - [x] CLI + FastAPI playground
-- [ ] Live catalog adapter (Best Buy / open APIs)
+- [x] Live catalog adapter (FakeStoreAPI keyless, JSON file/URL, custom sources pluggable)
 - [ ] Evaluation harness: held-out queries scored by a judge LLM
 - [ ] Human-in-the-loop: confirm before "purchasing" (see sibling project ideas)
 - [ ] Price-alert agent loop on top of the ranker
@@ -98,9 +141,10 @@ Point the tool at real data by replacing `data/catalog.json` (shape documented i
 
 ```
 src/shopcon/
-  catalog.py     Product model + synthetic sample catalog (seeded)
+  catalog.py     Product model + source registry (LLM-agnostic)
+  sources.py     Pluggable catalog sources: synthetic, JSON file/URL, FakeStoreAPI
   llm.py         OpenAI-compatible client + deterministic MockLLM
-  retrieval.py   constraint parsing + deterministic catalog scoring
+  retrieval.py   constraint parsing + deterministic catalog scoring (LLM-agnostic)
   pipeline.py    understand -> retrieve -> rank (+ trace)
   cli.py         terminal UI
   server.py      FastAPI app

@@ -1,18 +1,29 @@
-"""Minimal FastAPI server: POST /recommend (JSON) + a small HTML playground at /."""
+"""Minimal FastAPI server: POST /recommend (JSON) + a small HTML playground at /.
+
+Catalog source is configurable via the SHOPCON_CATALOG env var
+(synthetic | fakestore | path/to.json | https://...). Defaults to the
+bundled data/catalog.json (auto-generated on first run).
+"""
 
 from __future__ import annotations
+
+import os
 
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
-from .catalog import DEFAULT_CATALOG, load_catalog
+from .catalog import load_catalog
 from .llm import MockLLM, OpenAICompatLLM
 from .pipeline import recommend
+from .sources import CatalogError, SyntheticSource
 
 app = FastAPI(title="Shopping Concierge", version="0.1.0")
 
-_products = load_catalog(DEFAULT_CATALOG)
+try:
+    _products = load_catalog(os.environ.get("SHOPCON_CATALOG"))
+except CatalogError:
+    _products = SyntheticSource().load()
 try:
     _llm = OpenAICompatLLM()
 except Exception:

@@ -6,7 +6,7 @@ import argparse
 import json
 import sys
 
-from .catalog import DEFAULT_CATALOG, load_catalog
+from .catalog import resolve_source
 from .llm import LLM, LLMError, MockLLM, OpenAICompatLLM
 from .pipeline import recommend, spec_keys_for
 
@@ -28,13 +28,18 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("query", help='e.g. "hot-swap mechanical keyboard under $100"')
     parser.add_argument("--top", type=int, default=5, help="how many picks to show (default 5)")
-    parser.add_argument("--catalog", default=str(DEFAULT_CATALOG), help="path to catalog JSON (generated if missing)")
+    parser.add_argument(
+        "--catalog",
+        default=None,
+        help="catalog source: synthetic | fakestore | path/to.json | https://... (default: data/catalog.json, auto-generated)",
+    )
     parser.add_argument("--mock", action="store_true", help="force the deterministic mock LLM (no API key)")
     parser.add_argument("--json", action="store_true", help="print full result as JSON")
     parser.add_argument("--quiet", action="store_true", help="skip the trace output")
     args = parser.parse_args(argv)
 
-    products = load_catalog(args.catalog)
+    src = resolve_source(args.catalog)
+    products = src.load()
     llm, using_mock = _make_llm(args.mock)
     if using_mock and not args.quiet:
         print("note: using mock LLM (set SHOPCON_API_KEY for real ranking)", file=sys.stderr)
@@ -46,6 +51,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     print(f"\nQuery: {result.query}")
+    print(f"Catalog: {src.name} ({len(products)} products)")
     print(f"Picks ({len(result.ranked)}):\n")
     if result.ranked:
         header = "| # | Product | Price | Rating | Key specs | Why this one |"

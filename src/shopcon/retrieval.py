@@ -9,9 +9,9 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
+from typing import Protocol
 
 from .catalog import CATEGORY_SYNONYMS, Product
-from .llm import LLM
 
 # Feature-ish terms often present in shopping queries, matched against name+specs.
 _FEATURE_KEYWORDS = [
@@ -20,6 +20,17 @@ _FEATURE_KEYWORDS = [
     "bluetooth", "usb-c", "usb c", "ergonomic", "gaming", "lightweight", "silent",
     "touchscreen", "tactile", "linear", "macbook", "hdr", "ultrawide", "waterproof",
 ]
+
+
+class ConstraintExtractor(Protocol):
+    """Anything with an LLM-style ``complete_json``.
+
+    Declared here instead of importing the LLM module so retrieval (and the
+    whole catalog side) stays LLM-agnostic — the mock LLM, any OpenAI-
+    compatible client, or a future provider all satisfy this protocol.
+    """
+
+    def complete_json(self, system: str, user: str, temperature: float = 0.2) -> dict: ...
 
 _BUDGET_PATTERNS = [
     (r"(?:under|below|less than|max|maximum|budget(?:\s+of)?|within)\s*(?:usd|us\$|\$)?\s*(\d+(?:\.\d+)?)", "max"),
@@ -89,7 +100,7 @@ def parse_constraints_rule_based(query: str) -> Constraints:
     return c
 
 
-def extract_constraints(query: str, llm: LLM, known_categories: list[str], known_brands: list[str]) -> Constraints:
+def extract_constraints(query: str, llm: ConstraintExtractor, known_categories: list[str], known_brands: list[str]) -> Constraints:
     """LLM-first constraint extraction with a rule-based fallback."""
     try:
         cats = ", ".join(known_categories) or "any"
