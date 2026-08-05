@@ -130,6 +130,40 @@ class BestBuySource:
 
 The pipeline, CLI, and server never change — they only ever see `list[Product]`.
 
+## Crawling your own catalog
+
+The concierge doesn't need a pre-built catalog: `shopcon-crawl` builds one from any website on its own.
+
+```
+website → robots.txt + sitemap.xml → fetch pages → extract (JSON-LD → og:meta
+        → heuristics → optional LLM) → upsert catalog.json → query it
+```
+
+```bash
+# 1. crawl — real products from a real store (polite: robots.txt, 0.3s delay, UA header)
+uv run shopcon-crawl "https://www.vermontcountrystore.com" --out data/vermont.json \
+    --max-urls 100 --max-products 8
+
+# 2. query the crawled catalog like any other source
+uv run shopcon "cotton slip or tights under 40" --catalog data/vermont.json
+```
+
+```
+Catalog: json (8 products) · USD · region US (USD) · data as of 2026-08-05 20:53 UTC (fresh, 1m old)
+| 1 | Woven Cotton Broadcloth Half-Slip | $24.95 | medium (0.70) | This cotton half-slip directly matches ... |
+Verification (live re-check of top picks):
+  ✓ crawl-0eeb77555988 — unchanged ($24.95)
+```
+
+How it stays honest:
+
+- **Discovery** — respects robots.txt, follows sitemap indexes (product sitemaps first), skips blocklisted non-product paths (`/about`, `/login`, `/category`...).
+- **Extraction, in order** — schema.org JSON-LD (one product per Product node; an offers list = variants, not 18 copies), then `og:` meta tags, then h1+price **only on pages that look like product pages** (add-to-cart/sku markers — a "$75 free shipping" banner must not become a product), then optional LLM extraction (`--llm`) for pages with no structured data.
+- **Idempotent ingest** — ids are derived from the product URL, so re-crawling updates prices instead of duplicating rows; the resulting file plugs into the verification stage (re-read = live price check).
+- **Legal** — crawl only sites whose terms allow it; the crawler is polite by default (rate limit, identifiable User-Agent, robots.txt).
+
+Run it on any site with a sitemap; extraction quality depends on the site's structured data (JSON-LD sites work best).
+
 ## Evidence & provenance (the trust layer)
 
 Every answer carries three things, computed deterministically (zero LLM calls):
@@ -206,6 +240,7 @@ The harness has already paid for itself — it caught, in order: keyword matchin
 - [x] Evaluation harness: 13 held-out queries, behavior metrics + judge LLM + cost report
 - [x] Evidence & provenance: data_as_of, freshness labels, per-pick confidence, live price verification
 - [x] Regions & currencies: 3-layer resolution, budget conversion (₹/€/£/¥), dual-currency display
+- [x] Website crawler: robots+sitemap discovery, JSON-LD/meta/heuristic/LLM extraction, idempotent upsert
 - [ ] Price-correlated synthetic catalog (premium specs cluster at higher prices — currently random)
 - [ ] Human-in-the-loop: confirm before "purchasing" (see sibling project ideas)
 - [ ] Price-alert agent loop on top of the ranker
@@ -221,6 +256,7 @@ src/shopcon/
   pipeline.py    understand -> retrieve -> rank -> verify (+ trace, honesty rule)
   verification.py freshness, per-pick verification results, confidence heuristic
   region.py      regions, currencies, FX (static rates + optional live refresh)
+  crawl.py       website crawler: sitemap discovery, extraction, idempotent ingest
   eval.py        evaluation harness: held-out queries, metrics, judge, report
   cli.py         terminal UI
   server.py      FastAPI app

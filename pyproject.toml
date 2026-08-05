@@ -14,6 +14,7 @@ dependencies = [
 [project.scripts]
 shopcon = "shopcon.cli:main"
 shopcon-eval = "shopcon.eval:main"
+shopcon-crawl = "shopcon.crawl:main"
 
 [dependency-groups]
 dev = ["pytest>=8.0"]

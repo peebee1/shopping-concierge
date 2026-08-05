@@ -193,7 +193,15 @@ class SyntheticSource:
                     )
                 )
         if self.save_to:
-            save_catalog(products, self.save_to)
+            save_catalog(
+                products,
+                self.save_to,
+                meta={
+                    "synthetic": True,
+                    "note": "SYNTHETIC sample data - invented brands/products for demo purposes. Replace with a real catalog.",
+                    "generated_by": "shopcon.sources.SyntheticSource",
+                },
+            )
         return products
 
     def verify(self, products: list[Product]) -> dict[str, VerificationResult]:

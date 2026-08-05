@@ -1,0 +1,124 @@
+{
+  "_meta": {
+    "generated_by": "shopcon.crawl",
+    "count": 8,
+    "synthetic": false,
+    "source": "crawl",
+    "currency": "USD",
+    "note": "Crawled from a live website \u2014 see product URLs. Re-crawl to refresh prices."
+  },
+  "products": [
+    {
+      "id": "crawl-0eeb77555988",
+      "name": "Woven Cotton Broadcloth Half-Slip",
+      "brand": "Vermont Country Store",
+      "category": "scraped",
+      "price": 24.95,
+      "specs": {
+        "description": "This Hard-to-Find Half-Slip Is a Dream to Wear in Lightweight Cotton Broadcloth",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/woven-cotton-broadcloth-half-slip/product/14930"
+    },
+    {
+      "id": "crawl-1ae068b6820e",
+      "name": "Smooth Cotton-Rich Tights",
+      "brand": "Vermont Country Store",
+      "category": "scraped",
+      "price": 26.95,
+      "specs": {
+        "description": "We Found Extra-Soft Tights That Keep Their Shape and Won't Pinch or Sag",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/smooth-cotton-rich-tights/product/16761"
+    },
+    {
+      "id": "crawl-524a7fcd7f51",
+      "name": "Thinskins\u00ae Long-Sleeve V-Neck Top",
+      "brand": "Thinskins",
+      "category": "scraped",
+      "price": 34.95,
+      "specs": {
+        "description": "Dual Layer Long Underwear Top: A Year-Round Favorite With Warm Cotton Inside and Silky-Smooth Nylon Outside",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/thinskins-reg-long-sleeve-v-neck-top/product/14761"
+    },
+    {
+      "id": "crawl-618729375e11",
+      "name": "Women's Thinskins\u00ae Long Underwear Bottoms",
+      "brand": "Thinskins",
+      "category": "scraped",
+      "price": 34.95,
+      "specs": {
+        "description": "Dual-Lay Long Underwear Bottoms Add a Layer of Warmth Under Ski Pants, Jeans, and More-Without Added Bulk",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/womens-thinskins-reg-long-underwear-bottoms/product/14762"
+    },
+    {
+      "id": "crawl-68f1f7f1fd16",
+      "name": "Boroleum Ointment",
+      "brand": "Boroleum",
+      "category": "scraped",
+      "price": 12.95,
+      "specs": {
+        "description": "Tried-and True Boroleum Ointment Helps Relieve Nasal Soreness",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/boroleum-ointment/product/16054"
+    },
+    {
+      "id": "crawl-70e385723509",
+      "name": "Latex-Free Cotton Cup Wireless Bra",
+      "brand": "Vermont Country Store",
+      "category": "scraped",
+      "price": 34.95,
+      "specs": {
+        "description": "For the Ultimate in Comfort, Try Our Certified Latex-Free Support Bra With Cotton Cups",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/latex-free-cotton-cup-wireless-bra/product/15549"
+    },
+    {
+      "id": "crawl-a1033e5aae6b",
+      "name": "Miracle Foot Repair Cream",
+      "brand": "Miracle of Aloe",
+      "category": "scraped",
+      "price": 14.95,
+      "specs": {
+        "description": "Cracked, Dry, Itchy Feet Have Met Their Match: Miracle Foot Repair with 60% Aloe Vera Gel",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/miracle-foot-repair-cream/product/17806"
+    },
+    {
+      "id": "crawl-ff32621dbd68",
+      "name": "Woven Cotton Batiste Culotte Slip",
+      "brand": "Vermont Country Store",
+      "category": "scraped",
+      "price": 26.95,
+      "specs": {
+        "description": "This Hard-to-Find Culotte Slip Is a Dream to Wear in Lightweight Cotton Batiste",
+        "availability": "in stock"
+      },
+      "rating": 0.0,
+      "review_count": 0,
+      "url": "https://www.vermontcountrystore.com/woven-cotton-batiste-culotte-slip/product/16072"
+    }
+  ]
+}

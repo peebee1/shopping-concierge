@@ -73,19 +73,21 @@ class Product:
         return ", ".join(parts) if parts else "-"
 
 
-def save_catalog(products: list[Product], path: Path | str) -> None:
-    """Write products to a JSON file in the catalog schema."""
+def save_catalog(products: list[Product], path: Path | str, meta: dict | None = None) -> None:
+    """Write products to a JSON file in the catalog schema.
+
+    ``meta`` keys override the defaults in ``_meta`` (e.g. crawl sources set
+    ``synthetic: False`` and their own ``source``/``currency``).
+    """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = {
-        "_meta": {
-            "synthetic": True,
-            "note": "SYNTHETIC sample data - invented brands/products for demo purposes. Replace with a real catalog.",
-            "generated_by": "shopcon.sources.SyntheticSource",
-            "count": len(products),
-        },
-        "products": [asdict(p) for p in products],
+    defaults: dict = {
+        "generated_by": "shopcon.catalog.save_catalog",
+        "count": len(products),
     }
+    if meta:
+        defaults.update(meta)
+    payload = {"_meta": defaults, "products": [asdict(p) for p in products]}
     path.write_text(json.dumps(payload, indent=2))
 
 
