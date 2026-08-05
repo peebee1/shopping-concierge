@@ -13,11 +13,12 @@ it did (transparency is the point of the demo).
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .catalog import CATEGORY_SPEC_KEYS, Product
 from .llm import LLM, LLMError
-from .retrieval import Constraints, extract_constraints, retrieve
+from .retrieval import Constraints, _keyword_hits, _normalize, extract_constraints, retrieve
+from .verification import freshness_line, verification_notes
 
 
 @dataclass
@@ -25,6 +26,8 @@ class RankedItem:
     product: Product
     rank: int
     rationale: str
+    confidence: float = 0.0
+    confidence_label: str = ""
 
 
 @dataclass
@@ -36,6 +39,9 @@ class RecommendationResult:
     summary: str
     trace: list[str]
     model: str
+    data_as_of: str | None = None
+    freshness: str | None = None
+    verifications: dict[str, dict] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return {
@@ -51,12 +57,21 @@ class RecommendationResult:
             },
             "candidates": [p.__dict__ for p in self.candidates],
             "ranked": [
-                {"rank": r.rank, **r.product.__dict__, "rationale": r.rationale}
+                {
+                    "rank": r.rank,
+                    **r.product.__dict__,
+                    "rationale": r.rationale,
+                    "confidence": r.confidence,
+                    "confidence_label": r.confidence_label,
+                }
                 for r in self.ranked
             ],
             "summary": self.summary,
             "trace": self.trace,
             "model": self.model,
+            "data_as_of": self.data_as_of,
+            "freshness": self.freshness,
+            "verifications": self.verifications,
         }
 
 
@@ -66,6 +81,8 @@ def recommend(
     llm: LLM,
     top_n: int = 5,
     candidate_pool: int = 8,
+    source=None,
+    verify_n: int = 3,
 ) -> RecommendationResult:
     trace: list[str] = []
 
@@ -87,14 +104,44 @@ def recommend(
     # none of the ranked picks satisfy any of them, return an empty shortlist
     # instead of padding with irrelevant products.
     if "keywords" in constraints.relaxed and constraints.must_keywords:
-        from .retrieval import _keyword_hits
-
         satisfying = [r for r in ranked if _keyword_hits(r.product, constraints.must_keywords)]
         if not satisfying:
             ranked = []
             trace.append("no product matches the requested features — returned an honest empty shortlist")
             if not any(m in summary.lower() for m in ("none of", "no products", "no valid", "does not", "no match", "nothing")):
                 summary = f"No products in the catalog match your request ('{query}'). Nothing recommended — no padding."
+
+    # Confidence: deterministic heuristic (no LLM call).
+    for r in ranked:
+        r.confidence = round(_confidence(r.product, constraints), 2)
+        r.confidence_label = "high" if r.confidence >= 0.8 else ("medium" if r.confidence >= 0.6 else "low")
+
+    # 4) verify: evidence & provenance
+    as_of = getattr(source, "as_of", None) if source is not None else None
+    data_as_of = as_of.isoformat() if as_of else None
+    freshness = freshness_line(as_of) if as_of else None
+    verifications: dict[str, dict] = {}
+    if source is not None and verify_n > 0 and ranked and hasattr(source, "verify"):
+        try:
+            results = source.verify([r.product for r in ranked[:verify_n]]) or {}
+        except Exception as exc:  # noqa: BLE001 - a verification failure must not break the answer
+            trace.append(f"live verification failed: {exc}")
+            results = {}
+        verifications = {k: v.to_dict() for k, v in results.items()}
+        if results:
+            changed = [v for v in results.values() if v.status == "changed"]
+            if changed:
+                detail = "; ".join(f"{v.product_id} ${v.price_before:.2f}→${v.price_after:.2f}" for v in changed)
+                trace.append(f"verified {len(results)} pick(s) live: {len(changed)} price change(s) — {detail}")
+            else:
+                trace.append(f"verified {len(results)} pick(s) live: prices unchanged")
+            notes = verification_notes(results)
+            if notes:
+                summary = f"{summary}\n\n{notes}"
+        else:
+            trace.append("live verification unavailable")
+    elif source is not None and ranked and verify_n > 0:
+        trace.append("source does not support live verification")
 
     return RecommendationResult(
         query=query,
@@ -104,7 +151,26 @@ def recommend(
         summary=summary,
         trace=trace,
         model=llm.name,
+        data_as_of=data_as_of,
+        freshness=freshness,
+        verifications=verifications,
     )
+
+
+def _confidence(p: Product, constraints: Constraints) -> float:
+    """Deterministic confidence heuristic: how strongly does this pick satisfy
+    the extracted constraints? 0..1 (no LLM involved)."""
+    must = list(constraints.must_keywords)
+    if must:
+        matched = {_normalize(h) for h in _keyword_hits(p, must)}
+        expected = {_normalize(k) for k in must}
+        must_ratio = len(matched & expected) / len(expected)
+    else:
+        must_ratio = 1.0
+    budget = 1.0 if constraints.max_price is None or p.price <= constraints.max_price else 0.5
+    cat_ok = 1.0 if not constraints.categories or p.category in constraints.categories else 0.6
+    rating = max(0.0, min(1.0, (p.rating - 3.0) / 2.0))
+    return 0.45 * must_ratio + 0.25 * budget + 0.15 * cat_ok + 0.15 * rating
 
 
 def _cats(products: list[Product]) -> list[str]:

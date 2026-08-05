@@ -34,6 +34,7 @@ def main(argv: list[str] | None = None) -> int:
         help="catalog source: synthetic | fakestore | path/to.json | https://... (default: data/catalog.json, auto-generated)",
     )
     parser.add_argument("--mock", action="store_true", help="force the deterministic mock LLM (no API key)")
+    parser.add_argument("--verify", type=int, default=3, help="live-verify the top N picks against the source (0 disables)")
     parser.add_argument("--json", action="store_true", help="print full result as JSON")
     parser.add_argument("--quiet", action="store_true", help="skip the trace output")
     args = parser.parse_args(argv)
@@ -44,18 +45,18 @@ def main(argv: list[str] | None = None) -> int:
     if using_mock and not args.quiet:
         print("note: using mock LLM (set SHOPCON_API_KEY for real ranking)", file=sys.stderr)
 
-    result = recommend(args.query, products, llm, top_n=args.top)
+    result = recommend(args.query, products, llm, top_n=args.top, source=src, verify_n=args.verify)
 
     if args.json:
         print(json.dumps(result.to_dict(), indent=2))
         return 0
 
     print(f"\nQuery: {result.query}")
-    print(f"Catalog: {src.name} ({len(products)} products)")
+    print(f"Catalog: {src.name} ({len(products)} products)" + (f" · {result.freshness}" if result.freshness else ""))
     print(f"Picks ({len(result.ranked)}):\n")
     if result.ranked:
-        header = "| # | Product | Price | Rating | Key specs | Why this one |"
-        sep = "|---|---------|-------|--------|-----------|--------------|"
+        header = "| # | Product | Price | Rating | Key specs | Conf | Why this one |"
+        sep = "|---|---------|-------|--------|-----------|------|--------------|"
         rows = []
         for item in result.ranked:
             p = item.product
@@ -63,8 +64,24 @@ def main(argv: list[str] | None = None) -> int:
             specs = p.spec_line(spec_keys_for(p))
             if len(specs) > 60:
                 specs = specs[:57] + "..."
-            rows.append(f"| {item.rank} | **{p.name}** | {price} | {p.rating} ({p.review_count}) | {specs} | {item.rationale} |")
+            rows.append(
+                f"| {item.rank} | **{p.name}** | {price} | {p.rating} ({p.review_count}) | {specs} "
+                f"| {item.confidence_label} ({item.confidence:.2f}) | {item.rationale} |"
+            )
         print("\n".join([header, sep] + rows))
+
+    if result.verifications:
+        icons = {"verified": "✓", "changed": "⚠", "unavailable": "✗", "unverifiable": "–"}
+        print(f"\nVerification (live re-check of top picks):")
+        for vid, v in result.verifications.items():
+            if v["status"] == "changed":
+                print(f"  ⚠ {vid} — price changed: ${v['price_before']:.2f} → ${v['price_after']:.2f}")
+            elif v["status"] == "verified":
+                print(f"  ✓ {vid} — unchanged (${v['price_after']:.2f})")
+            else:
+                print(f"  {icons.get(v['status'], '·')} {vid} — {v['note']}")
+        print()
+
     print(f"\n**Summary:** {result.summary}\n")
 
     if not args.quiet:

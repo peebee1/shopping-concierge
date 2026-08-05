@@ -44,13 +44,16 @@ Most "agentic shopping" repos glue an LLM onto a scraper and call it a day. This
 | 1. Understand | LLM turns the query into structured constraints (budget, category, must-have features) | 1 call |
 | 2. Retrieve | Deterministic scoring over the catalog — price fit, keyword match, rating, popularity | **0 calls** |
 | 3. Rank | LLM orders the top 8 candidates and writes a rationale + verdict per pick | 1 call |
+| 4. Verify | Re-check top picks against the live source (price diff) + freshness label + confidence | **0 LLM calls** |
 
 So a full recommendation costs **2 LLM calls** — cheap flash-tier models work great (default is `gpt-4o-mini`, any OpenAI-compatible endpoint works).
 
 The two "agentic" properties people care about are built in:
 
 - **Judgment** — the LLM decides what the user actually meant (is "hot-swap" a hard requirement? does $100 include tax?) and why one product beats another.
-- **Transparency** — the trace shows the extracted constraints, what was retrieved, and what got relaxed when nothing matched (e.g. impossible budget). No black box.
+- **Transparency** — the trace shows the extracted constraints, what was retrieved, what got relaxed when nothing matched, and what was verified live. No black box.
+
+The catalog layer is **fully LLM-agnostic** — it never imports or talks to the LLM layer (a test enforces this). Sources, retrieval, and verification all work with any LLM — or none (mock).
 
 ## Quickstart
 
@@ -69,7 +72,7 @@ export SHOPCON_BASE_URL=             # optional, e.g. https://api.openai.com/v1
 export SHOPCON_MODEL=gpt-4o-mini     # cheap flash-tier model recommended
 ```
 
-Or copy `.env.example` → `.env`. The CLI also supports `--mock`, `--json`, `--top N`, `--quiet`, and `--catalog <source>`.
+Or copy `.env.example` → `.env`. The CLI also supports `--mock`, `--json`, `--top N`, `--quiet`, `--verify N` (live re-check depth, 0 disables), and `--catalog <source>`.
 
 Want live data instead of the bundled synthetic catalog?
 
@@ -127,6 +130,24 @@ class BestBuySource:
 
 The pipeline, CLI, and server never change — they only ever see `list[Product]`.
 
+## Evidence & provenance (the trust layer)
+
+Every answer carries three things, computed deterministically (zero LLM calls):
+
+- **Freshness** — the source records `data_as_of` (file mtime, HTTP Last-Modified, or fetch time). The CLI/API show `data as of 2026-08-05 15:11 UTC (fresh, 0m old)` and label data older than `SHOPCON_MAX_AGE_DAYS` (default 7) as *stale*.
+- **Confidence** — each pick gets a 0–1 score from how strongly it satisfies the extracted constraints (must-keyword match ratio, budget fit, category match, rating), surfaced as `high/medium/low`. No hallucinated certainty — it's arithmetic.
+- **Live verification** — after ranking, the top picks (default 3) are re-checked against their source: FakeStore re-fetches each product by id; JSON sources re-read/re-fetch; synthetic data honestly reports *unverifiable*. Results land in the trace, a per-pick status block, and the summary:
+
+```
+Verification (live re-check of top picks):
+  ✓ fs-9 — unchanged ($64.00)
+  ⚠ fs-12 — price changed: $85.72 → $92.10
+
+**Summary:** ... [verification] 1 pick(s) changed since ranking: fs-12: $85.72 → $92.10
+```
+
+If a re-check fails (network, API down), the pick is marked *unverifiable* with the reason — verification degrades, it never crashes the answer. This is the difference between *"the agent says"* and *"the agent verified."*
+
 ## Evaluation
 
 The repo ships with a benchmark: **13 held-out queries** with hand-written expected constraints (`data/eval_queries.json`). `shopcon-eval` runs the full pipeline per query and scores it on three axes:
@@ -162,6 +183,7 @@ The harness has already paid for itself — it caught, in order: keyword matchin
 - [x] CLI + FastAPI playground
 - [x] Live catalog adapter (FakeStoreAPI keyless, JSON file/URL, custom sources pluggable)
 - [x] Evaluation harness: 13 held-out queries, behavior metrics + judge LLM + cost report
+- [x] Evidence & provenance: data_as_of, freshness labels, per-pick confidence, live price verification
 - [ ] Price-correlated synthetic catalog (premium specs cluster at higher prices — currently random)
 - [ ] Human-in-the-loop: confirm before "purchasing" (see sibling project ideas)
 - [ ] Price-alert agent loop on top of the ranker
@@ -174,7 +196,8 @@ src/shopcon/
   sources.py     Pluggable catalog sources: synthetic, JSON file/URL, FakeStoreAPI
   llm.py         OpenAI-compatible client + deterministic MockLLM
   retrieval.py   constraint parsing + deterministic catalog scoring (LLM-agnostic)
-  pipeline.py    understand -> retrieve -> rank (+ trace, honesty rule)
+  pipeline.py    understand -> retrieve -> rank -> verify (+ trace, honesty rule)
+  verification.py freshness, per-pick verification results, confidence heuristic
   eval.py        evaluation harness: held-out queries, metrics, judge, report
   cli.py         terminal UI
   server.py      FastAPI app

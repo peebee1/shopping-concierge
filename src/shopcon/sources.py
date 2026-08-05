@@ -13,12 +13,15 @@ from __future__ import annotations
 
 import json
 import random
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Protocol
 
 import httpx
 
 from .catalog import Product, save_catalog
+from .verification import VerificationResult
 
 
 class CatalogError(RuntimeError):
@@ -27,8 +30,16 @@ class CatalogError(RuntimeError):
 
 class CatalogSource(Protocol):
     name: str
+    as_of: datetime | None  # when the loaded data was fetched/generated
 
     def load(self) -> list[Product]: ...
+
+    def verify(self, products: list[Product]) -> dict[str, VerificationResult]:
+        """Re-check products against the live source; returns id -> result.
+
+        Sources without a live backend return 'unverifiable' results — the
+        pipeline treats that as an honest "cannot verify", never a crash.
+        """
 
 
 # ---------------------------------------------------------------------------
@@ -154,8 +165,10 @@ class SyntheticSource:
         self.seed = seed
         self.per_category = per_category
         self.save_to = Path(save_to) if save_to else None
+        self.as_of: datetime | None = None
 
     def load(self) -> list[Product]:
+        self.as_of = datetime.now(timezone.utc)
         rng = random.Random(self.seed)
         products: list[Product] = []
         for cat, tpl in _CATEGORY_TEMPLATES.items():
@@ -181,6 +194,15 @@ class SyntheticSource:
             save_catalog(products, self.save_to)
         return products
 
+    def verify(self, products: list[Product]) -> dict[str, VerificationResult]:
+        """Synthetic data has no live backend — say so, honestly."""
+        return {
+            p.id: VerificationResult(
+                p.id, "unverifiable", note="synthetic sample data — no live source to verify against"
+            )
+            for p in products
+        }
+
 
 # ---------------------------------------------------------------------------
 # JSON source (local file or any JSON endpoint)
@@ -198,8 +220,10 @@ class JsonSource:
     def __init__(self, location: str | Path):
         self.location = str(location)
         self.name = "json-url" if self.location.startswith(("http://", "https://")) else "json"
+        self.as_of: datetime | None = None
 
-    def load(self) -> list[Product]:
+    def _read(self) -> dict:
+        """Fetch/read the catalog JSON (used by load and verify)."""
         loc = self.location
         if loc.startswith(("http://", "https://")):
             try:
@@ -208,6 +232,15 @@ class JsonSource:
                 data = resp.json()
             except (httpx.HTTPError, ValueError) as exc:
                 raise CatalogError(f"could not fetch catalog from {loc}: {exc}") from exc
+            lm = resp.headers.get("last-modified")
+            if lm:
+                try:
+                    dt = parsedate_to_datetime(lm)
+                    self.as_of = dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+                except (TypeError, ValueError):
+                    self.as_of = datetime.now(timezone.utc)
+            else:
+                self.as_of = datetime.now(timezone.utc)
         else:
             path = Path(loc)
             if not path.exists():
@@ -219,10 +252,43 @@ class JsonSource:
                 data = json.loads(path.read_text())
             except (OSError, json.JSONDecodeError) as exc:
                 raise CatalogError(f"could not read catalog {path}: {exc}") from exc
+            self.as_of = datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
+        return data
+
+    def load(self) -> list[Product]:
+        data = self._read()
         try:
             return [Product(**p) for p in data["products"]]
         except (KeyError, TypeError) as exc:
-            raise CatalogError(f"catalog at {loc} has no 'products' array: {exc}") from exc
+            raise CatalogError(f"catalog at {self.location} has no 'products' array: {exc}") from exc
+
+    def verify(self, products: list[Product]) -> dict[str, VerificationResult]:
+        """Re-read the source (file re-read / URL re-fetch) and diff prices."""
+        try:
+            data = self._read()
+            by_id = {str(p.get("id")): p for p in data.get("products", [])}
+        except Exception as exc:  # noqa: BLE001 - verification must degrade, not crash
+            return {
+                p.id: VerificationResult(p.id, "unverifiable", price_before=p.price, note=f"re-fetch failed: {exc}")
+                for p in products
+            }
+        fetched = datetime.now(timezone.utc).isoformat()
+        out: dict[str, VerificationResult] = {}
+        for p in products:
+            row = by_id.get(p.id)
+            if row is None:
+                out[p.id] = VerificationResult(p.id, "unavailable", price_before=p.price, note="no longer in catalog")
+                continue
+            try:
+                new_price = float(row.get("price") or 0.0)
+            except (TypeError, ValueError):
+                out[p.id] = VerificationResult(p.id, "unverifiable", price_before=p.price, note="bad price in source")
+                continue
+            if abs(new_price - p.price) < 0.005:
+                out[p.id] = VerificationResult(p.id, "verified", p.price, new_price, fetched_at=fetched, note="price unchanged")
+            else:
+                out[p.id] = VerificationResult(p.id, "changed", p.price, new_price, fetched_at=fetched, note="price moved")
+        return out
 
 
 # ---------------------------------------------------------------------------
@@ -240,6 +306,9 @@ class FakeStoreSource:
     name = "fakestore"
     url = "https://fakestoreapi.com/products"
 
+    def __init__(self) -> None:
+        self.as_of: datetime | None = None
+
     def load(self) -> list[Product]:
         try:
             resp = httpx.get(self.url, timeout=20)
@@ -247,7 +316,34 @@ class FakeStoreSource:
             raw = resp.json()
         except (httpx.HTTPError, ValueError) as exc:
             raise CatalogError(f"FakeStoreAPI unavailable: {exc}") from exc
+        self.as_of = datetime.now(timezone.utc)
         return [self._map(item) for item in raw]
+
+    def verify(self, products: list[Product]) -> dict[str, VerificationResult]:
+        """Re-fetch each product by id from the live API and diff prices."""
+        out: dict[str, VerificationResult] = {}
+        for p in products:
+            num = p.id.removeprefix("fs-")
+            try:
+                resp = httpx.get(f"{self.url}/{num}", timeout=15)
+                resp.raise_for_status()
+                row = resp.json()
+            except (httpx.HTTPError, ValueError) as exc:
+                out[p.id] = VerificationResult(
+                    p.id, "unverifiable", price_before=p.price, note=f"re-fetch failed: {exc}"
+                )
+                continue
+            try:
+                new_price = float(row.get("price") or 0.0)
+            except (TypeError, ValueError):
+                out[p.id] = VerificationResult(p.id, "unverifiable", price_before=p.price, note="bad price in response")
+                continue
+            fetched = datetime.now(timezone.utc).isoformat()
+            if abs(new_price - p.price) < 0.005:
+                out[p.id] = VerificationResult(p.id, "verified", p.price, new_price, fetched_at=fetched, note="price unchanged")
+            else:
+                out[p.id] = VerificationResult(p.id, "changed", p.price, new_price, fetched_at=fetched, note="price moved")
+        return out
 
     @staticmethod
     def _map(item: dict) -> Product:
