@@ -54,13 +54,16 @@ def freshness_label(as_of: datetime, now: datetime | None = None) -> str:
     return "fresh" if age.days < max_age_days() else "stale"
 
 
-def freshness_line(as_of: datetime | None) -> str | None:
-    """Human line like 'data as of 2026-08-05 14:02 UTC (fresh, 2h old)'."""
+def freshness_line(as_of: datetime | None, now: datetime | None = None) -> str | None:
+    """Human line like 'data as of 2026-08-05 14:02 UTC (fresh, 2h old)'.
+
+    ``now`` is injectable so callers and tests never depend on the wall clock.
+    """
     if as_of is None:
         return None
     return (
         f"data as of {as_of:%Y-%m-%d %H:%M} UTC "
-        f"({freshness_label(as_of)}, {human_age(as_of)})"
+        f"({freshness_label(as_of, now)}, {human_age(as_of, now)})"
     )
 
 

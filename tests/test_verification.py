@@ -33,7 +33,7 @@ def test_human_age_and_freshness():
     assert human_age(now - timedelta(days=3), now) == "3d old"
     assert freshness_label(now - timedelta(hours=1), now) == "fresh"
     assert freshness_label(now - timedelta(days=30), now) == "stale"
-    line = freshness_line(now - timedelta(hours=2))
+    line = freshness_line(now - timedelta(hours=2), now)
     assert line and "2026-08-05 10:00" in line and "fresh" in line
     assert freshness_line(None) is None
 
