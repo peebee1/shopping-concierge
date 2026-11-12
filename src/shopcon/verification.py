@@ -77,7 +77,7 @@ def verification_notes(results: dict[str, VerificationResult]) -> str | None:
         )
         return f"[verification] {len(changed)} pick(s) changed since ranking: {detail}"
     if verified:
-        return "[verification] top picks re-checked live — prices unchanged."
+        return "[verification] top picks re-checked live: prices unchanged."
     return None
 
 

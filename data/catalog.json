@@ -1,9 +1,10 @@
 {
   "_meta": {
+    "generated_by": "shopcon.sources.SyntheticSource",
+    "count": 243,
+    "data_as_of": "2026-11-12T08:03:00+00:00",
     "synthetic": true,
-    "note": "SYNTHETIC sample data - invented brands/products for demo purposes. Replace with a real catalog.",
-    "generated_by": "shopcon.catalog.generate_sample_catalog",
-    "count": 243
+    "note": "SYNTHETIC sample data - invented brands/products for demo purposes. Replace with a real catalog."
   },
   "products": [
     {

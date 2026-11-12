@@ -149,11 +149,13 @@ uv run shopcon "cotton slip or tights under 40" --catalog data/vermont.json
 ```
 
 ```
-Catalog: json (8 products) · USD · region US (USD) · data as of 2026-08-05 20:53 UTC (fresh, 1m old)
-| 1 | Woven Cotton Broadcloth Half-Slip | $24.95 | medium (0.70) | This cotton half-slip directly matches ... |
-Verification (live re-check of top picks):
-  ✓ crawl-0eeb77555988 — unchanged ($24.95)
+Catalog: json (8 products) · USD · region US (USD) · data as of 2026-11-12 08:03 UTC (fresh, 1m old)
+| 1 | **Woven Cotton Broadcloth Half-Slip** | $24.95 | 0.0 (0) | This Hard-to-Find Half-Slip Is a Dream to Wear... | high (0.85) | within budget; 0 explicit keyword matches |
+...
+[verification] top picks re-checked live: prices unchanged.
 ```
+
+The `data as of` stamp is not the file's mtime. It is `_meta.data_as_of`, written into the catalog when the crawl saved it, so a fresh clone of a three month old catalog still says three months old. A git checkout rewrites mtime to the clone time, which is why an mtime based label used to report any committed file as fresh.
 
 How it stays honest:
 
@@ -168,7 +170,7 @@ Run it on any site with a sitemap; extraction quality depends on the site's stru
 
 Every answer carries three things, computed deterministically (zero LLM calls):
 
-- **Freshness** — the source records `data_as_of` (file mtime, HTTP Last-Modified, or fetch time). The CLI/API show `data as of 2026-08-05 15:11 UTC (fresh, 0m old)` and label data older than `SHOPCON_MAX_AGE_DAYS` (default 7) as *stale*.
+- **Freshness**: the data carries its own date. `save_catalog` writes `_meta.data_as_of` (ISO 8601, UTC) when a catalog is generated or crawled, and the loader reads that field before anything else. Legacy files with no such field fall back to file mtime, and the source records which one it used (`recorded`, `mtime`, `http`). The CLI/API show `data as of 2026-11-12 08:03 UTC (fresh, 1m old)` and label data older than `SHOPCON_MAX_AGE_DAYS` (default 7) as *stale*.
 - **Confidence** — each pick gets a 0–1 score from how strongly it satisfies the extracted constraints (must-keyword match ratio, budget fit, category match, rating), surfaced as `high/medium/low`. No hallucinated certainty — it's arithmetic.
 - **Live verification** — after ranking, the top picks (default 3) are re-checked against their source: FakeStore re-fetches each product by id; JSON sources re-read/re-fetch; synthetic data honestly reports *unverifiable*. Results land in the trace, a per-pick status block, and the summary:
 
@@ -228,6 +230,18 @@ Latest run (`deepseek-v4-flash`, synthetic catalog, top-5, 13 queries):
 | Cost | $0.00 | **~$0.016** (27 calls, 68k tokens, ~9 min) |
 
 Per-query breakdown: `eval/report.json`.
+
+The report records `data_as_of`, the catalog's own date, next to the score, so a later run can be compared on the same book. The committed `eval/report.json` is a recorded run from before that field existed. It scored the same 243 products that are in `data/catalog.json` today: regenerating the seed-42 catalog reproduces them exactly, and only `_meta` differs, so the numbers above still describe the committed book. They carry no data vintage of their own, and the next run will.
+
+### Refreshing the committed data
+
+```bash
+uv run shopcon-catalog --out data/catalog.json     # synthetic fixture, seeded, 243 products
+uv run shopcon-crawl "https://www.vermontcountrystore.com" \
+    --out data/vermont.json --max-urls 35 --max-products 8
+```
+
+Both commands write `_meta.data_as_of`, so the age of the data survives the commit. Last refresh 2026-11-12: 243 synthetic products regenerated, 35 product pages re-read on the real store, 8 products kept, 7 seen again, 0 price changes.
 
 The harness has already paid for itself — it caught, in order: keyword matching treating `hot_swappable=no` as a hit, category confusion ("built-in microphone" starting a microphone hunt), the mock's inability to parse spec-level requests (ryzen 7 / 1 TB), an LLM extracting "built-in microphone" as a keyword (filler-word cleanup fixes it), a crash-on-network-error bug, and the padding problem — the agent recommended random products when nothing matched. That last one is now a feature: **when nothing matches, the shortlist is empty and the summary says so** — the judge scores the honest empty answer 5/5.
 

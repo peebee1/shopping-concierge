@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 
 DEFAULT_CATALOG = Path(__file__).resolve().parent.parent.parent / "data" / "catalog.json"
@@ -73,17 +74,30 @@ class Product:
         return ", ".join(parts) if parts else "-"
 
 
-def save_catalog(products: list[Product], path: Path | str, meta: dict | None = None) -> None:
+def save_catalog(
+    products: list[Product],
+    path: Path | str,
+    meta: dict | None = None,
+    as_of: datetime | None = None,
+) -> None:
     """Write products to a JSON file in the catalog schema.
 
     ``meta`` keys override the defaults in ``_meta`` (e.g. crawl sources set
     ``synthetic: False`` and their own ``source``/``currency``).
+
+    Every file gets ``_meta.data_as_of``: the moment the data was produced,
+    written into the data. Freshness must be a property of the data, not of
+    the file, because a git checkout stamps mtime with the clone time, so an
+    mtime-derived label reports years-old data as fresh. ``as_of`` is
+    injectable so tests and backfills never depend on the wall clock.
     """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    stamp = as_of or datetime.now(timezone.utc)
     defaults: dict = {
         "generated_by": "shopcon.catalog.save_catalog",
         "count": len(products),
+        "data_as_of": stamp.isoformat(timespec="seconds"),
     }
     if meta:
         defaults.update(meta)
@@ -138,3 +152,35 @@ def known_categories(products: list[Product]) -> list[str]:
 
 def known_brands(products: list[Product]) -> list[str]:
     return sorted({p.brand for p in products})
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Regenerate the sample catalog and print the date it records.
+
+    The fixture written here is reproducible from committed code (seeded), and
+    it now carries ``_meta.data_as_of`` so its age survives a checkout.
+
+        uv run shopcon-catalog --out data/catalog.json
+    """
+    import argparse
+
+    from .sources import SyntheticSource
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--out", default=str(DEFAULT_CATALOG))
+    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--per-category", type=int, default=27)
+    args = ap.parse_args(argv)
+
+    out = Path(args.out)
+    products = SyntheticSource(
+        seed=args.seed, per_category=args.per_category, save_to=out
+    ).load()
+    meta = json.loads(out.read_text())["_meta"]
+    print(f"wrote {out} ({len(products)} products)")
+    print(f"data_as_of: {meta['data_as_of']}")
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())

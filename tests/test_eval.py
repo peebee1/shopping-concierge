@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-from shopcon.catalog import Product, generate_sample_catalog
+from shopcon.catalog import Product, generate_sample_catalog, load_catalog, save_catalog
 from shopcon.eval import (
     EvalQuery,
     gold_products,
@@ -107,3 +107,34 @@ def test_report_renders_markdown_and_json(catalog):
     assert "wireless keyboard" in md
     assert "constraint pass rate" in md
     json.dumps(report.to_dict())  # must be serializable
+
+
+def test_report_records_the_data_vintage(tmp_path):
+    """A score without a data date cannot be compared to anything later."""
+    from datetime import datetime, timezone
+
+    from shopcon.eval import EvalReport
+    from shopcon.sources import JsonSource
+
+    stamp = datetime(2026, 8, 5, 10, 0, tzinfo=timezone.utc)
+    catalog_file = tmp_path / "cat.json"
+    save_catalog(generate_sample_catalog(seed=42, per_category=2), catalog_file, as_of=stamp)
+    products = load_catalog(catalog_file, autogenerate=False)
+
+    source = JsonSource(catalog_file)
+    source.load()
+    assert source.as_of is not None
+    report = EvalReport(
+        model="mock",
+        catalog=str(catalog_file),
+        products_count=len(products),
+        top_n=3,
+        results=[],
+        data_as_of=source.as_of.isoformat(timespec="seconds"),
+    )
+    assert report.to_dict()["data_as_of"] == "2026-08-05T10:00:00+00:00"
+    assert "data as of: 2026-08-05T10:00:00+00:00" in report.to_markdown()
+
+    bare = EvalReport(model="mock", catalog="synthetic", products_count=1, top_n=3, results=[])
+    assert bare.to_dict()["data_as_of"] is None
+    assert "data as of: not recorded" in bare.to_markdown()

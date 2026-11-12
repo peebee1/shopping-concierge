@@ -28,6 +28,22 @@ class CatalogError(RuntimeError):
     """Raised when a catalog source cannot produce products."""
 
 
+def parse_recorded_as_of(value: object) -> datetime | None:
+    """Parse ``_meta.data_as_of`` into an aware UTC datetime, or None.
+
+    Accepts ISO 8601 with or without an offset (a naive stamp is read as UTC,
+    which is what ``save_catalog`` writes) and a trailing ``Z``.
+    """
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip().replace("Z", "+00:00")
+    try:
+        dt = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
+
 class CatalogSource(Protocol):
     name: str
     as_of: datetime | None  # when the loaded data was fetched/generated
@@ -231,6 +247,9 @@ class JsonSource:
         self.location = str(location)
         self.name = "json-url" if self.location.startswith(("http://", "https://")) else "json"
         self.as_of: datetime | None = None
+        # "recorded" when _meta.data_as_of carried the date, "mtime" when it
+        # had to be inferred from the file, "http" from Last-Modified, "none".
+        self.as_of_source: str = "none"
         self.currency: str = "USD"  # overridable via the catalog's _meta.currency
 
     def _read(self) -> dict:
@@ -264,6 +283,16 @@ class JsonSource:
             except (OSError, json.JSONDecodeError) as exc:
                 raise CatalogError(f"could not read catalog {path}: {exc}") from exc
             self.as_of = datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
+            self.as_of_source = "mtime"
+        # A recorded date in the data beats anything the transport can infer.
+        recorded = parse_recorded_as_of((data.get("_meta") or {}).get("data_as_of"))
+        if recorded is not None:
+            self.as_of = recorded
+            self.as_of_source = "recorded"
+        elif not loc.startswith(("http://", "https://")):
+            self.as_of_source = "mtime"
+        else:
+            self.as_of_source = "http"
         return data
 
     def load(self) -> list[Product]:

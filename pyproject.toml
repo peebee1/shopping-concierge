@@ -15,6 +15,7 @@ dependencies = [
 shopcon = "shopcon.cli:main"
 shopcon-eval = "shopcon.eval:main"
 shopcon-crawl = "shopcon.crawl:main"
+shopcon-catalog = "shopcon.catalog:main"
 
 [dependency-groups]
 dev = ["pytest>=8.0"]

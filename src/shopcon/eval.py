@@ -29,7 +29,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .catalog import Product, load_catalog
+from .catalog import Product, resolve_source
 from .llm import LLM, LLMError, MockLLM, OpenAICompatLLM
 from .pipeline import RecommendationResult, recommend
 from .region import from_code
@@ -261,6 +261,7 @@ class EvalReport:
     total_tokens: int = 0
     cost_usd: float = 0.0
     total_seconds: float = 0.0
+    data_as_of: str | None = None  # the catalog's recorded date, so a score has a data vintage
 
     def aggregate(self) -> dict:
         n = len(self.results) or 1
@@ -281,6 +282,7 @@ class EvalReport:
             "model": self.model,
             "catalog": self.catalog,
             "products_count": self.products_count,
+            "data_as_of": self.data_as_of,
             "top_n": self.top_n,
             "aggregate": self.aggregate(),
             "results": [r.to_dict() for r in self.results],
@@ -289,9 +291,10 @@ class EvalReport:
     def to_markdown(self) -> str:
         agg = self.aggregate()
         lines = [
-            "# Shopping Concierge — evaluation report",
+            "# Shopping Concierge: evaluation report",
             "",
             f"- model: `{self.model}`  ·  catalog: `{self.catalog}` ({self.products_count} products)  ·  top-N: {self.top_n}",
+            f"- data as of: {self.data_as_of or 'not recorded'}",
             f"- queries: {len(self.results)}  ·  **constraint pass rate: {agg['constraint_pass_rate']:.0%}**"
             + (f"  ·  **avg gold recall@{self.top_n}: {agg['avg_gold_recall_at_k']:.0%}**" if agg["avg_gold_recall_at_k"] is not None else "")
             + (f"  ·  **avg judge score: {agg['avg_judge_score']}/5**" if agg["avg_judge_score"] is not None else ""),
@@ -304,15 +307,15 @@ class EvalReport:
             lines.append(
                 f"| {r.query} | {'✅' if r.constraint_pass else '❌'} | {r.budget_violations} "
                 f"| {r.category_purity:.0%} | {r.keyword_recall:.0%} "
-                f"| {f'{r.gold_recall_at_k:.0%}' if r.gold_recall_at_k is not None else '—'} "
-                f"| {f'{r.judge_score}/5' if r.judge_score is not None else '—'} | {r.seconds} |"
+                f"| {f'{r.gold_recall_at_k:.0%}' if r.gold_recall_at_k is not None else 'n/a'} "
+                f"| {f'{r.judge_score}/5' if r.judge_score is not None else 'n/a'} | {r.seconds} |"
             )
         failed = [r for r in self.results if not r.constraint_pass]
         if failed:
             lines += ["", "### Failures", ""]
             for r in failed:
                 lines += [
-                    f"**{r.query}** — extracted: {r.extracted}",
+                    f"**{r.query}** extracted: {r.extracted}",
                     f"- ranked: {', '.join(r.ranked_ids) or '(empty)'}",
                     f"- summary: {r.summary}",
                     f"- trace: {'; '.join(r.trace)}",
@@ -342,7 +345,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--skip", type=int, default=0, help="skip the first N queries (chunked runs)")
     args = parser.parse_args(argv)
 
-    products = load_catalog(args.catalog)
+    source = resolve_source(args.catalog)
+    products = source.load()
+    catalog_as_of = getattr(source, "as_of", None)  # JsonSource records it during load()
     queries = load_queries(args.queries)
     if args.skip:
         queries = queries[args.skip :]
@@ -365,6 +370,7 @@ def main(argv: list[str] | None = None) -> int:
         products_count=len(products),
         top_n=args.top,
         results=[],
+        data_as_of=catalog_as_of.isoformat(timespec="seconds") if catalog_as_of else None,
     )
     for q in queries:
         qr, result = run_query(q, products, llm, top_n=args.top)
