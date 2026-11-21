@@ -330,6 +330,86 @@ class EvalReport:
         return "\n".join(lines) + "\n"
 
 
+# Fields that a keyless mock run reproduces byte for byte. Wall clock fields
+# (seconds, total_seconds) are deliberately excluded: a gate that fails on a
+# slow runner is not measuring the pipeline.
+STABLE_QUERY_FIELDS = (
+    "query",
+    "constraint_pass",
+    "budget_violations",
+    "category_purity",
+    "keyword_recall",
+    "gold_count",
+    "gold_recall_at_k",
+    "ranked_ids",
+    "summary",
+    "extracted",
+)
+
+
+def stable_record(report: "EvalReport") -> dict:
+    """The deterministic projection of a report: what a gate can compare."""
+    agg = report.aggregate()
+    agg.pop("total_seconds", None)
+    return {
+        "model": report.model,
+        "catalog": report.catalog,
+        "products_count": report.products_count,
+        "data_as_of": report.data_as_of,
+        "top_n": report.top_n,
+        "aggregate": agg,
+        "results": [{k: getattr(r, k) for k in STABLE_QUERY_FIELDS} for r in report.results],
+    }
+
+
+def drift_paths(expected: object, actual: object, path: str = "") -> list[str]:
+    """Every path where two stable records differ, named for a human reader."""
+    if isinstance(expected, dict) and isinstance(actual, dict):
+        out: list[str] = []
+        for key in sorted(set(expected) | set(actual)):
+            child = f"{path}.{key}" if path else key
+            if key not in expected:
+                out.append(f"{child}: missing from the record, current is {actual[key]!r}")
+            elif key not in actual:
+                out.append(f"{child}: in the record, absent from the current run")
+            else:
+                out.extend(drift_paths(expected[key], actual[key], child))
+        return out
+    if isinstance(expected, list) and isinstance(actual, list):
+        if len(expected) != len(actual):
+            return [f"{path}: recorded {len(expected)} entries, current run has {len(actual)}"]
+        out = []
+        for i, (e, a) in enumerate(zip(expected, actual)):
+            label = path
+            if isinstance(e, dict) and "query" in e:
+                label = f"{path}[{i}] ({e['query']})"
+            else:
+                label = f"{path}[{i}]"
+            out.extend(drift_paths(e, a, label))
+        return out
+    if isinstance(expected, float) and isinstance(actual, float):
+        if abs(expected - actual) > 1e-9:
+            return [f"{path}: recorded {expected!r}, current {actual!r}"]
+        return []
+    if expected != actual:
+        return [f"{path}: recorded {expected!r}, current {actual!r}"]
+    return []
+
+
+def gate_failures(report: "EvalReport", min_pass: float | None, min_gold: float | None) -> list[str]:
+    """Threshold violations. A floor that is never checked is a README claim."""
+    agg = report.aggregate()
+    out: list[str] = []
+    if min_pass is not None and agg["constraint_pass_rate"] < min_pass:
+        out.append(
+            f"constraint_pass_rate {agg['constraint_pass_rate']:.3f} is below the floor of {min_pass:.3f}"
+        )
+    gold = agg["avg_gold_recall_at_k"]
+    if min_gold is not None and gold is not None and gold < min_gold:
+        out.append(f"avg_gold_recall_at_k {gold:.3f} is below the floor of {min_gold:.3f}")
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="shopcon-eval",
@@ -341,9 +421,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--mock", action="store_true", help="force the mock LLM (no API key, CI-safe)")
     parser.add_argument("--judge", action="store_true", help="also rate ranking quality with a judge LLM")
     parser.add_argument("--json-out", default=None, help="write full results JSON to this path")
+    parser.add_argument("--record", default=None, help="write the deterministic gate record to this path (requires --mock)")
+    parser.add_argument("--check", default=None, help="compare this run against a committed record (requires --mock)")
+    parser.add_argument("--min-pass", type=float, default=None, help="fail when the constraint pass rate is below this")
+    parser.add_argument("--min-gold", type=float, default=None, help="fail when avg gold recall@k is below this")
     parser.add_argument("--max-queries", type=int, default=0, help="limit to first N queries")
     parser.add_argument("--skip", type=int, default=0, help="skip the first N queries (chunked runs)")
     args = parser.parse_args(argv)
+
+    if (args.record or args.check) and not args.mock:
+        parser.error("--record and --check require --mock: a gate record is a keyless deterministic run")
+    if args.record and args.check:
+        parser.error("--record and --check are different modes; run them separately")
 
     source = resolve_source(args.catalog)
     products = source.load()
@@ -390,6 +479,39 @@ def main(argv: list[str] | None = None) -> int:
         Path(args.json_out).parent.mkdir(parents=True, exist_ok=True)
         Path(args.json_out).write_text(json.dumps(report.to_dict(), indent=2))
         print(f"full results -> {args.json_out}")
+
+    record = stable_record(report)
+    if args.record:
+        Path(args.record).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.record).write_text(json.dumps(record, indent=2, sort_keys=False) + "\n")
+        print(f"gate record -> {args.record}")
+
+    failures = gate_failures(report, args.min_pass, args.min_gold)
+    if args.check:
+        recorded = json.loads(Path(args.check).read_text())
+        drift = drift_paths(recorded, record)
+        if drift:
+            failures += [f"drift at {d}" for d in drift] if len(drift) < 20 else (
+                [f"drift at {d}" for d in drift[:20]] + [f"and {len(drift) - 20} more drifted fields"]
+            )
+
+    agg = report.aggregate()
+    gold = agg["avg_gold_recall_at_k"]
+    vacuous = [r.query for r in report.results if r.constraint_pass and not r.ranked_ids]
+    print(
+        f"gate: {len(report.results)} queries, pass {agg['constraint_pass_rate']:.1%}, "
+        f"gold@{report.top_n} {f'{gold:.1%}' if gold is not None else 'n/a'}"
+    )
+    if vacuous:
+        print(
+            f"note: {len(vacuous)} of {sum(r.constraint_pass for r in report.results)} passes returned an empty "
+            f"shortlist, so they pass vacuously: {', '.join(vacuous)}"
+        )
+    for failure in failures:
+        print(f"FAIL: {failure}")
+    if failures:
+        return 1
+    print("gate: PASS")
     return 0
 
 

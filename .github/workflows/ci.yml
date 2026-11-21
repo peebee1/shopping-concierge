@@ -20,3 +20,8 @@ jobs:
 
       - name: Tests
         run: uv run pytest -q
+
+      # The README quotes a keyless evaluation number. This replays it against
+      # the committed record, so the number cannot drift while CI stays green.
+      - name: Evaluation gate
+        run: uv run shopcon-eval --mock --check eval/mock_gate.json --min-pass 0.85 --min-gold 0.75

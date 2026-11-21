@@ -207,7 +207,7 @@ shopcon "wireless mouse under ₹4000" --region IN
 
 ## Evaluation
 
-The repo ships with a benchmark: **13 held-out queries** with hand-written expected constraints (`data/eval_queries.json`). `shopcon-eval` runs the full pipeline per query and scores it on three axes:
+The repo ships with a benchmark: **14 held-out queries** with hand-written expected constraints (`data/eval_queries.json`). `shopcon-eval` runs the full pipeline per query and scores it on three axes:
 
 - **Behavior** (deterministic, LLM-agnostic): budget violations, category purity, keyword recall, and *gold recall@5* — the fraction of products that genuinely satisfy the expected constraints that landed in the top-5.
 - **Quality** (optional judge LLM): a 1–5 rating with notes on ranking quality and honesty.
@@ -217,19 +217,28 @@ The repo ships with a benchmark: **13 held-out queries** with hand-written expec
 shopcon-eval                    # mock LLM — CI-safe, keyless
 shopcon-eval --judge            # + LLM-judged quality scores (needs an API key)
 shopcon-eval --catalog fakestore --top 5 --json-out eval/report.json
+# the gate CI runs: replay the keyless run against the committed record
+shopcon-eval --mock --check eval/mock_gate.json --min-pass 0.85 --min-gold 0.75
 # chunked runs: --skip N --max-queries M (long endpoints), then scripts/merge_eval.py
 ```
 
-Latest run (`deepseek-v4-flash`, synthetic catalog, top-5, 13 queries):
+Latest keyless run (`mock`, synthetic catalog, 243 products, top-5, 14 queries). The real LLM column is a recorded run on the 13 query set as it stood on 2026-11-12 and is not gated.
 
-| Metric | Mock LLM | Real LLM (+ judge) |
-|--------|----------|---------------------|
-| Constraint pass rate | 12/13 (92%) | **13/13 (100%)** |
-| Avg gold recall@5 | 81% | **93%** |
-| Avg judge score | — | **4.62/5** |
-| Cost | $0.00 | **~$0.016** (27 calls, 68k tokens, ~9 min) |
+| Metric | Mock LLM (gated) | Real LLM (+ judge, recorded) |
+|--------|------------------|------------------------------|
+| Constraint pass rate | **13/14 (93%)** | 13/13 (100%) |
+| Avg gold recall@5 | **82%** | 93% |
+| Avg judge score | n/a | 4.62/5 |
+| Cost | **$0.00** | ~$0.016 (27 calls, 68k tokens, ~9 min) |
 
-Per-query breakdown: `eval/report.json`.
+The keyless column is a gate, not a note. `eval/mock_gate.json` is the committed record: model, catalog, data date, the aggregate, and every query's pass flag, ranked ids, gold recall and extracted constraints. CI re-runs the same command and fails on any drift from that record, and on a pass rate below 85 percent or gold recall below 75 percent. `--check` exits 1, so a regression is a red build rather than a stale line in this file. Wall clock fields are excluded from the record on purpose: a gate that fails on a slow runner measures the runner.
+
+Two limits of that 93 percent, printed by the gate on every run rather than smoothed:
+
+- 2 of the 13 passes returned an **empty shortlist** and pass vacuously: `usb condenser microphone under $100` and `smartwatch with touchscreen under $200`. Their budget and category rules are satisfied by returning nothing, and keyword recall is rated on the picks that do exist, so an empty list is not penalised. The pass rate counts them. This is the honest empty answer the ranker is designed to give, but it is a weaker pass than a populated one.
+- The real LLM column cannot be re-run without a key, so it is a dated record, not a measurement. Only the keyless column is gated.
+
+Per-query detail: `eval/report.json` (recorded real run), `eval/mock_gate.json` (the gated keyless record).
 
 The report records `data_as_of`, the catalog's own date, next to the score, so a later run can be compared on the same book. The committed `eval/report.json` is a recorded run from before that field existed. It scored the same 243 products that are in `data/catalog.json` today: regenerating the seed-42 catalog reproduces them exactly, and only `_meta` differs, so the numbers above still describe the committed book. They carry no data vintage of their own, and the next run will.
 
@@ -251,7 +260,7 @@ The harness has already paid for itself — it caught, in order: keyword matchin
 - [x] Deterministic mock LLM (keyless runs, testable)
 - [x] CLI + FastAPI playground
 - [x] Live catalog adapter (FakeStoreAPI keyless, JSON file/URL, custom sources pluggable)
-- [x] Evaluation harness: 13 held-out queries, behavior metrics + judge LLM + cost report
+- [x] Evaluation harness: 14 held-out queries, behavior metrics + judge LLM + cost report, gated in CI against a committed record
 - [x] Evidence & provenance: data_as_of, freshness labels, per-pick confidence, live price verification
 - [x] Regions & currencies: 3-layer resolution, budget conversion (₹/€/£/¥), dual-currency display
 - [x] Website crawler: robots+sitemap discovery, JSON-LD/meta/heuristic/LLM extraction, idempotent upsert

@@ -1,0 +1,402 @@
+{
+  "model": "mock",
+  "catalog": "default (data/catalog.json)",
+  "products_count": 243,
+  "data_as_of": "2026-11-12T08:03:00+00:00",
+  "top_n": 5,
+  "aggregate": {
+    "constraint_pass_rate": 0.929,
+    "avg_gold_recall_at_k": 0.825,
+    "avg_judge_score": null,
+    "total_calls": 28,
+    "total_tokens": 0,
+    "cost_usd": 0.0
+  },
+  "results": [
+    {
+      "query": "hot-swap mechanical keyboard under $100",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 1,
+      "gold_recall_at_k": 1.0,
+      "ranked_ids": [
+        "mechanical_keyboard-012",
+        "mechanical_keyboard-002",
+        "mechanical_keyboard-020"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: SoundHive Prime Mechanical Keyboard.",
+      "extracted": {
+        "max_price": 100.0,
+        "min_price": null,
+        "categories": [
+          "mechanical_keyboard"
+        ],
+        "must_keywords": [
+          "hot swap",
+          "mechanical"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "wireless noise-cancelling headphones under $150",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 4,
+      "gold_recall_at_k": 1.0,
+      "ranked_ids": [
+        "headphones-008",
+        "headphones-018",
+        "headphones-005",
+        "headphones-009",
+        "headphones-019"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Zenith Arc Wireless Headphones.",
+      "extracted": {
+        "max_price": 150.0,
+        "min_price": null,
+        "categories": [
+          "headphones"
+        ],
+        "must_keywords": [
+          "wireless",
+          "anc",
+          "noise cancelling"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "gaming laptop with 32 GB RAM between 1000 and 1500",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 2,
+      "gold_recall_at_k": 1.0,
+      "ranked_ids": [
+        "laptop-003",
+        "laptop-020"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Zenith Titan Creator Laptop.",
+      "extracted": {
+        "max_price": 1500.0,
+        "min_price": 1000.0,
+        "categories": [
+          "laptop"
+        ],
+        "must_keywords": [
+          "gaming",
+          "32 gb"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "4k monitor with 144hz refresh rate",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 2,
+      "gold_recall_at_k": 1.0,
+      "ranked_ids": [
+        "monitor-014",
+        "monitor-010",
+        "monitor-001",
+        "monitor-006",
+        "monitor-008"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: SoundHive Lite 4K Monitor.",
+      "extracted": {
+        "max_price": null,
+        "min_price": null,
+        "categories": [
+          "monitor"
+        ],
+        "must_keywords": [
+          "4k",
+          "144hz"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "portable bluetooth speaker under $50",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 0.5,
+      "gold_count": 0,
+      "gold_recall_at_k": null,
+      "ranked_ids": [
+        "speaker-027"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Ember Nova Bluetooth Speaker.",
+      "extracted": {
+        "max_price": 50.0,
+        "min_price": null,
+        "categories": [
+          "speaker"
+        ],
+        "must_keywords": [
+          "portable",
+          "bluetooth"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "smartwatch with gps and 7 day battery",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 3,
+      "gold_recall_at_k": 0.667,
+      "ranked_ids": [
+        "smartwatch-010",
+        "smartwatch-012",
+        "smartwatch-006",
+        "smartwatch-020",
+        "smartwatch-003"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Halcyon Zephyr Fitness Watch.",
+      "extracted": {
+        "max_price": null,
+        "min_price": null,
+        "categories": [
+          "smartwatch"
+        ],
+        "must_keywords": [],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "ergonomic wireless mouse",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 5,
+      "gold_recall_at_k": 1.0,
+      "ranked_ids": [
+        "mouse-016",
+        "mouse-006",
+        "mouse-008",
+        "mouse-004",
+        "mouse-022"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Klavier Arc Ergonomic Mouse.",
+      "extracted": {
+        "max_price": null,
+        "min_price": null,
+        "categories": [
+          "mouse"
+        ],
+        "must_keywords": [
+          "wireless",
+          "ergonomic"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "usb condenser microphone under $100",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 3,
+      "gold_recall_at_k": 0.0,
+      "ranked_ids": [],
+      "summary": "No products in the catalog match your request ('usb condenser microphone under $100'). Nothing recommended \u2014 no padding.",
+      "extracted": {
+        "max_price": 100.0,
+        "min_price": null,
+        "categories": [
+          "microphone"
+        ],
+        "must_keywords": [
+          "usb c"
+        ],
+        "nice_keywords": [],
+        "relaxed": [
+          "keywords"
+        ]
+      }
+    },
+    {
+      "query": "webcam with built-in microphone under $80",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 6,
+      "gold_recall_at_k": 0.833,
+      "ranked_ids": [
+        "webcam-019",
+        "webcam-012",
+        "webcam-022",
+        "webcam-010",
+        "webcam-016"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: SoundHive Forge Streaming Camera.",
+      "extracted": {
+        "max_price": 80.0,
+        "min_price": null,
+        "categories": [
+          "webcam"
+        ],
+        "must_keywords": [],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "laptop with 16 GB RAM under $1200",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 4,
+      "gold_recall_at_k": 0.75,
+      "ranked_ids": [
+        "laptop-001",
+        "laptop-024",
+        "laptop-010",
+        "laptop-018",
+        "laptop-023"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Aurio Arc Ultrabook.",
+      "extracted": {
+        "max_price": 1200.0,
+        "min_price": null,
+        "categories": [
+          "laptop"
+        ],
+        "must_keywords": [],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "mechanical keyboard with rgb backlight under $90",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 0,
+      "gold_recall_at_k": null,
+      "ranked_ids": [
+        "mechanical_keyboard-011",
+        "mechanical_keyboard-002",
+        "mechanical_keyboard-012",
+        "mechanical_keyboard-015",
+        "mechanical_keyboard-020"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Drift Zephyr Gaming Keyboard.",
+      "extracted": {
+        "max_price": 90.0,
+        "min_price": null,
+        "categories": [
+          "mechanical_keyboard"
+        ],
+        "must_keywords": [
+          "rgb",
+          "mechanical"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "smartwatch with touchscreen under $200",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 0,
+      "gold_recall_at_k": null,
+      "ranked_ids": [],
+      "summary": "No products in the catalog match your request ('smartwatch with touchscreen under $200'). Nothing recommended \u2014 no padding.",
+      "extracted": {
+        "max_price": 200.0,
+        "min_price": null,
+        "categories": [
+          "smartwatch"
+        ],
+        "must_keywords": [
+          "touchscreen"
+        ],
+        "nice_keywords": [],
+        "relaxed": [
+          "keywords"
+        ]
+      }
+    },
+    {
+      "query": "smart fridge under $100",
+      "constraint_pass": false,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 0,
+      "gold_recall_at_k": null,
+      "ranked_ids": [
+        "webcam-019",
+        "microphone-015",
+        "mechanical_keyboard-011",
+        "mouse-001",
+        "speaker-027"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: SoundHive Forge Streaming Camera.",
+      "extracted": {
+        "max_price": 100.0,
+        "min_price": null,
+        "categories": [],
+        "must_keywords": [],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    },
+    {
+      "query": "wireless mouse under \u20b94000",
+      "constraint_pass": true,
+      "budget_violations": 0,
+      "category_purity": 1.0,
+      "keyword_recall": 1.0,
+      "gold_count": 3,
+      "gold_recall_at_k": 1.0,
+      "ranked_ids": [
+        "mouse-008",
+        "mouse-004",
+        "mouse-020"
+      ],
+      "summary": "Mock ranker (deterministic, no LLM). Top pick: Orbit Core Ergonomic Mouse.",
+      "extracted": {
+        "max_price": 48.0,
+        "min_price": null,
+        "categories": [
+          "mouse"
+        ],
+        "must_keywords": [
+          "wireless"
+        ],
+        "nice_keywords": [],
+        "relaxed": []
+      }
+    }
+  ]
+}
